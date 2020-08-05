@@ -24,7 +24,7 @@ void setup() {
 
   RGB col = new RGB(random(1), random(1), random(1));
 
-  for (int i = 0; i < 10000000; i++) {
+  for (int i = 0; i < 1000000; i++) {
     int n = int(floor(random(4.)));
     if (n == 0) {
       V0(x, y, .2, 0, .4, .2, 0, .2);
@@ -46,9 +46,9 @@ void setup() {
     }
 
     F0(x, y, 1, 0, 0, 0, 1, 0);
-    col = col.add(new RGB(1, 1, 0)).scale(0.5);
     //mobius(x, y, 1, 0, 0, 0, 1, 0);
-    //println(col);
+    col = col.add(new RGB(1, 1, 0)).scale(0.5);
+
     if (c > 20) {
       int xf = int(x * scale1);
       int yf = int(y * scale1);
@@ -70,9 +70,10 @@ void setup() {
 
       //println(xx +", "+ yy +" -- "+ n);
       col = colBin[i][j];
-      col = col.scale(255 * log10(n));//.mult(log(n) * 100);
+      col = col.scale(log10(n));//.mult(log(n) * 100);
+      col = gammaCorrect(col);
 
-      stroke(col.r, col.g, col.b);
+      stroke(col.r * 255, col.g * 255, col.b * 255);
       point(xx, yy);
     }
   }
@@ -82,6 +83,13 @@ void keyPressed() {
   if ( key == ' ' ) {
     save("IFS.png");
   }
+}
+
+float DISPLAY_GAMMA_COEFF = 1. / 2.2;
+RGB gammaCorrect(RGB rgb) {
+    return new RGB((min(pow(rgb.r, DISPLAY_GAMMA_COEFF), 1.)),
+                   (min(pow(rgb.g, DISPLAY_GAMMA_COEFF), 1.)),
+                   (min(pow(rgb.b, DISPLAY_GAMMA_COEFF), 1.)));
 }
 
 float log10 (int x) {
