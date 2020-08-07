@@ -4,6 +4,7 @@ const path = require('path');
 
 const src  = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'docs');
+const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = () => ({
     entry: `${src}/index.js`,
@@ -33,15 +34,30 @@ module.exports = () => ({
             {
                 test: /\.js$/,
                 exclude: /node_modules(?!(\/|\\)keen-ui)/,
-                loader: 'babel-loader',
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [['@babel/preset-env', { modules: false }]]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.png$/,
-                exclude: /node_modules/,
-                loader: 'url-loader',
-            }
-        ],
-    },
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            }]},
 
     devtool: (process.env.NODE_ENV === 'production') ? false : 'inline-source-map',
 
@@ -58,5 +74,6 @@ module.exports = () => ({
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
         }),
-    ],
+        new VueLoaderPlugin()
+    ]
 });
