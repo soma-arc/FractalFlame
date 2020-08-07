@@ -352,8 +352,12 @@ export function v39(x, y, c1, c2) {
 // }
 
 // Arch
-// export function v41(x, y) {
-// }
+export function v41(x, y, blend) {
+    const psi = random();
+    const s = Math.sin(psi * PI * blend);
+    const s2 = s * s;
+    return [s, s2 / Math.cos(psi * PI * blend)];
+}
 
 // Tangent
 export function v42(x, y) {
@@ -366,28 +370,37 @@ export function v43(x, y) {
 }
 
 // Rays
-// export function v44(x, y) {
-//     const k
-//     return [k * Math.cos(x), k * Math.sin(y)];
-// }
+export function v44(x, y, blend) {
+    const r = Math.sqrt(x * x + y * y);
+    const psi = random();
+    const k = (blend * Math.tan(psi * PI * blend)) / (r * r);
+    return [k * Math.cos(x), k * Math.sin(y)];
+}
 
 // Blade
-// export function v45(x, y) {
-//     const k
-//     return [];
-// }
+export function v45(x, y, blend) {
+    const r = Math.sqrt(x * x + y * y);
+    const psi = random();
+    const c = Math.cos(psi * r * blend);
+    const s = Math.sin(psi * r * blend);
+    return [x * (c + s), x * (c - s)];
+}
 
 // Secant
-// export function v46(x, y) {
-//     const k
-//     return [];
-// }
+export function v46(x, y, blend) {
+    const r = Math.sqrt(x * x + y * y);
+    return [x, 1.0 / (blend * Math.cos(blend * r))];
+}
 
 // Twintrian
-// export function v47(x, y) {
-//     const t
-//     return [];
-// }
+export function v47(x, y, blend) {
+    const r = Math.sqrt(x * x + y * y);
+    const psi = random();
+    const sin2 = Math.sin(psi * r * blend) *
+          Math.sin(psi * r * blend);
+    const t = Math.log10(sin2) + Math.cos(psi * r * blend);
+    return [x * t, x * (t - PI * Math.sin(psi * r * blend))];
+}
 
 // Cross
 export function v48 (x, y) {
