@@ -14,8 +14,8 @@ export default class CanvasManager {
 
     resize() {
         this.canvas2d.resizeCanvas();
-        //this.canvas2d.initRenderTextures();
-        //this.canvas2d.render();
+        this.canvas2d.preparePoints();
+        this.canvas2d.render();
     }
 
     renderLoop() {
