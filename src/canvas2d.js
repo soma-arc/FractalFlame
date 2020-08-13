@@ -1,6 +1,7 @@
 import { GetWebGL2Context, CreateSquareVbo, AttachShader,
          LinkProgram, CreateRGBTextures, CreateStaticVbo } from './glUtils.js';
 import Vec3 from './geometry/vector3.js';
+import Vec2 from './geometry/vector2.js';
 import Point3 from './geometry/point3.js';
 import Canvas from './canvas.js';
 import Transform from './geometry/transform.js';
@@ -14,6 +15,17 @@ export default class Canvas2D extends Canvas {
         this.scene = scene;
         
         this.isRendering = false;
+
+        this.scale = 300;
+        this.distScale = 1.25;
+        this.translate = new Vec2(0, 0);
+
+        this.mouseState = {
+            isPressing: false,
+            prevPosition: new Vec2(0, 0),
+            prevTranslate: new Vec2(0, 0),
+            button: -1
+        };
     }
 
     init(){
@@ -34,9 +46,61 @@ export default class Canvas2D extends Canvas {
 
         this.preparePoints();
         this.render();
+    }
 
-        this.scale = 300;
-        this.distScale = 1.25;
+    /**
+     * Calculate screen coordinates from mouse position
+     * [0, 0]x[width, height]
+     * @param {number} mx
+     * @param {number} my
+     * @returns {Vec2}
+     */
+    calcCanvasCoord(mx, my) {
+        const rect = this.canvas.getBoundingClientRect();
+        return new Vec2((mx - rect.left - this.canvas.width/2) * this.pixelRatio,
+                        (my - rect.top - this.canvas.height/2) * this.pixelRatio);
+    }
+
+    mouseDownListener(event) {
+        event.preventDefault();
+        this.canvas.focus();
+        this.mouseState.isPressing = true;
+        const mouse = this.calcCanvasCoord(event.clientX, event.clientY);
+        this.mouseState.button = event.button;
+        this.mouseState.prevPosition = mouse;
+        this.mouseState.prevTranslate = this.translate;
+    }
+
+    mouseUpListener(event) {
+        this.mouseState.isPressing = false;
+    }
+
+    mouseMoveListener(event) {
+        event.preventDefault();
+        if (!this.mouseState.isPressing) return;
+        const mouse = this.calcCanvasCoord(event.clientX, event.clientY);
+        //console.log(mouse);
+        if (this.mouseState.button === Canvas.MOUSE_BUTTON_RIGHT) {
+            const d = mouse.sub(this.mouseState.prevPosition).scale(1/this.scale);
+            console.log(d);
+            this.render();
+        }
+    }
+
+    keydownListener(event) {
+        if(event.key === 'ArrowRight') {
+            this.translate.x -= 0.1;
+            this.render();
+        } else if (event.key === 'ArrowLeft') {
+            this.translate.x += 0.1;
+            this.render();
+        } else if (event.key === 'ArrowUp') {
+            this.translate.y -= 0.1;
+            this.render();
+        } else if (event.key === 'ArrowDown') {
+            this.translate.y += 0.1;
+            this.render();
+        }
     }
 
     mouseWheelListener(event) {
@@ -71,8 +135,10 @@ export default class Canvas2D extends Canvas {
         const attStride = 3;
         gl.vertexAttribPointer(this.vPositionAttrib, attStride, this.gl.FLOAT, false, 0, 0);
 
-        const viewM = Transform.lookAt(new Point3(0, 1, 0),
-                                       new Point3(0, 0, 0),
+        const viewM = Transform.lookAt(new Point3(this.translate.x,
+                                                  1, this.translate.y),
+                                       new Point3(this.translate.x,
+                                                  0, this.translate.y),
                                        new Vec3(0, 0, 1));
         const projectM = Transform.ortho2d(-this.canvas.width / this.scale,
                                            this.canvas.width / this.scale,

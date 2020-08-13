@@ -1,6 +1,20 @@
 <template>
   <div class="controlPanel">
-    <b-field label="a">
+    <b-tabs v-model="activeTab">
+            <b-tab-item label="Pictures">
+                Lorem ipsum dolor sit amet.
+            </b-tab-item>
+
+            <b-tab-item label="Music">
+                Lorem <br>
+                ipsum <br>
+                dolor <br>
+                sit <br>
+                amet.
+            </b-tab-item>
+
+            <b-tab-item :visible="showBooks" label="Books">
+              <b-field label="a">
       <b-slider v-model="value" lazy
                 :min="-10" :max="10" :step="0.1"></b-slider>
     </b-field>
@@ -24,6 +38,18 @@
       <b-slider v-model="value" lazy
                 :min="-10" :max="10" :step="0.1"></b-slider>
     </b-field>
+    <b-field label="f">
+      <b-slider v-model="value" lazy
+                :min="-10" :max="10" :step="0.1"></b-slider>
+    </b-field>
+    <b-field label="f">
+      <b-slider v-model="value" lazy
+                :min="-10" :max="10" :step="0.1"></b-slider>
+    </b-field>
+            </b-tab-item>
+
+        </b-tabs>
+    
   </div>
 </template>
 
