@@ -1,11 +1,11 @@
 <template>
   <div class="controlPanel">
     <b-tabs v-model="activeTab">
-            <b-tab-item label="Pictures">
+            <b-tab-item label="variations">
                 Lorem ipsum dolor sit amet.
             </b-tab-item>
 
-            <b-tab-item label="Music">
+            <b-tab-item label="Final">
                 Lorem <br>
                 ipsum <br>
                 dolor <br>
@@ -13,7 +13,7 @@
                 amet.
             </b-tab-item>
 
-            <b-tab-item :visible="showBooks" label="Books">
+            <b-tab-item :visible="showBooks" label="Affine">
               <b-field label="a">
       <b-slider v-model="value" lazy
                 :min="-10" :max="10" :step="0.1"></b-slider>

@@ -57,8 +57,14 @@ export default class Canvas2D extends Canvas {
      */
     calcCanvasCoord(mx, my) {
         const rect = this.canvas.getBoundingClientRect();
-        return new Vec2((mx - rect.left - this.canvas.width/2) * this.pixelRatio,
-                        (my - rect.top - this.canvas.height/2) * this.pixelRatio);
+        return new Vec2((mx - rect.left - this.canvas.width/2) / this.scale,
+                        (my - rect.top - this.canvas.height/2) / this.scale);
+    }
+
+    calcOriginalCoord() {
+        const rect = this.canvas.getBoundingClientRect();
+        return [(mx - rect.left),
+                (my - rect.top)];
     }
 
     mouseDownListener(event) {
@@ -73,6 +79,7 @@ export default class Canvas2D extends Canvas {
 
     mouseUpListener(event) {
         this.mouseState.isPressing = false;
+        this.mouseState.button = -1;
     }
 
     mouseMoveListener(event) {
@@ -81,31 +88,31 @@ export default class Canvas2D extends Canvas {
         const mouse = this.calcCanvasCoord(event.clientX, event.clientY);
         //console.log(mouse);
         if (this.mouseState.button === Canvas.MOUSE_BUTTON_RIGHT) {
-            const d = mouse.sub(this.mouseState.prevPosition).scale(1/this.scale);
-            console.log(d);
+            this.translate = new Vec2(this.translate.x - (mouse.x - this.mouseState.prevPosition.x),
+                                      this.translate.y + mouse.y - this.mouseState.prevPosition.y);
             this.render();
         }
     }
 
     keydownListener(event) {
         if(event.key === 'ArrowRight') {
-            this.translate.x -= 0.1;
-            this.render();
-        } else if (event.key === 'ArrowLeft') {
             this.translate.x += 0.1;
             this.render();
+        } else if (event.key === 'ArrowLeft') {
+            this.translate.x -= 0.1;
+            this.render();
         } else if (event.key === 'ArrowUp') {
-            this.translate.y -= 0.1;
+            this.translate.y += 0.1;
             this.render();
         } else if (event.key === 'ArrowDown') {
-            this.translate.y += 0.1;
+            this.translate.y -= 0.1;
             this.render();
         }
     }
 
     mouseWheelListener(event) {
         event.preventDefault();
-        if (event.deltaY < 0) {
+        if (event.deltaY > 0) {
             this.scale /= this.distScale;
         } else {
             this.scale *= this.distScale;
@@ -114,12 +121,18 @@ export default class Canvas2D extends Canvas {
     }
     
     preparePoints() {
-        this.points = [-0.5, 0, -0.5,
-                       -0.5, 0, 0.5,
-                       0.5, 0, 0.5,
-                       0.5, 0, -0.5,
-                       0, 0, 0
-                      ];
+        // this.points = [-0.5, 0, -0.5,
+        //                -0.5, 0, 0.5,
+        //                0.5, 0, 0.5,
+        //                0.5, 0, -0.5,
+        //                0, 0, 0
+        //               ];
+        this.points = [];
+        for (let i = 0; i < 1000000; i++) {
+            const x = (Math.random() - 0.5) * 2;
+            const y = (Math.random() - 0.5) * 2;
+            this.points.push(x, 0, y);
+        }
         this.pointsVbo = CreateStaticVbo(this.gl, this.points);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
     }
