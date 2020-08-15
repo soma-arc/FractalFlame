@@ -26,6 +26,7 @@ void main() {
   float x = vPosition.x;
   float y = vPosition.z;
   vec2 xy = vec2(x, y);
+  float alpha = 0.8;
   for (int i = 0; i < 50; i++) {
       float n = rand2n(vPosition.xz, float(i)).x;
       // if (n < 0.3333333) {
@@ -42,22 +43,22 @@ void main() {
           affine(xy,
                  0., 0., 0.,
                  0., 0.16, 0.);
-          vColor = vec4(1, 0, 0, 1);
+          vColor = vec4(1, 0, 0, alpha);
       } else if(n < 0.08) {
           affine(xy,
                  0.2, -0.26, 0.,
                  0.23, 0.22, 1.6);
-          vColor = vec4(1, 1, 0, 1);
+          vColor = vec4(1, 1, 0, alpha);
       } else if(n < 0.15) {
           affine(xy,
                  -0.15, 0.28, 0.,
                  0.26, 0.24, 0.44);
-          vColor = vec4(0, 0, 1, 1);
+          vColor = vec4(0, 0, 1, alpha);
       } else {
           affine(xy,
                  0.85, 0.04, 0.,
                  0.04, 0.85, 1.6);
-          vColor = vec4(1);
+          vColor = vec4(1, 1, 1, alpha);
       }
   }
   
