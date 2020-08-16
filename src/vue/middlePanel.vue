@@ -5,7 +5,7 @@
         <canvas id="canvas" tabIndex="1000"></canvas>
       </div>
     </div>
-    <control-panel/>
+    <control-panel :canvasManager="canvasManager"/>
   </div>
 </template>
 

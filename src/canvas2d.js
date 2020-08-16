@@ -26,6 +26,15 @@ export default class Canvas2D extends Canvas {
             prevTranslate: new Vec2(0, 0),
             button: -1
         };
+
+        this.uWeight = [0.2, 0.3];
+        this.uAffine = [0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                       ];
+        this.variation = [0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0,
+                          0, 0, 0, 0, 0]
     }
 
     init(){
@@ -45,6 +54,7 @@ export default class Canvas2D extends Canvas {
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
 
         this.preparePoints();
+        this.getUniformLocations();
         this.render();
     }
 
@@ -137,6 +147,25 @@ export default class Canvas2D extends Canvas {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
     }
 
+    getUniformLocations() {
+        const gl = this.gl;
+        this.uniLocations = [];
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_mvpMatrix'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Weight'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_ColorParams'));
+
+    }
+
+    setUniformValues() {
+        const gl = this.gl;
+        let i = 0;
+        gl.uniformMatrix4fv(this.uniLocations[i++], false, this.mvpM.m.elem);
+        gl.uniform1fv(this.uniLocations[i++], this.uWeight);
+        gl.uniform1fv(this.uniLocations[i++], this.uAffine);
+    }
+
     render() {
         const gl = this.gl;
         gl.enable(gl.BLEND);
@@ -164,9 +193,9 @@ export default class Canvas2D extends Canvas {
         //                                this.camera.up);
         // const projectM = Transform.perspective(90, -0.1, 1000);
 
-        const mvpM = projectM.mult(viewM);
-        const mvpLocation = gl.getUniformLocation(this.renderProgram, 'u_mvpMatrix');
-        gl.uniformMatrix4fv(mvpLocation, false, mvpM.m.elem);
+        this.mvpM = projectM.mult(viewM);
+        this.setUniformValues();
+        
 
         gl.drawArrays(gl.POINTS, 0, this.points.length/3);
         gl.flush();
