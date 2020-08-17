@@ -35,6 +35,10 @@ export default class Canvas2D extends Canvas {
         this.uVariation = [0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0]
+        this.uMobius = [1, 2,
+                        3, 4,
+                        5, 6,
+                        7, 8];
     }
 
     init(){
@@ -154,7 +158,7 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Weight'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_ColorParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Mobius'));
 
     }
 
@@ -165,6 +169,7 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
         gl.uniform1fv(this.uniLocations[i++], this.uAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uVariation);
+        gl.uniform2fv(this.uniLocations[i++], this.uMobius);
     }
 
     render() {

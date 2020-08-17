@@ -6,6 +6,7 @@ uniform float u_Weight[2];
 uniform float u_AffineParams[18];
 uniform float u_VariationParams[15];
 uniform float u_ColorParams[9];
+uniform vec2 u_Mobius[4];
 
 in vec3 vPosition;
 //in vec4 color;
@@ -25,6 +26,42 @@ void affine(inout vec2 p, float a, float b, float c, float d, float e, float f) 
  
     p.x = a*x + b*y + c;
     p.y = d*x + e*y + f;
+}
+
+vec2 complexProd(vec2 a, vec2 b) {
+    return vec2(a.x * b.x - a.y * b.y,
+                a.x * b.y + a.y * b.x);
+
+}
+
+const float INFINITY = 999999.;
+vec2 complexDiv(vec2 a, vec2 b) {
+    float denom = b.x * b.x + b.y * b.y;
+	if(denom == 0.){
+	    return vec2(INFINITY);
+	}else if(denom == INFINITY){
+	    return vec2(0, 0);
+	}
+	return vec2((a.x * b.x + a.y * b.y) / denom,
+                (a.y * b.x - a.x * b.y) / denom);
+}
+
+// https://github.com/soma-arc/HyperbolicBeing/blob/51d65264428505d698382c5274969f7f3430b0a6/web/scripts/optLimitSetExplorer.js
+vec2 mobiusOnPoint (vec2 p, vec2 a, vec2 b, vec2 c, vec2 d) {
+    if(p.x == INFINITY || p.y == INFINITY) {
+        if(!(c.x == 0. && c.y == 0.)) {
+            return complexDiv(a, c);
+        } else {
+            return vec2(INFINITY);
+        }
+    }
+    
+    vec2 numerix = complexProd(a, p) + b;
+    vec2 denom = complexProd(c, p) + d;
+    if(denom.x == 0. && denom.y == 0.) {
+        return vec2(INFINITY);
+    }
+    return complexDiv(numerix, denom);
 }
 
 // https://ayumu-nagamatsu.com/archives/500/
@@ -105,6 +142,7 @@ void main() {
           vColor = vec4(0, 0, 1, alpha);
       }
   }
+  // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
   vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
