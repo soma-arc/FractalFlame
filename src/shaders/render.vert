@@ -72,26 +72,36 @@ void main() {
   float x = vPosition.x;
   float y = vPosition.z;
   vec2 xy = vec2(x, y);
-  float alpha = 0.8;
+  float alpha = 0.1;
   float weight2 = u_Weight[0] + u_Weight[1];
 
-  for (int i = 0; i < 50; i++) {
+  for (int i = 0; i < 30; i++) {
       float n = rand2n(vPosition.xz, float(i)).x;
 
       if(n < u_Weight[0]) {
           affine(xy,
                  u_AffineParams[0], u_AffineParams[1], u_AffineParams[2],
                  u_AffineParams[3], u_AffineParams[4], u_AffineParams[5]);
+          variation(xy, u_VariationParams[0], u_VariationParams[1],
+                    u_VariationParams[2], u_VariationParams[3],
+                    u_VariationParams[4]);
+
           vColor = vec4(1, 0, 0, alpha);
       } else if(n < weight2) {
           affine(xy,
                  u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
                  u_AffineParams[9], u_AffineParams[10], u_AffineParams[11]);
+          variation(xy, u_VariationParams[5], u_VariationParams[6],
+                    u_VariationParams[7], u_VariationParams[8],
+                    u_VariationParams[9]);
           vColor = vec4(1, 1, 0, alpha);
       } else {
           affine(xy,
                  u_AffineParams[12], u_AffineParams[13], u_AffineParams[14],
                  u_AffineParams[15], u_AffineParams[16], u_AffineParams[17]);
+          variation(xy, u_VariationParams[10], u_VariationParams[11],
+                    u_VariationParams[12], u_VariationParams[13],
+                    u_VariationParams[14]);
           vColor = vec4(0, 0, 1, alpha);
       }
   }

@@ -32,9 +32,9 @@ export default class Canvas2D extends Canvas {
                         0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0,
                        ];
-        this.variation = [0, 0, 0, 0, 0,
-                          0, 0, 0, 0, 0,
-                          0, 0, 0, 0, 0]
+        this.uVariation = [0, 0, 0, 0, 0,
+                           0, 0, 0, 0, 0,
+                           0, 0, 0, 0, 0]
     }
 
     init(){
@@ -164,6 +164,7 @@ export default class Canvas2D extends Canvas {
         gl.uniformMatrix4fv(this.uniLocations[i++], false, this.mvpM.m.elem);
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
         gl.uniform1fv(this.uniLocations[i++], this.uAffine);
+        gl.uniform1fv(this.uniLocations[i++], this.uVariation);
     }
 
     render() {
