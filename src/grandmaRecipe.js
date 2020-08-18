@@ -31,5 +31,49 @@ export default class GrandmaRecipe {
         gens[3] = gens[1].inverse();
 
         this.gens = gens;
+
+        this.circularWords = [];
+        this.circularWords.push(gens[1].mult(gens[2]).mult(gens[3]).mult(gens[0]));
+        this.circularWords.push(gens[0]);
+        this.circularWords.push(gens[3].mult(gens[2]).mult(gens[1]).mult(gens[0]));
+
+        this.circularWords.push(gens[2].mult(gens[3]).mult(gens[0]).mult(gens[1]));
+        this.circularWords.push(gens[1]);
+        this.circularWords.push(gens[0].mult(gens[3]).mult(gens[2]).mult(gens[1]));
+
+        this.circularWords.push(gens[3].mult(gens[0]).mult(gens[1]).mult(gens[2]));
+        this.circularWords.push(gens[2]);
+        this.circularWords.push(gens[1].mult(gens[0]).mult(gens[3]).mult(gens[2]));
+
+        this.circularWords.push(gens[0].mult(gens[1]).mult(gens[2]).mult(gens[3]));
+        this.circularWords.push(gens[3]);
+        this.circularWords.push(gens[2].mult(gens[1]).mult(gens[0]).mult(gens[3]));
+
+        this.fixedPoints = [];
+        for (const l of this.circularWords) {
+            this.fixedPoints.push(l.computeFixedPointPlus());
+        }
+    }
+
+    getUniforms() {
+        return [this.gens[0].a.re, this.gens[0].a.im,
+                this.gens[0].b.re, this.gens[0].b.im,
+                this.gens[0].c.re, this.gens[0].c.im,
+                this.gens[0].d.re, this.gens[0].d.im,
+
+                this.gens[2].a.re, this.gens[2].a.im,
+                this.gens[2].b.re, this.gens[2].b.im,
+                this.gens[2].c.re, this.gens[2].c.im,
+                this.gens[2].d.re, this.gens[2].d.im,
+
+                this.gens[1].a.re, this.gens[1].a.im,
+                this.gens[1].b.re, this.gens[1].b.im,
+                this.gens[1].c.re, this.gens[1].c.im,
+                this.gens[1].d.re, this.gens[1].d.im,
+
+                this.gens[3].a.re, this.gens[3].a.im,
+                this.gens[3].b.re, this.gens[3].b.im,
+                this.gens[3].c.re, this.gens[3].c.im,
+                this.gens[3].d.re, this.gens[3].d.im];
     }
 }

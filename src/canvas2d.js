@@ -1,13 +1,16 @@
 import { GetWebGL2Context, CreateSquareVbo, AttachShader,
-         LinkProgram, CreateRGBTextures, CreateStaticVbo } from './glUtils.js';
+         LinkProgram, CreateRGBATextures, CreateStaticVbo } from './glUtils.js';
 import Vec3 from './geometry/vector3.js';
 import Vec2 from './geometry/vector2.js';
 import Point3 from './geometry/point3.js';
+import Complex from './complex.js';
 import Canvas from './canvas.js';
 import Transform from './geometry/transform.js';
+import GrandmaRecipe from './grandmaRecipe.js';
 
 const RENDER_FRAG = require('./shaders/render.frag');
 const RENDER_VERT = require('./shaders/render.vert');
+const KLEIN_VERT = require('./shaders/klein.vert');
 
 export default class Canvas2D extends Canvas {
     constructor(canvasId, scene) {
@@ -35,6 +38,13 @@ export default class Canvas2D extends Canvas {
         this.uVariation = [0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0]
+        // this.recipe = new GrandmaRecipe(new Complex(2, 0),
+        //                                 new Complex(2, 0),
+        //                                 false);
+        this.recipe = new GrandmaRecipe(new Complex(1.91, 0.05),
+                                        new Complex(1.91, 0.05),
+                                        true);
+        
         this.uMobius = [1, 2,
                         3, 4,
                         5, 6,
@@ -47,7 +57,9 @@ export default class Canvas2D extends Canvas {
         this.addEventListeners();
 
         this.renderProgram = this.gl.createProgram();
-        AttachShader(this.gl, RENDER_VERT,
+        // AttachShader(this.gl, RENDER_VERT,
+        //              this.renderProgram, this.gl.VERTEX_SHADER);
+        AttachShader(this.gl, KLEIN_VERT,
                      this.renderProgram, this.gl.VERTEX_SHADER);
         AttachShader(this.gl, RENDER_FRAG,
                      this.renderProgram, this.gl.FRAGMENT_SHADER);
@@ -58,6 +70,7 @@ export default class Canvas2D extends Canvas {
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
 
         this.preparePoints();
+        //this.prepareKleinPoints();
         this.getUniformLocations();
         this.render();
     }
@@ -135,17 +148,21 @@ export default class Canvas2D extends Canvas {
     }
     
     preparePoints() {
-        // this.points = [-0.5, 0, -0.5,
-        //                -0.5, 0, 0.5,
-        //                0.5, 0, 0.5,
-        //                0.5, 0, -0.5,
-        //                0, 0, 0
-        //               ];
         this.points = [];
         for (let i = 0; i < 1000000; i++) {
             const x = (Math.random() - 0.5) * 2;
             const y = (Math.random() - 0.5) * 2;
             this.points.push(x, 0, y);
+        }
+        this.pointsVbo = CreateStaticVbo(this.gl, this.points);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
+    }
+
+    prepareKleinPoints() {
+        this.points = [];
+        for (let i = 0; i < 1000000; i++) {
+            const p = this.recipe.fixedPoints[i % 12];
+            this.points.push(p.re, 0, p.im);
         }
         this.pointsVbo = CreateStaticVbo(this.gl, this.points);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
@@ -159,6 +176,7 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Mobius'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Klein'));
 
     }
 
@@ -170,6 +188,7 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uVariation);
         gl.uniform2fv(this.uniLocations[i++], this.uMobius);
+        gl.uniform2fv(this.uniLocations[i++], this.recipe.getUniforms());
     }
 
     render() {
