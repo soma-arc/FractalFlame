@@ -37,11 +37,12 @@ export default {
         load: function() {
             this.canvasManager.loadSceneFromFile();
         },
-        saveImage: function() {
-            this.canvasManager.constructionCanvas.renderProductAndSave();
-        },
         changeOption: function() {
             this.canvasManager.constructionCanvas.render();
+        },
+        saveImage: function() {
+            const canvas = this.canvasManager.canvas2d;
+            canvas.saveImage(canvas.gl, canvas.canvas.width, canvas.canvas.height, "flame.png");
         }
     }
 }

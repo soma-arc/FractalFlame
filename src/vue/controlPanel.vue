@@ -110,27 +110,27 @@
                   v-on:input="changed" value="0"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v1">
+      <b-field label="v2">
         <b-slider v-model="canvasManager.canvas2d.uVariation[1]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v1">
+      <b-field label="v3">
         <b-slider v-model="canvasManager.canvas2d.uVariation[2]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v1">
+      <b-field label="v4">
         <b-slider v-model="canvasManager.canvas2d.uVariation[3]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v1">
+      <b-field label="v5">
         <b-slider v-model="canvasManager.canvas2d.uVariation[4]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v2">
+      <b-field label="v1">
         <b-slider v-model="canvasManager.canvas2d.uVariation[5]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
@@ -140,27 +140,27 @@
                   v-on:input="changed" value="0"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v2">
+      <b-field label="v3">
         <b-slider v-model="canvasManager.canvas2d.uVariation[7]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v2">
+      <b-field label="v4">
         <b-slider v-model="canvasManager.canvas2d.uVariation[8]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v2">
+      <b-field label="v5">
         <b-slider v-model="canvasManager.canvas2d.uVariation[9]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v3">
+      <b-field label="v1">
         <b-slider v-model="canvasManager.canvas2d.uVariation[10]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v3">
+      <b-field label="v2">
         <b-slider v-model="canvasManager.canvas2d.uVariation[11]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
@@ -170,12 +170,12 @@
                   v-on:input="changed" value="0"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v3">
+      <b-field label="v4">
         <b-slider v-model="canvasManager.canvas2d.uVariation[13]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
-      <b-field label="v3">
+      <b-field label="v5">
         <b-slider v-model="canvasManager.canvas2d.uVariation[14]"
                   v-on:input="changed"
                   :min="-10" :max="10" :step="0.01"></b-slider>

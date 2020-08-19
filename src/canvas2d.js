@@ -57,10 +57,10 @@ export default class Canvas2D extends Canvas {
         this.addEventListeners();
 
         this.renderProgram = this.gl.createProgram();
-        // AttachShader(this.gl, RENDER_VERT,
-        //              this.renderProgram, this.gl.VERTEX_SHADER);
-        AttachShader(this.gl, KLEIN_VERT,
+        AttachShader(this.gl, RENDER_VERT,
                      this.renderProgram, this.gl.VERTEX_SHADER);
+        //AttachShader(this.gl, KLEIN_VERT,
+        //             this.renderProgram, this.gl.VERTEX_SHADER);
         AttachShader(this.gl, RENDER_FRAG,
                      this.renderProgram, this.gl.FRAGMENT_SHADER);
         LinkProgram(this.gl, this.renderProgram);
@@ -160,7 +160,7 @@ export default class Canvas2D extends Canvas {
 
     prepareKleinPoints() {
         this.points = [];
-        for (let i = 0; i < 1000000; i++) {
+        for (let i = 0; i < 100000; i++) {
             const p = this.recipe.fixedPoints[i % 12];
             this.points.push(p.re, 0, p.im);
         }
