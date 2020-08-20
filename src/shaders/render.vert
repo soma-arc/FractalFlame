@@ -123,7 +123,7 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
                     u_VariationParams[2], u_VariationParams[3],
                     u_VariationParams[4]);
 
-          vColor = vec4(1, 0, 0, alpha);
+          vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
       } else if(n < weight2) {
           affine(xy,
                  u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
@@ -131,7 +131,7 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
           variation(xy, u_VariationParams[5], u_VariationParams[6],
                     u_VariationParams[7], u_VariationParams[8],
                     u_VariationParams[9]);
-          vColor = vec4(1, 1, 0, alpha);
+          vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
       } else {
           affine(xy,
                  u_AffineParams[12], u_AffineParams[13], u_AffineParams[14],
@@ -139,7 +139,7 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
           variation(xy, u_VariationParams[10], u_VariationParams[11],
                     u_VariationParams[12], u_VariationParams[13],
                     u_VariationParams[14]);
-          vColor = vec4(0, 0, 1, alpha);
+          vColor = vec4(((vec3(0, 0, 1) + vColor.xyz)/2.), alpha);
       }
 }
 
@@ -151,11 +151,13 @@ void main() {
   float weight2 = u_Weight[0] + u_Weight[1];
 
   for (int i = 0; i < 30; i++) {
-      float n = rand2n(vPosition.xz, float(i)).x;
-      applyTransformations(xy, n, weight2, alpha);
+      vec2 n = rand2n(vPosition.xz, float(i));
+      vec2 n2 = rand2n(vPosition.yz, float(i)*2.);
+      vColor = vec4(n.x, n2.x, n2.y, alpha);
+      applyTransformations(xy, n.y, weight2, alpha);
   }
   // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
-  vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
+  //vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
 }
