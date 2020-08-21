@@ -8,6 +8,7 @@ uniform float u_VariationParams[15];
 uniform vec2 u_Mobius[4];
 // a, inv a, b, inv b
 uniform vec2 u_Klein[16];
+uniform bool u_yFlipped;
 
 in vec3 vPosition;
 //in vec4 color;
@@ -89,24 +90,24 @@ vec2 var3(vec2 p, float r2) {
 }
  
 // tangent
-// vec2 var4(vec2 p) {
-//     vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
-//     return tmp;
-// }
 vec2 var4(vec2 p) {
-    return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
+    vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
+    return tmp;
 }
+// vec2 var4(vec2 p) {
+//     return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
+// }
  
 // bubble
-// vec2 var5(in vec2 p, in float r2) {
-//     vec2 tmp = vec2(p.xy);
-//     tmp = tmp * (4.0 / (r2 + 4.0));
-//     return tmp;
-// }
 vec2 var5(in vec2 p, in float r2) {
-    //return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
-    return mobiusOnPoint(p, u_Klein[4], u_Klein[5], u_Klein[6], u_Klein[7]);
+    vec2 tmp = vec2(p.xy);
+    tmp = tmp * (4.0 / (r2 + 4.0));
+    return tmp;
 }
+// vec2 var5(in vec2 p, in float r2) {
+//     //return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
+//     return mobiusOnPoint(p, u_Klein[4], u_Klein[5], u_Klein[6], u_Klein[7]);
+// }
 
 
 void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
@@ -146,6 +147,7 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
 void main() {
   float x = vPosition.x;
   float y = vPosition.z;
+
   vec2 xy = vec2(x, y);
   float alpha = 0.1;
   float weight2 = u_Weight[0] + u_Weight[1];
@@ -158,6 +160,9 @@ void main() {
   }
   // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
   //vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
+  if(u_yFlipped) {
+      xy.y *= -1.;
+  }
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
 }
