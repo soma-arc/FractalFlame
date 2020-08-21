@@ -8,6 +8,7 @@ uniform float u_VariationParams[15];
 uniform vec2 u_Mobius[4];
 // a, inv a, b, inv b
 uniform vec2 u_Klein[16];
+uniform bool u_yFlipped;
 
 in vec3 vPosition;
 //in vec4 color;
@@ -158,6 +159,9 @@ void main() {
   }
   // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
   //vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
+  if(u_yFlipped) {
+      xy.y *= -1.;
+  }
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
 }

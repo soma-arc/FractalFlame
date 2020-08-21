@@ -78,10 +78,10 @@ export default class Canvas {
         return new Blob([u8arr], { type: mime });
     }
 
-    saveImage (gl, width, height, filename) {
+    saveImage (gl, x, y, width, height, filename) {
         const data = new Uint8Array(width * height * 4);
         const type = gl.UNSIGNED_BYTE;
-        gl.readPixels(0, 0, width, height, gl.RGBA, type, data);
+        gl.readPixels(x, y, width, height, gl.RGBA, type, data);
 
         const saveCanvas = document.createElement('canvas');
         saveCanvas.width = width;

@@ -49,6 +49,8 @@ export default class Canvas2D extends Canvas {
                         3, 4,
                         5, 6,
                         7, 8];
+
+        this.yFlipped
     }
 
     init(){
@@ -177,6 +179,7 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Mobius'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Klein'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
 
     }
 
@@ -189,13 +192,17 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uVariation);
         gl.uniform2fv(this.uniLocations[i++], this.uMobius);
         gl.uniform2fv(this.uniLocations[i++], this.recipe.getUniforms());
+        gl.uniform1i(this.uniLocations[i++], this.yFlipped);
+
     }
 
     render() {
+        const width = this.canvas.width;
+        const height = this.canvas.height;
         const gl = this.gl;
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+        gl.viewport(0, 0, width, height);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -209,14 +216,10 @@ export default class Canvas2D extends Canvas {
                                        new Point3(this.translate.x,
                                                   0, this.translate.y),
                                        new Vec3(0, 0, 1));
-        const projectM = Transform.ortho2d(-this.canvas.width / this.scale,
-                                           this.canvas.width / this.scale,
-                                           -this.canvas.height / this.scale,
-                                           this.canvas.height / this.scale,                                             -1, 1);
-        // const viewM = Transform.lookAt(new Point3(this.camera.pos.x, this.camera.pos.y, this.camera.pos.z),
-        //                                new Point3(this.camera.target.x, this.camera.target.y, this.camera.target.z),
-        //                                this.camera.up);
-        // const projectM = Transform.perspective(90, -0.1, 1000);
+        const projectM = Transform.ortho2d(-width / this.scale,
+                                           width / this.scale,
+                                           -height / this.scale,
+                                           height / this.scale,                                             -1, 1);
 
         this.mvpM = projectM.mult(viewM);
         this.setUniformValues();
@@ -224,5 +227,13 @@ export default class Canvas2D extends Canvas {
 
         gl.drawArrays(gl.POINTS, 0, this.points.length/3);
         gl.flush();
+    }
+
+    saveFlame(width, height) {
+        this.yFlipped = true;
+        this.render();
+        this.saveImage(this.gl, 200, 200, 250, 250, 'flame.png');
+        this.yFlipped = false;
+        this.render();
     }
 }

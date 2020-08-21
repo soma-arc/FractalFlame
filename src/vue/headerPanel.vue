@@ -42,7 +42,7 @@ export default {
         },
         saveImage: function() {
             const canvas = this.canvasManager.canvas2d;
-            canvas.saveImage(canvas.gl, canvas.canvas.width, canvas.canvas.height, "flame.png");
+            canvas.saveFlame(canvas.canvas.width, canvas.canvas.height);
         }
     }
 }
