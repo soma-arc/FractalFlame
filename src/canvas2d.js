@@ -218,7 +218,8 @@ export default class Canvas2D extends Canvas {
         const projectM = Transform.ortho2d(-width / this.scale,
                                            width / this.scale,
                                            -height / this.scale,
-                                           height / this.scale, 1);
+                                           height / this.scale,
+                                           -1, 1);
 
         this.mvpM = projectM.mult(viewM);
         this.setUniformValues();
@@ -231,7 +232,7 @@ export default class Canvas2D extends Canvas {
     saveFlame(width, height) {
         this.yFlipped = true;
         this.render();
-        this.saveImage(this.gl, width, height, 'flame.png');
+        this.saveImage(this.gl, 0, 0, width, height, 'flame.png');
         this.yFlipped = false;
         this.render();
     }
