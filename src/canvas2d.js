@@ -7,6 +7,8 @@ import Complex from './complex.js';
 import Canvas from './canvas.js';
 import Transform from './geometry/transform.js';
 import GrandmaRecipe from './grandmaRecipe.js';
+import Circle from './circle.js';
+import Loxodromic from './loxodromic.js';
 
 const RENDER_FRAG = require('./shaders/render.frag');
 const RENDER_VERT = require('./shaders/render.vert');
@@ -151,11 +153,41 @@ export default class Canvas2D extends Canvas {
     
     preparePoints() {
         this.points = [];
+
+        const c2 = new Circle(new Vec2(-1.5, 0), 1);
+        const c1 = new Circle(new Vec2(-1.2, 0), 0.5);
+        const loxo = new Loxodromic(c1, c2, new Vec2(1.5, 0.5));
+        const c1d =  c2.invertOnCircle(c1);
+        for (let i = 0; i < 360; i++) {
+            let x = Math.cos(Math.PI/180.0 * i);
+            let y = Math.sin(Math.PI/180.0 * i);
+            this.points.push(x - 1.5, 0, y);
+            
+            x = 0.5 * Math.cos(Math.PI/180.0 * i);
+            y = 0.5 * Math.sin(Math.PI/180.0 * i);
+            this.points.push(x - 1.2, 0, y);
+
+            x = c1d.r * Math.cos(Math.PI/180.0 * i);
+            y = c1d.r * Math.sin(Math.PI/180.0 * i);
+            this.points.push(x + c1d.center.x, 0,
+                             y + c1d.center.y);
+        }
+
         for (let i = 0; i < 1000000; i++) {
+        //for (let i = 0; i < 1000; i++) {
             const x = (Math.random() - 0.5) * 2;
             const y = (Math.random() - 0.5) * 2;
-            this.points.push(x, 0, y);
+            const p = new Vec2(x, y);
+
+            // let pInv = c1.invertOnPoint(p);
+            // let pII = c2.invertOnPoint(pInv);
+            // for (let j = 0; j < 100; j++) {
+            //     pInv = c1.invertOnPoint(pII);
+            //     pII = c2.invertOnPoint(pInv);
+            // }
+            //this.points.push(pII.x, 0, pII.y);   
         }
+        
         this.pointsVbo = CreateStaticVbo(this.gl, this.points);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
     }

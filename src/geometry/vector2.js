@@ -146,6 +146,17 @@ export default class Vec2 {
 
     /**
      *
+     * @param {Vec2} v1
+     * @param {Vec2} v2
+     * @returns {number}
+     */
+    static distance(v1, v2) {
+        const l = v1.sub(v2);
+        return Math.sqrt(l.x * l.x + l.y * l.y);
+    }
+
+    /**
+     *
      * @param {Vec2} v
      * @returns {Number}
      */
