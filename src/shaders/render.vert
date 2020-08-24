@@ -4,7 +4,9 @@ precision mediump float;
 uniform mat4 u_mvpMatrix;
 uniform float u_Weight[2];
 uniform float u_AffineParams[18];
+uniform float u_FinalAffineParams[6];
 uniform float u_VariationParams[15];
+uniform float u_FinalVariationParams[15];
 uniform vec2 u_Mobius[4];
 // a, inv a, b, inv b
 uniform vec2 u_Klein[16];
@@ -158,31 +160,41 @@ void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4,
 
 void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
     if(n < u_Weight[0]) {
-          affine(xy,
-                 u_AffineParams[0], u_AffineParams[1], u_AffineParams[2],
-                 u_AffineParams[3], u_AffineParams[4], u_AffineParams[5]);
-          variation(xy, u_VariationParams[0], u_VariationParams[1],
-                    u_VariationParams[2], u_VariationParams[3],
-                    u_VariationParams[4]);
+        affine(xy,
+               u_AffineParams[0], u_AffineParams[1], u_AffineParams[2],
+               u_AffineParams[3], u_AffineParams[4], u_AffineParams[5]);
+        variation(xy, u_VariationParams[0], u_VariationParams[1],
+                  u_VariationParams[2], u_VariationParams[3],
+                  u_VariationParams[4]);
 
-          vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
-      } else if(n < weight2) {
-          affine(xy,
-                 u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
-                 u_AffineParams[9], u_AffineParams[10], u_AffineParams[11]);
-          variation(xy, u_VariationParams[5], u_VariationParams[6],
-                    u_VariationParams[7], u_VariationParams[8],
-                    u_VariationParams[9]);
-          vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
-      } else {
-          affine(xy,
-                 u_AffineParams[12], u_AffineParams[13], u_AffineParams[14],
-                 u_AffineParams[15], u_AffineParams[16], u_AffineParams[17]);
-          variation(xy, u_VariationParams[10], u_VariationParams[11],
-                    u_VariationParams[12], u_VariationParams[13],
-                    u_VariationParams[14]);
-          vColor = vec4(((vec3(0, 0, 1) + vColor.xyz)/2.), alpha);
-      }
+        vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
+    } else if(n < weight2) {
+        affine(xy,
+               u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
+               u_AffineParams[9], u_AffineParams[10], u_AffineParams[11]);
+        variation(xy, u_VariationParams[5], u_VariationParams[6],
+                  u_VariationParams[7], u_VariationParams[8],
+                  u_VariationParams[9]);
+        vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
+    } else {
+        affine(xy,
+               u_AffineParams[12], u_AffineParams[13], u_AffineParams[14],
+               u_AffineParams[15], u_AffineParams[16], u_AffineParams[17]);
+        variation(xy, u_VariationParams[10], u_VariationParams[11],
+                  u_VariationParams[12], u_VariationParams[13],
+                  u_VariationParams[14]);
+        vColor = vec4(((vec3(0, 0, 1) + vColor.xyz)/2.), alpha);
+    }
+
+    // Final transform
+    affine(xy,
+           u_FinalAffineParams[0], u_FinalAffineParams[1],
+           u_FinalAffineParams[2], u_FinalAffineParams[3],
+           u_FinalAffineParams[4], u_FinalAffineParams[5]);
+    variation(xy,
+              u_FinalVariationParams[0], u_FinalVariationParams[1],
+              u_FinalVariationParams[2], u_FinalVariationParams[3],
+              u_FinalVariationParams[4]);
 }
 
 void main() {

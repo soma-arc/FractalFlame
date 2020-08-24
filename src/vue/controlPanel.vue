@@ -122,6 +122,42 @@
                   v-on:dragend="sliderDragEnd"
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
+      <b-field label="a1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[0]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="b1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[1]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+            </b-field>
+      <b-field label="c1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[2]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                  </b-field>
+      <b-field label="d1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[3]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                        </b-field>
+      <b-field label="e1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[4]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="f1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[5]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
     </b-tab-item>
     
     <b-tab-item label="Variation">
@@ -211,6 +247,36 @@
       </b-field>
       <b-field label="v5">
         <b-slider v-model="canvasManager.canvas2d.uVariation[14]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="v1final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalVariation[0]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="v2final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalVariation[1]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="v3final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalVariation[2]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="v4final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalVariation[3]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="v5final">
+        <b-slider v-model="canvasManager.canvas2d.uFinalVariation[4]"
                   v-on:dragging="sliderDragging"
                   v-on:dragend="sliderDragEnd"
                   :min="-10" :max="10" :step="0.01"></b-slider>
