@@ -22,6 +22,13 @@ vec2 rand2n(const vec2 co, const float sampleIndex) {
                 fract(cos(dot(seed.xy ,vec2(4.898,7.23))) * 23421.631));
 }
 
+// circle [x, y, radius, radius * radius]
+vec2 circleInvert(const vec2 pos, const vec4 circle){
+    vec2 p = pos - circle.xy;
+    float d = length(p);
+    return (p * circle.w)/(d * d) + circle.xy;
+}
+
 void affine(inout vec2 p, float a, float b, float c, float d, float e, float f) {
     float x = p.x;
     float y = p.y;
@@ -66,6 +73,13 @@ vec2 mobiusOnPoint (vec2 p, vec2 a, vec2 b, vec2 c, vec2 d) {
     return complexDiv(numerix, denom);
 }
 
+vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
+vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
+vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
+               2.0934421415458306 * 2.0934421415458306);
+// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
+vec4 line = vec4(-1, 0, 0, -1);
+
 // https://ayumu-nagamatsu.com/archives/500/
 // linear
 vec2 var1(vec2 p) {
@@ -90,24 +104,51 @@ vec2 var3(vec2 p, float r2) {
 }
  
 // tangent
-vec2 var4(vec2 p) {
-    vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
-    return tmp;
-}
+// vec2 var4(vec2 p) {
+//     vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
+//     return tmp;
+// }
 // vec2 var4(vec2 p) {
 //     return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
 // }
+
+vec2 var4(in vec2 pos) {
+    pos = circleInvert(pos, c2);
+    pos = circleInvert(pos, c1);
+
+    pos = circleInvert(pos, c3);
+    
+    pos = pos - c2.xy;
+    float d = dot(pos, line.zw);
+    pos = pos - line.xy * (2.0 * d);
+    pos = pos + c2.xy;    
+
+    return pos;
+}
  
 // bubble
-vec2 var5(in vec2 p, in float r2) {
-    vec2 tmp = vec2(p.xy);
-    tmp = tmp * (4.0 / (r2 + 4.0));
-    return tmp;
-}
+// vec2 var5(in vec2 p, in float r2) {
+//     vec2 tmp = vec2(p.xy);
+//     tmp = tmp * (4.0 / (r2 + 4.0));
+//     return tmp;
+// }
 // vec2 var5(in vec2 p, in float r2) {
 //     //return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
 //     return mobiusOnPoint(p, u_Klein[4], u_Klein[5], u_Klein[6], u_Klein[7]);
 // }
+
+vec2 var5(in vec2 pos, float r2) {
+    pos = pos - c2.xy;
+    float d = dot(pos, line.zw);
+    pos = pos - line.xy * (2.0 * d);
+    pos = pos + c2.xy;
+
+    pos = circleInvert(pos, c3);
+    
+    pos = circleInvert(pos, c1);
+    pos = circleInvert(pos, c2);
+    return pos;
+}
 
 
 void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
@@ -149,6 +190,9 @@ void main() {
   float y = vPosition.z;
 
   vec2 xy = vec2(x, y);
+//  vColor = vec4(1, 0, 0, 1);
+//  gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
+//  return;
   float alpha = 0.1;
   float weight2 = u_Weight[0] + u_Weight[1];
 
@@ -163,6 +207,7 @@ void main() {
   if(u_yFlipped) {
       xy.y *= -1.;
   }
+  vColor = clamp(vColor, 0.0, 1.0);
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
 }
