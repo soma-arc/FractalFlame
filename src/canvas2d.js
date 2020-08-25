@@ -324,4 +324,49 @@ export default class Canvas2D extends Canvas {
         this.yFlipped = false;
         this.render();
     }
+
+    exportParameters() {
+        return {"weight": this.uWeight,
+                "affine": this.uAffine,
+                "variation": this.uVariation,
+                "postAffine": this.uPostAffine,
+                "finalAffine": this.uFinalAffine,
+                "finalVariation": this.uFinalVariation,
+                "finalPostAffine": this.uFinalPostAffine};
+    }
+
+    saveParametersAsJson() {
+        const blob = new Blob([JSON.stringify(this.exportParameters(),
+                                              null, '    ')],
+                              { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'parameters.json';
+        a.click();
+    }
+
+    loadJSON(obj) {
+        this.uWeight = obj['weight'];
+        this.uAffine = obj['affine'];
+        this.uVariation = obj['variation'];
+        this.uPostAffine = obj['postAffine'];
+        this.uFinalAffine = obj['finalAffine'];
+        this.uFinalVariation = obj['finalVariation'];
+        this.uFinalPostAffine = obj['finalPostAffine'];
+    }
+
+    loadSceneFromFile() {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            this.loadJSON(JSON.parse(reader.result));
+            this.render();
+        });
+        const a = document.createElement('input');
+        a.type = 'file';
+        a.addEventListener('change', function(event) {
+            const files = event.target.files;
+            reader.readAsText(files[0]);
+        });
+        a.click();
+    }
 }

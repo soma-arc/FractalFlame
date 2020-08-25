@@ -32,10 +32,10 @@ export default {
             this.canvasManager.render();
         },
         save: function() {
-            this.scene.saveSceneAsJson();
+            this.canvasManager.canvas2d.saveParametersAsJson();
         },
         load: function() {
-            this.canvasManager.loadSceneFromFile();
+            this.canvasManager.canvas2d.loadSceneFromFile();
         },
         changeOption: function() {
             this.canvasManager.constructionCanvas.render();
