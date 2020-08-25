@@ -5,11 +5,10 @@ uniform mat4 u_mvpMatrix;
 uniform float u_Weight[2];
 uniform float u_AffineParams[18];
 uniform float u_FinalAffineParams[6];
+uniform float u_PostAffineParams[18];
+uniform float u_FinalPostAffineParams[6];
 uniform float u_VariationParams[15];
 uniform float u_FinalVariationParams[15];
-uniform vec2 u_Mobius[4];
-// a, inv a, b, inv b
-uniform vec2 u_Klein[16];
 uniform bool u_yFlipped;
 
 in vec3 vPosition;
@@ -166,7 +165,11 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
         variation(xy, u_VariationParams[0], u_VariationParams[1],
                   u_VariationParams[2], u_VariationParams[3],
                   u_VariationParams[4]);
-
+        affine(xy,
+               u_PostAffineParams[0], u_PostAffineParams[1], u_PostAffineParams[2],
+               u_PostAffineParams[3], u_PostAffineParams[4], u_PostAffineParams[5]);
+        // post transform
+        // affine(xy);
         vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
     } else if(n < weight2) {
         affine(xy,
@@ -175,6 +178,11 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
         variation(xy, u_VariationParams[5], u_VariationParams[6],
                   u_VariationParams[7], u_VariationParams[8],
                   u_VariationParams[9]);
+        // post transform
+        affine(xy,
+               u_PostAffineParams[6], u_PostAffineParams[7], u_PostAffineParams[8],
+               u_PostAffineParams[9], u_PostAffineParams[10], u_PostAffineParams[11]);
+        // affine(xy);
         vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
     } else {
         affine(xy,
@@ -183,6 +191,11 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
         variation(xy, u_VariationParams[10], u_VariationParams[11],
                   u_VariationParams[12], u_VariationParams[13],
                   u_VariationParams[14]);
+        // post transform
+        affine(xy,
+               u_PostAffineParams[12], u_PostAffineParams[13], u_PostAffineParams[14],
+               u_PostAffineParams[15], u_PostAffineParams[16], u_PostAffineParams[17]);
+        // affine(xy);
         vColor = vec4(((vec3(0, 0, 1) + vColor.xyz)/2.), alpha);
     }
 
@@ -195,6 +208,10 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
               u_FinalVariationParams[0], u_FinalVariationParams[1],
               u_FinalVariationParams[2], u_FinalVariationParams[3],
               u_FinalVariationParams[4]);
+    affine(xy,
+           u_FinalPostAffineParams[0], u_FinalPostAffineParams[1],
+           u_FinalPostAffineParams[2], u_FinalPostAffineParams[3],
+           u_FinalPostAffineParams[4], u_FinalPostAffineParams[5]);
 }
 
 void main() {

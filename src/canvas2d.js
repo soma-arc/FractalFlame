@@ -33,26 +33,19 @@ export default class Canvas2D extends Canvas {
         };
 
         this.uWeight = [0.2, 0.3];
-        this.uAffine = [0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0,
+        this.uAffine = [1, 0, 0, 0, 1, 0,
+                        1, 0, 0, 0, 1, 0,
+                        1, 0, 0, 0, 1, 0,
                        ];
         this.uVariation = [0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0]
+        this.uPostAffine = [1, 0, 0, 0, 1, 0,
+                            1, 0, 0, 0, 1, 0,
+                            1, 0, 0, 0, 1, 0];
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
-        // this.recipe = new GrandmaRecipe(new Complex(2, 0),
-        //                                 new Complex(2, 0),
-        //                                 false);
-        this.recipe = new GrandmaRecipe(new Complex(1.91, 0.05),
-                                        new Complex(1.91, 0.05),
-                                        true);
-        
-        this.uMobius = [1, 2,
-                        3, 4,
-                        5, 6,
-                        7, 8];
+        this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
 
         this.yFlipped = false;
     }
@@ -267,11 +260,11 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_mvpMatrix'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Weight'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_PostAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalAffineParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalPostAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalVariationParams'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Mobius'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Klein'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
 
     }
@@ -282,11 +275,11 @@ export default class Canvas2D extends Canvas {
         gl.uniformMatrix4fv(this.uniLocations[i++], false, this.mvpM.m.elem);
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
         gl.uniform1fv(this.uniLocations[i++], this.uAffine);
+        gl.uniform1fv(this.uniLocations[i++], this.uPostAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
+        gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine)
         gl.uniform1fv(this.uniLocations[i++], this.uVariation);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalVariation);
-        gl.uniform2fv(this.uniLocations[i++], this.uMobius);
-        gl.uniform2fv(this.uniLocations[i++], this.recipe.getUniforms());
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
     }
 
