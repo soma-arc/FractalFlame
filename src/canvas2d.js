@@ -355,6 +355,24 @@ export default class Canvas2D extends Canvas {
         this.uFinalPostAffine = obj['finalPostAffine'];
     }
 
+    clear() {
+        this.uWeight = [0.2, 0.3];
+        this.uAffine = [1, 0, 0, 0, 1, 0,
+                        1, 0, 0, 0, 1, 0,
+                        1, 0, 0, 0, 1, 0,
+                       ];
+        this.uVariation = [0, 0, 0, 0, 0,
+                           0, 0, 0, 0, 0,
+                           0, 0, 0, 0, 0]
+        this.uPostAffine = [1, 0, 0, 0, 1, 0,
+                            1, 0, 0, 0, 1, 0,
+                            1, 0, 0, 0, 1, 0];
+        this.uFinalAffine = [1, 0, 0, 0, 1, 0];
+        this.uFinalVariation = [1, 0, 0, 0, 0];
+        this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
+        this.render();
+    }
+
     loadSceneFromFile() {
         const reader = new FileReader();
         reader.addEventListener('load', () => {

@@ -14,10 +14,6 @@
       <button class="button" @click="load">Import</button>
     </li>
     <li class="buttonLi"><button class="button" @click="saveImage">SaveImage</button></li>
-    <li class="buttonLi">      
-      <input type="checkbox"
-             @change="changeOption"><font size="4">DisplayAxis</font>
-    </li>
   </ul>
 </header>
 </template>
@@ -27,18 +23,13 @@ export default {
     props: ['scene', 'canvasManager'],
     methods: {
         clear: function() {
-            this.scene.clearScene();
-            this.canvasManager.compileRenderShader();
-            this.canvasManager.render();
+            this.canvasManager.canvas2d.clear();
         },
         save: function() {
             this.canvasManager.canvas2d.saveParametersAsJson();
         },
         load: function() {
             this.canvasManager.canvas2d.loadSceneFromFile();
-        },
-        changeOption: function() {
-            this.canvasManager.constructionCanvas.render();
         },
         saveImage: function() {
             const canvas = this.canvasManager.canvas2d;
