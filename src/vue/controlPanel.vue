@@ -431,6 +431,107 @@
                   :min="-10" :max="10" :step="0.01"></b-slider>
       </b-field>
     </b-tab-item>
+    <b-tab-item label="Final">
+      Final transform
+      <b-switch v-model="isSwitchedCustom"
+                true-value="On"
+                false-value="Off">{{ isSwitchedCustom }}</b-switch>
+      <div v-show="isSwitchedCustom == 'On'">
+      <b-field label="Affine"></b-field>
+      <b-field label="a">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[0]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="b">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[1]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+            </b-field>
+      <b-field label="c">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[2]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                  </b-field>
+      <b-field label="d">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[3]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                        </b-field>
+      <b-field label="e">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[4]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="f">
+        <b-slider v-model="canvasManager.canvas2d.uFinalAffine[5]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="Variations">
+        <b-select placeholder="Select a variation"
+                  v-model="selectedVariation">
+          <option
+            v-for="option in variations"
+            :value="option"
+            :key="option.id">
+            {{ option.name }}
+          </option>
+        </b-select>
+      </b-field>
+      <b-button @click="addVariation">Add</b-button>
+      <div v-for="(finalVariation, index) in finalVariationList">
+        <b-field :label="finalVariation.name"></b-field>
+        <b-slider v-model="finalVariationList[index].v"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+        <b-button @click="deleteVariation(index)">Delete</b-button>
+      </div>
+      <b-field label="Post transform">
+      </b-field>
+      <b-field label="a">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[0]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="b">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[1]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+            </b-field>
+      <b-field label="c">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[2]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                  </b-field>
+      <b-field label="d">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[3]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+                        </b-field>
+      <b-field label="e">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[4]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      <b-field label="f">
+        <b-slider v-model="canvasManager.canvas2d.uFinalPostAffine[5]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="-10" :max="10" :step="0.01"></b-slider>
+      </b-field>
+      </div>
+    </b-tab-item>
   </b-tabs>
 </div>
 </template>
@@ -438,6 +539,45 @@
 <script>
 export default {
     props: ['canvasManager'],
+    data: function () {
+        return {
+            selectedVariation: undefined,
+            finalVariationList: [],
+            isSwitchedCustom: "Off",
+            variations: [{id: 0, name:'Linear', v:0},
+                         {id: 1, name:'Sinusoidal', v:0},
+                         {id: 2, name:'Spherical', v:0},
+                         {id: 3, name:'Swirl', v:0},
+                         {id: 4, name:'Horseshoe', v:0},
+                         {id: 5, name:'Polar', v:0},
+                         {id: 6, name:'Handkerchief', v:0},
+                         {id: 7, name:'Heart', v:0},
+                         {id: 8, name:'Disk', v:0},
+                         {id: 9, name:'Spiral', v:0},
+                         {id: 10, name:'Hyperbolic', v:0},
+                         {id: 11, name:'Diamond', v:0},
+                         {id: 12, name:'Ex', v:0},
+                         {id: 13, name:'Julia', v:0},
+                         {id: 14, name:'Bent', v:0},
+                         {id: 15, name:'Waves', v:0},
+                         {id: 16, name:'Fisheye', v:0},
+                         {id: 17, name:'Popcorn', v:0},
+                         {id: 18, name:'Exponential', v:0},
+                         {id: 19, name:'Power', v:0},
+                         {id: 20, name:'Cosine', v:0},
+                         {id: 21, name:'Rings', v:0},
+                         {id: 22, name:'Fan', v:0},
+                         {id: 23, name:'Blob', v:0},
+                         {id: 24, name:'PDJ', v:0},
+                         {id: 25, name:'Fane2', v:0},
+                         {id: 26, name:'Rings2', v:0},
+                         {id: 27, name:'Eyefish', v:0},
+                         {id: 28, name:'Bubble', v:0},
+                         {id: 29, name:'Cylinder', v:0},
+                         {id: 30, name:'Perspective', v:0},
+                        ]
+        }
+    },
     methods: {
         changed: function () {
             this.canvasManager.canvas2d.render();
@@ -447,6 +587,14 @@ export default {
         },
         sliderDragEnd: function() {
             this.canvasManager.canvas2d.isRendering = false;
+        },
+        addVariation: function() {
+            if (this.selectedVariation === undefined) return;
+            console.log(this.selectedVariation);
+            this.finalVariationList.push(this.selectedVariation);
+        },
+        deleteVariation: function(index) {
+            this.finalVariationList.splice(index, 1);
         }
   }
 }

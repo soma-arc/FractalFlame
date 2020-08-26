@@ -13,7 +13,9 @@
     <li class="buttonLi">
       <button class="button" @click="load">Import</button>
     </li>
-    <li class="buttonLi"><button class="button" @click="saveImage">SaveImage</button></li>
+    <li class="buttonLi">
+      <button class="button" @click="saveImage">SaveImage</button>
+    </li>
   </ul>
 </header>
 </template>
