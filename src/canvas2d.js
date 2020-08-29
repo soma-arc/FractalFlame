@@ -11,8 +11,7 @@ import Circle from './circle.js';
 import Loxodromic from './loxodromic.js';
 
 const RENDER_FRAG = require('./shaders/render.frag');
-const RENDER_VERT = require('./shaders/render.vert');
-const KLEIN_VERT = require('./shaders/klein.vert');
+const RENDER_VERT_TMPL = require('./shaders/render.njk.vert');
 
 export default class Canvas2D extends Canvas {
     constructor(canvasId, scene) {
@@ -48,6 +47,7 @@ export default class Canvas2D extends Canvas {
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
 
         this.yFlipped = false;
+        this.useFinal = "Off";
     }
 
     init(){
@@ -55,23 +55,24 @@ export default class Canvas2D extends Canvas {
         this.gl = GetWebGL2Context(this.canvas);
         this.addEventListeners();
 
+        this.compileRenderShader();
+        
+        this.preparePoints();
+        this.render();
+    }
+
+    compileRenderShader() {
         this.renderProgram = this.gl.createProgram();
-        AttachShader(this.gl, RENDER_VERT,
+        AttachShader(this.gl, RENDER_VERT_TMPL.render(this.getContext()),
                      this.renderProgram, this.gl.VERTEX_SHADER);
-        //AttachShader(this.gl, KLEIN_VERT,
-        //             this.renderProgram, this.gl.VERTEX_SHADER);
         AttachShader(this.gl, RENDER_FRAG,
                      this.renderProgram, this.gl.FRAGMENT_SHADER);
         LinkProgram(this.gl, this.renderProgram);
-
         this.vPositionAttrib = this.gl.getAttribLocation(this.renderProgram,
                                                          'vPosition');
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
-
-        this.preparePoints();
-        //this.prepareKleinPoints();
         this.getUniformLocations();
-        this.render();
+
     }
 
     /**
@@ -261,6 +262,7 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_Weight'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_PostAffineParams'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_useFinal'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalPostAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
@@ -276,6 +278,7 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
         gl.uniform1fv(this.uniLocations[i++], this.uAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uPostAffine);
+        gl.uniform1i(this.uniLocations[i++], this.useFinal === "On");
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine)
         gl.uniform1fv(this.uniLocations[i++], this.uVariation);
@@ -386,5 +389,9 @@ export default class Canvas2D extends Canvas {
             reader.readAsText(files[0]);
         });
         a.click();
+    }
+
+    getContext() {
+        return {};
     }
 }

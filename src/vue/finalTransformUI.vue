@@ -1,10 +1,10 @@
 <template>
 <div>
   Final transform
-  <b-switch v-model="isSwitchedCustom"
+  <b-switch v-model="canvasManager.canvas2d.useFinal"
             true-value="On"
-            false-value="Off">{{ isSwitchedCustom }}</b-switch>
-  <div v-show="isSwitchedCustom == 'On'">
+            false-value="Off">{{ canvasManager.canvas2d.useFinal }}</b-switch>
+  <div v-show="canvasManager.canvas2d.useFinal == 'On'">
     <b-field label="Affine"></b-field>
     <b-field label="a">
       <b-slider v-model="canvasManager.canvas2d.uFinalAffine[0]"
@@ -109,7 +109,6 @@ export default {
         return {
             selectedVariation: undefined,
             finalVariationList: [],
-            isSwitchedCustom: "Off",
         }
     },
     methods: {
