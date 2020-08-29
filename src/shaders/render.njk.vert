@@ -2,7 +2,11 @@
 precision mediump float;
 
 uniform mat4 u_mvpMatrix;
-uniform float u_Weight[2];
+{% if numFunctions == 0 %}
+uniform float u_Weight[1];
+{% else %}
+uniform float u_Weight[{{ numFunctions }}];
+{% endif %}
 uniform float u_AffineParams[18];
 uniform float u_FinalAffineParams[6];
 uniform float u_PostAffineParams[18];
@@ -158,8 +162,10 @@ void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4,
     p = var1(p) * v1 + var2(p, r2) * v2 + var3(p, r2) * v3 + var4(p) * v4 + var5(p, r2) * v5;
 }
 
-void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
-    if(n < u_Weight[0]) {
+void applyTransformations(inout vec2 xy, float n, float alpha) {
+    {% if numFunctions >= 1  %}
+    float totalWeight = u_Weight[0];
+    if(n < totalWeight) {
         affine(xy,
                u_AffineParams[0], u_AffineParams[1], u_AffineParams[2],
                u_AffineParams[3], u_AffineParams[4], u_AffineParams[5]);
@@ -172,7 +178,11 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
         // post transform
         // affine(xy);
         vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
-    } else if(n < weight2) {
+    }
+    {% elif numFunctions >= 2 %}
+    {% for n in range(1, numFunctions) %}
+    else if(n < totalWeight + u_Weight[{{ n }}]) {
+        totalWeight += u_Weight[{{ n }}];
         affine(xy,
                u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
                u_AffineParams[9], u_AffineParams[10], u_AffineParams[11]);
@@ -185,20 +195,9 @@ void applyTransformations(inout vec2 xy, float n, float weight2, float alpha) {
                u_PostAffineParams[9], u_PostAffineParams[10], u_PostAffineParams[11]);
         // affine(xy);
         vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
-    } else {
-        affine(xy,
-               u_AffineParams[12], u_AffineParams[13], u_AffineParams[14],
-               u_AffineParams[15], u_AffineParams[16], u_AffineParams[17]);
-        variation(xy, u_VariationParams[10], u_VariationParams[11],
-                  u_VariationParams[12], u_VariationParams[13],
-                  u_VariationParams[14]);
-        // post transform
-        affine(xy,
-               u_PostAffineParams[12], u_PostAffineParams[13], u_PostAffineParams[14],
-               u_PostAffineParams[15], u_PostAffineParams[16], u_PostAffineParams[17]);
-        // affine(xy);
-        vColor = vec4(((vec3(0, 0, 1) + vColor.xyz)/2.), alpha);
     }
+    {% endfor %}
+    {% endif %}
 
     // Final transform
     if(u_useFinal) {
@@ -226,13 +225,12 @@ void main() {
 //  gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
 //  return;
   float alpha = 0.1;
-  float weight2 = u_Weight[0] + u_Weight[1];
 
   for (int i = 0; i < 30; i++) {
       vec2 n = rand2n(vPosition.xz, float(i));
       vec2 n2 = rand2n(vPosition.yz, float(i)*2.);
       vColor = vec4(n.x, n2.x, n2.y, alpha);
-      applyTransformations(xy, n.y, weight2, alpha);
+      applyTransformations(xy, n.y, alpha);
   }
   // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
   //vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);

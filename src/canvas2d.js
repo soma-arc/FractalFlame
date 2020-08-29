@@ -31,7 +31,7 @@ export default class Canvas2D extends Canvas {
             button: -1
         };
 
-        this.uWeight = [0.2, 0.3];
+        this.uWeight = [];
         this.uAffine = [1, 0, 0, 0, 1, 0,
                         1, 0, 0, 0, 1, 0,
                         1, 0, 0, 0, 1, 0,
@@ -359,7 +359,7 @@ export default class Canvas2D extends Canvas {
     }
 
     clear() {
-        this.uWeight = [0.2, 0.3];
+        this.uWeight = [];
         this.uAffine = [1, 0, 0, 0, 1, 0,
                         1, 0, 0, 0, 1, 0,
                         1, 0, 0, 0, 1, 0,
@@ -392,6 +392,6 @@ export default class Canvas2D extends Canvas {
     }
 
     getContext() {
-        return {};
+        return {numFunctions: this.uWeight.length};
     }
 }

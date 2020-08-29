@@ -18,6 +18,15 @@
     <b-button @click="addFunction">Add</b-button>
     <b-button @click="deleteFunction">Delete</b-button>
   </b-field>
+  <div v-for="(f, index) in functions">
+      <b-field label="Weight">
+      <b-slider 
+                v-model="f.weight"
+                v-on:dragging="sliderDragging"
+                v-on:dragend="sliderDragEnd"
+                :min="0" :max="1" :step="0.01"></b-slider>
+      </b-field>
+      </div>
   <div v-show="selectedFunction.id != -1">
   <b-field label="Affine"></b-field>
   <b-field label="a1">
@@ -123,7 +132,8 @@ export default {
             selectedFunction: {id:-1,
                                affine: [1, 0, 0, 0, 1, 0],
                                postAffine: [1, 0, 0, 0, 1, 0],
-                               variations:[]},
+                               variations:[],
+                               weights: 1},
             variationList: [],
             isSwitchedCustom: "Off",
             selectedOptions: [],
@@ -151,10 +161,23 @@ export default {
             const f = {id: this.id, name:`F${this.id}`,
                        affine: [1, 0, 0, 0, 1, 0],
                        postAffine: [1, 0, 0, 0, 1, 0],
-                       variations: []};
+                       variations: [],
+                       weight: 1};
             this.functions.push(f);
+
+            if(this.functions.length >= 2) {
+                for(let func of this.functions) {
+                    func.weight = 1.0 / this.functions.length;
+                }
+                this.canvasManager.canvas2d.uWeight.push(this.functions[0].weight);
+            } else {
+                this.canvasManager.canvas2d.uWeight.push(1);     
+            }
+
             this.id++;
             this.selectedFunction = f;
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         },
         deleteFunction: function(){
             if(this.functions.length === 0) return;
