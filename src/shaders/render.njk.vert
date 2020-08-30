@@ -4,15 +4,22 @@ precision mediump float;
 uniform mat4 u_mvpMatrix;
 {% if numFunctions == 0 %}
 uniform float u_Weight[1];
+uniform float u_AffineParams[6];
+uniform float u_PostAffineParams[6];
+uniform float u_VariationParams[5];
+uniform float u_FinalVariationParams[5];
 {% else %}
 uniform float u_Weight[{{ numFunctions }}];
+uniform float u_AffineParams[{{ numFunctions * 6 }}];
+uniform float u_PostAffineParams[{{ numFunctions * 6 }}];
+
+uniform float u_VariationParams[{{ numFunctions * 5 }}];
+uniform float u_FinalVariationParams[{{ numFunctions * 5 }}];
 {% endif %}
-uniform float u_AffineParams[18];
+
 uniform float u_FinalAffineParams[6];
-uniform float u_PostAffineParams[18];
 uniform float u_FinalPostAffineParams[6];
-uniform float u_VariationParams[15];
-uniform float u_FinalVariationParams[15];
+
 uniform bool u_yFlipped;
 uniform bool u_useFinal;
 
@@ -61,24 +68,6 @@ vec2 complexDiv(vec2 a, vec2 b) {
                 (a.y * b.x - a.x * b.y) / denom);
 }
 
-// https://github.com/soma-arc/HyperbolicBeing/blob/51d65264428505d698382c5274969f7f3430b0a6/web/scripts/optLimitSetExplorer.js
-vec2 mobiusOnPoint (vec2 p, vec2 a, vec2 b, vec2 c, vec2 d) {
-    if(p.x == INFINITY || p.y == INFINITY) {
-        if(!(c.x == 0. && c.y == 0.)) {
-            return complexDiv(a, c);
-        } else {
-            return vec2(INFINITY);
-        }
-    }
-    
-    vec2 numerix = complexProd(a, p) + b;
-    vec2 denom = complexProd(c, p) + d;
-    if(denom.x == 0. && denom.y == 0.) {
-        return vec2(INFINITY);
-    }
-    return complexDiv(numerix, denom);
-}
-
 vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
 vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
 vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
@@ -110,89 +99,90 @@ vec2 var3(vec2 p, float r2) {
 }
  
 // tangent
-// vec2 var4(vec2 p) {
-//     vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
-//     return tmp;
-// }
-// vec2 var4(vec2 p) {
-//     return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
-// }
-
-vec2 var4(in vec2 pos) {
-    pos = circleInvert(pos, c2);
-    pos = circleInvert(pos, c1);
-
-    pos = circleInvert(pos, c3);
-    
-    pos = pos - c2.xy;
-    float d = dot(pos, line.zw);
-    pos = pos - line.xy * (2.0 * d);
-    pos = pos + c2.xy;    
-
-    return pos;
+vec2 var4(vec2 p) {
+    vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
+    return tmp;
 }
+
+// vec2 var4(in vec2 pos) {
+//     pos = circleInvert(pos, c2);
+//     pos = circleInvert(pos, c1);
+
+//     pos = circleInvert(pos, c3);
+    
+//     pos = pos - c2.xy;
+//     float d = dot(pos, line.zw);
+//     pos = pos - line.xy * (2.0 * d);
+//     pos = pos + c2.xy;    
+
+//     return pos;
+// }
  
 // bubble
-// vec2 var5(in vec2 p, in float r2) {
-//     vec2 tmp = vec2(p.xy);
-//     tmp = tmp * (4.0 / (r2 + 4.0));
-//     return tmp;
-// }
-// vec2 var5(in vec2 p, in float r2) {
-//     //return mobiusOnPoint(p, u_Klein[0], u_Klein[1], u_Klein[2], u_Klein[3]);
-//     return mobiusOnPoint(p, u_Klein[4], u_Klein[5], u_Klein[6], u_Klein[7]);
-// }
-
-vec2 var5(in vec2 pos, float r2) {
-    pos = pos - c2.xy;
-    float d = dot(pos, line.zw);
-    pos = pos - line.xy * (2.0 * d);
-    pos = pos + c2.xy;
-
-    pos = circleInvert(pos, c3);
-    
-    pos = circleInvert(pos, c1);
-    pos = circleInvert(pos, c2);
-    return pos;
+vec2 var5(in vec2 p, in float r2) {
+    vec2 tmp = vec2(p.xy);
+    tmp = tmp * (4.0 / (r2 + 4.0));
+    return tmp;
 }
 
+// vec2 var5(in vec2 pos, float r2) {
+//     pos = pos - c2.xy;
+//     float d = dot(pos, line.zw);
+//     pos = pos - line.xy * (2.0 * d);
+//     pos = pos + c2.xy;
+
+//     pos = circleInvert(pos, c3);
+    
+//     pos = circleInvert(pos, c1);
+//     pos = circleInvert(pos, c2);
+//     return pos;
+// }
 
 void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
     float r2 = p.x * p.x + p.y * p.y + 0.00001;
     p = var1(p) * v1 + var2(p, r2) * v2 + var3(p, r2) * v3 + var4(p) * v4 + var5(p, r2) * v5;
 }
 
-void applyTransformations(inout vec2 xy, float n, float alpha) {
+void applyTransformations(inout vec2 xy, float rnd, float alpha) {
     {% if numFunctions >= 1  %}
     float totalWeight = u_Weight[0];
-    if(n < totalWeight) {
+    if(rnd < totalWeight) {
         affine(xy,
-               u_AffineParams[0], u_AffineParams[1], u_AffineParams[2],
-               u_AffineParams[3], u_AffineParams[4], u_AffineParams[5]);
-        variation(xy, u_VariationParams[0], u_VariationParams[1],
+               u_AffineParams[0], u_AffineParams[1],
+               u_AffineParams[2], u_AffineParams[3],
+               u_AffineParams[4], u_AffineParams[5]);
+        variation(xy,
+                  u_VariationParams[0], u_VariationParams[1],
                   u_VariationParams[2], u_VariationParams[3],
                   u_VariationParams[4]);
         affine(xy,
-               u_PostAffineParams[0], u_PostAffineParams[1], u_PostAffineParams[2],
-               u_PostAffineParams[3], u_PostAffineParams[4], u_PostAffineParams[5]);
+               u_PostAffineParams[0], u_PostAffineParams[1],
+               u_PostAffineParams[2], u_PostAffineParams[3],
+               u_PostAffineParams[4], u_PostAffineParams[5]);
         // post transform
         // affine(xy);
         vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
     }
-    {% elif numFunctions >= 2 %}
+    {% endif %}
+    {% if numFunctions >= 2 %}
     {% for n in range(1, numFunctions) %}
-    else if(n < totalWeight + u_Weight[{{ n }}]) {
+    else if(rnd < totalWeight + u_Weight[{{ n }}]) {
         totalWeight += u_Weight[{{ n }}];
         affine(xy,
-               u_AffineParams[6], u_AffineParams[7], u_AffineParams[8],
-               u_AffineParams[9], u_AffineParams[10], u_AffineParams[11]);
-        variation(xy, u_VariationParams[5], u_VariationParams[6],
-                  u_VariationParams[7], u_VariationParams[8],
-                  u_VariationParams[9]);
+               u_AffineParams[{{ n * 6 }}], u_AffineParams[{{ n * 6 + 1 }}],
+               u_AffineParams[{{ n * 6 + 2 }}], u_AffineParams[{{ n * 6 + 3 }}],
+               u_AffineParams[{{ n * 6 + 4 }}], u_AffineParams[{{ n * 6 + 5 }}]);
+        variation(xy,
+                  u_VariationParams[{{ n * 5 }}],
+                  u_VariationParams[{{ n * 5 + 1 }}],
+                  u_VariationParams[{{ n * 5 + 2 }}],
+                  u_VariationParams[{{ n * 5 + 3 }}],
+                  u_VariationParams[{{ n * 5 + 4 }}]);
         // post transform
         affine(xy,
-               u_PostAffineParams[6], u_PostAffineParams[7], u_PostAffineParams[8],
-               u_PostAffineParams[9], u_PostAffineParams[10], u_PostAffineParams[11]);
+               u_PostAffineParams[{{ n * 6 }}], u_PostAffineParams[{{ n * 6 + 1 }}],
+               u_PostAffineParams[{{ n * 6 + 2 }}], u_PostAffineParams[{{ n * 6 + 3 }}],
+               u_PostAffineParams[{{ n * 6 + 4 }}], u_PostAffineParams[{{ n * 6 + 5 }}]);
         // affine(xy);
         vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
     }

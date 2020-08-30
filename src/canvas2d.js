@@ -33,15 +33,11 @@ export default class Canvas2D extends Canvas {
 
         this.uWeight = [];
         this.uAffine = [1, 0, 0, 0, 1, 0,
-                        1, 0, 0, 0, 1, 0,
-                        1, 0, 0, 0, 1, 0,
                        ];
-        this.uVariation = [0, 0, 0, 0, 0,
-                           0, 0, 0, 0, 0,
-                           0, 0, 0, 0, 0]
+        this.functions = [];
+        this.uVariation = [-1];
         this.uPostAffine = [1, 0, 0, 0, 1, 0,
-                            1, 0, 0, 0, 1, 0,
-                            1, 0, 0, 0, 1, 0];
+                           ]
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
@@ -72,7 +68,7 @@ export default class Canvas2D extends Canvas {
                                                          'vPosition');
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
         this.getUniformLocations();
-
+        //console.log(RENDER_VERT_TMPL.render(this.getContext()))
     }
 
     /**
@@ -102,6 +98,8 @@ export default class Canvas2D extends Canvas {
         this.mouseState.button = event.button;
         this.mouseState.prevPosition = mouse;
         this.mouseState.prevTranslate = this.translate;
+
+        console.log(this.uVariation);
     }
 
     mouseUpListener(event) {
@@ -150,107 +148,14 @@ export default class Canvas2D extends Canvas {
     preparePoints() {
         this.points = [];
 
-        // const c1 = new Circle(new Vec2(-1.2, 0), 0.5);
-        // const c2 = new Circle(new Vec2(-1.5, 0), 1);
-        // const c1d =  c2.invertOnCircle(c1);
-        // const loxo = new Loxodromic(c1, c2, new Vec2(1.5, 0.5));
-        // for (let i = 0; i < 360; i++) {
-        //     // c2
-        //     let x = Math.cos(Math.PI/180.0 * i);
-        //     let y = Math.sin(Math.PI/180.0 * i);
-        //     this.points.push(x - 1.5, 0, y);
-        //     // c1
-        //     x = 0.5 * Math.cos(Math.PI/180.0 * i);
-        //     y = 0.5 * Math.sin(Math.PI/180.0 * i);
-        //     this.points.push(x - 1.2, 0, y);
-        //     // c3
-        //     x = loxo.c3.r * Math.cos(Math.PI/180.0 * i);
-        //     y = loxo.c3.r * Math.sin(Math.PI/180.0 * i);
-        //     this.points.push(x + loxo.c3.center.x,
-        //                      0,
-        //                      y + loxo.c3.center.y);
-        //     // p
-        //     x = 0.05 * Math.cos(Math.PI/180.0 * i);
-        //     y = 0.05 * Math.sin(Math.PI/180.0 * i);
-        //     this.points.push(x + loxo.p.x,
-        //                      0,
-        //                      y + loxo.p.y);
-        //     // c1d
-        //     x = loxo.c1d.r * Math.cos(Math.PI/180.0 * i);
-        //     y = loxo.c1d.r * Math.sin(Math.PI/180.0 * i);
-        //     this.points.push(x + loxo.c1d.center.x, 0,
-        //                      y + loxo.c1d.center.y);
-        // }
-
-        // for(let i = 0; i < 1000; i++) {
-        //     let l = loxo.c2.center.add(loxo.lineDir.scale(i * 0.01));
-        //     this.points.push(l.x, 0, l.y);
-        //     l = loxo.c2.center.add(loxo.lineDir.scale(-i * 0.01));
-        //     this.points.push(l.x, 0, l.y);
-        // }
-
         for (let i = 0; i < 1000000; i++) {
         //for (let i = 0; i < 1000; i++) {
             const x = (Math.random() - 0.5) * 2;
             const y = (Math.random() - 0.5) * 2;
             let pos = new Vec2(x, y);
             this.points.push(pos.x, 0, pos.y);
-            // pos = c2.invertOnPoint(pos);
-            // pos = c1.invertOnPoint(pos);
-
-            // pos = loxo.c3.invertOnPoint(pos);
-
-            // pos = pos.sub(loxo.c2.center);
-            // let d = Vec2.dot(pos, loxo.lineNormal);
-            // pos = pos.sub(loxo.lineDir.scale(2.0 * d));
-            // pos = pos.add(loxo.c2.center);
-            // for (let j = 0; j < 10; j++) {
-            //     pos = c2.invertOnPoint(pos);
-            //     pos = c1.invertOnPoint(pos);
-
-            //     pos = loxo.c3.invertOnPoint(pos);
-
-            //     pos = pos.sub(loxo.c1.center);
-            //     d = Vec2.dot(pos, loxo.lineNormal);
-            //     pos = pos.sub(loxo.lineDir.scale(2.0 * d));
-            //     pos = pos.add(loxo.c1.center);
-            // }
-
-            // pos = pos.sub(loxo.c2.center);
-            // let d = Vec2.dot(pos, loxo.lineNormal);
-            // pos = pos.sub(loxo.lineDir.scale(2.0 * d));
-            // pos = pos.add(loxo.c2.center);
-
-            // pos = loxo.c3.invertOnPoint(pos);
-
-            // pos = c1.invertOnPoint(pos);
-            // pos = c2.invertOnPoint(pos);
-            
-
-            // for (let j = 0; j < 20; j++) {
-            //     pos = pos.sub(loxo.c1.center);
-            //     d = Vec2.dot(pos, loxo.lineNormal);
-            //     pos = pos.sub(loxo.lineDir.scale(2.0 * d));
-            //     pos = pos.add(loxo.c1.center);
-
-            //     pos = loxo.c3.invertOnPoint(pos);
-                
-            //     pos = c1.invertOnPoint(pos);
-            //     pos = c2.invertOnPoint(pos);
-            // }
-            //this.points.push(pos.x, 0, pos.y);
         }
         
-        this.pointsVbo = CreateStaticVbo(this.gl, this.points);
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
-    }
-
-    prepareKleinPoints() {
-        this.points = [];
-        for (let i = 0; i < 100000; i++) {
-            const p = this.recipe.fixedPoints[i % 12];
-            this.points.push(p.re, 0, p.im);
-        }
         this.pointsVbo = CreateStaticVbo(this.gl, this.points);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
     }
@@ -276,8 +181,17 @@ export default class Canvas2D extends Canvas {
         let i = 0;
         gl.uniformMatrix4fv(this.uniLocations[i++], false, this.mvpM.m.elem);
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
-        gl.uniform1fv(this.uniLocations[i++], this.uAffine);
-        gl.uniform1fv(this.uniLocations[i++], this.uPostAffine);
+        
+        let affines = [];
+        for(const f of this.functions) {
+            affines = affines.concat(f.affine);
+        }
+        gl.uniform1fv(this.uniLocations[i++], affines);
+        let postAffines = [];
+        for(const f of this.functions) {
+            postAffines = postAffines.concat(f.postAffine);
+        }
+        gl.uniform1fv(this.uniLocations[i++], postAffines);
         gl.uniform1i(this.uniLocations[i++], this.useFinal === "On");
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine)
@@ -360,16 +274,9 @@ export default class Canvas2D extends Canvas {
 
     clear() {
         this.uWeight = [];
-        this.uAffine = [1, 0, 0, 0, 1, 0,
-                        1, 0, 0, 0, 1, 0,
-                        1, 0, 0, 0, 1, 0,
-                       ];
-        this.uVariation = [0, 0, 0, 0, 0,
-                           0, 0, 0, 0, 0,
-                           0, 0, 0, 0, 0]
-        this.uPostAffine = [1, 0, 0, 0, 1, 0,
-                            1, 0, 0, 0, 1, 0,
-                            1, 0, 0, 0, 1, 0];
+        this.uAffine = [1, 0, 0, 0, 1, 0];
+        this.uVariation = [-1]
+        this.uPostAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];

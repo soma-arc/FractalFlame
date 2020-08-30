@@ -6,7 +6,7 @@
               expanded
               v-model="selectedFunction">
       <option
-        v-for="option in functions"
+        v-for="option in canvasManager.canvas2d.functions"
         :value="option"
         :key="option.id">
         {{ option.name }}
@@ -18,13 +18,12 @@
     <b-button @click="addFunction">Add</b-button>
     <b-button @click="deleteFunction">Delete</b-button>
   </b-field>
-  <div v-for="(f, index) in functions">
+  <div v-for="(f, index) in canvasManager.canvas2d.uWeight">
       <b-field label="Weight">
-      <b-slider 
-                v-model="f.weight"
-                v-on:dragging="sliderDragging"
-                v-on:dragend="sliderDragEnd"
-                :min="0" :max="1" :step="0.01"></b-slider>
+        <b-slider v-model="canvasManager.canvas2d.uWeight[index]"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
+                  :min="0" :max="1" :step="0.01"></b-slider>
       </b-field>
       </div>
   <div v-show="selectedFunction.id != -1">
@@ -77,9 +76,11 @@
     </b-select>
   </b-field>
   <b-button @click="addVariation">Add</b-button>
-  <div v-for="(variation, index) in selectedFunction.variations">
+  <div v-for="(variation, index) in this.selectedFunction.variations">
     <b-field :label="variation.name"></b-field>
-    <b-slider v-model="selectedFunction.variations[index].v"
+    <b-slider v-model="variation.v"
+              v-on:dragging="sliderDragging"
+              v-on:dragend="sliderDragEnd"
               :min="-10" :max="10" :step="0.01"></b-slider>
     <b-button @click="deleteVariation(index)">Delete</b-button>
   </div>
@@ -133,22 +134,23 @@ export default {
                                affine: [1, 0, 0, 0, 1, 0],
                                postAffine: [1, 0, 0, 0, 1, 0],
                                variations:[],
-                               weights: 1},
-            variationList: [],
+                               weight: 1},
             isSwitchedCustom: "Off",
             selectedOptions: [],
             functions: [],
             id: 0,
             numDeleted: 0,
-            selectedVariation: undefined
+            selectedVariation: undefined,
         }
     },
     methods: {
-        addVariation: function() {
+        addVariation: function(index) {
             if (this.selectedVariation === undefined) return;
+            console.log(this.selectedVariation);
             this.selectedFunction.variations.push(this.selectedVariation);
         },
         deleteVariation: function(index) {
+            this.canvasManager.canvas2d.uVariation.splice(index, 1);
             this.selectedFunction.variations.splice(index, 1);
         },
         sliderDragging: function(){
@@ -156,34 +158,47 @@ export default {
         },
         sliderDragEnd: function() {
             this.canvasManager.canvas2d.isRendering = false;
+            console.log(this.canvasManager.canvas2d.functions);
         },
         addFunction: function() {
-            const f = {id: this.id, name:`F${this.id}`,
+            const f = {id: this.id,
+                       name:`F${this.id}`,
                        affine: [1, 0, 0, 0, 1, 0],
                        postAffine: [1, 0, 0, 0, 1, 0],
                        variations: [],
-                       weight: 1};
-            this.functions.push(f);
-
-            if(this.functions.length >= 2) {
-                for(let func of this.functions) {
-                    func.weight = 1.0 / this.functions.length;
+                       weight: [],
+                      };
+            this.canvasManager.canvas2d.functions.push(f);
+            this.canvasManager.canvas2d.uWeight.push(1);     
+            if(this.canvasManager.canvas2d.uWeight.length >= 2) {
+                const w = 1.0 / this.canvasManager.canvas2d.uWeight.length;
+                for(let i = 0; i < this.canvasManager.canvas2d.uWeight.length; i++) {
+                    this.canvasManager.canvas2d.uWeight[i] = w;
                 }
-                this.canvasManager.canvas2d.uWeight.push(this.functions[0].weight);
-            } else {
-                this.canvasManager.canvas2d.uWeight.push(1);     
             }
-
+            
             this.id++;
             this.selectedFunction = f;
             this.canvasManager.canvas2d.compileRenderShader();
             this.canvasManager.canvas2d.render();
         },
         deleteFunction: function(){
-            if(this.functions.length === 0) return;
-            this.functions.splice(this.selectedFunction.id - this.numDeleted, 1);
+            if(this.canvasManager.canvas2d.functions.length === 0 ||
+               this.canvasManager.canvas2d.uWeight.length === 0) return;
+            this.canvasManager.canvas2d.functions.splice(this.selectedFunction.id - this.numDeleted, 1);
+            this.canvasManager.canvas2d.uWeight.splice(0, 1);     
+            if(this.canvasManager.canvas2d.uWeight.length >= 2) {
+                const w = 1.0 / this.canvasManager.canvas2d.uWeight.length;
+                for(let i = 0; i < this.canvasManager.canvas2d.uWeight.length; i++) {
+                    this.canvasManager.canvas2d.uWeight[i] = w;
+                }
+            } else if (this.canvasManager.canvas2d.uWeight.length === 1){
+                this.canvasManager.canvas2d.uWeight[0] = 1;
+            }
             this.numDeleted++;
             this.selectedFunction.id = -1;
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         }
     }
 }
