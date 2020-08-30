@@ -35,7 +35,7 @@ export default class Canvas2D extends Canvas {
         this.uAffine = [1, 0, 0, 0, 1, 0,
                        ];
         this.functions = [];
-        this.uVariation = [-1];
+        this.uVariations = [];
         this.uPostAffine = [1, 0, 0, 0, 1, 0,
                            ]
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
@@ -58,6 +58,7 @@ export default class Canvas2D extends Canvas {
     }
 
     compileRenderShader() {
+        console.log(RENDER_VERT_TMPL.render(this.getContext()))
         this.renderProgram = this.gl.createProgram();
         AttachShader(this.gl, RENDER_VERT_TMPL.render(this.getContext()),
                      this.renderProgram, this.gl.VERTEX_SHADER);
@@ -68,7 +69,6 @@ export default class Canvas2D extends Canvas {
                                                          'vPosition');
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
         this.getUniformLocations();
-        //console.log(RENDER_VERT_TMPL.render(this.getContext()))
     }
 
     /**
@@ -99,7 +99,6 @@ export default class Canvas2D extends Canvas {
         this.mouseState.prevPosition = mouse;
         this.mouseState.prevTranslate = this.translate;
 
-        console.log(this.uVariation);
     }
 
     mouseUpListener(event) {
@@ -177,9 +176,11 @@ export default class Canvas2D extends Canvas {
     }
 
     setUniformValues() {
+        console.log(this.functions);
         const gl = this.gl;
         let i = 0;
-        gl.uniformMatrix4fv(this.uniLocations[i++], false, this.mvpM.m.elem);
+        gl.uniformMatrix4fv(this.uniLocations[i++],
+                            false, this.mvpM.m.elem);
         gl.uniform1fv(this.uniLocations[i++], this.uWeight);
         
         let affines = [];
@@ -194,8 +195,12 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], postAffines);
         gl.uniform1i(this.uniLocations[i++], this.useFinal === "On");
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
-        gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine)
-        gl.uniform1fv(this.uniLocations[i++], this.uVariation);
+        gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine);
+
+        // for(const f of this.functions) {
+        //     f.variations
+        // }
+        gl.uniform1fv(this.uniLocations[i++], this.uVariations);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalVariation);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
     }
@@ -245,7 +250,7 @@ export default class Canvas2D extends Canvas {
     exportParameters() {
         return {"weight": this.uWeight,
                 "affine": this.uAffine,
-                "variation": this.uVariation,
+                "variation": this.uVariations,
                 "postAffine": this.uPostAffine,
                 "finalAffine": this.uFinalAffine,
                 "finalVariation": this.uFinalVariation,
@@ -265,7 +270,7 @@ export default class Canvas2D extends Canvas {
     loadJSON(obj) {
         this.uWeight = obj['weight'];
         this.uAffine = obj['affine'];
-        this.uVariation = obj['variation'];
+        this.uVariations = obj['variation'];
         this.uPostAffine = obj['postAffine'];
         this.uFinalAffine = obj['finalAffine'];
         this.uFinalVariation = obj['finalVariation'];
@@ -275,7 +280,7 @@ export default class Canvas2D extends Canvas {
     clear() {
         this.uWeight = [];
         this.uAffine = [1, 0, 0, 0, 1, 0];
-        this.uVariation = [-1]
+        this.uVariations = [-1]
         this.uPostAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
@@ -299,6 +304,9 @@ export default class Canvas2D extends Canvas {
     }
 
     getContext() {
-        return {numFunctions: this.uWeight.length};
+        const variations = new Array(this.uWeight.length);
+        return { numFunctions: this.uWeight.length,
+                 numVariations: this.functions.length,
+               };
     }
 }

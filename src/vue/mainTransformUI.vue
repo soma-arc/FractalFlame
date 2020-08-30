@@ -76,7 +76,7 @@
     </b-select>
   </b-field>
   <b-button @click="addVariation">Add</b-button>
-  <div v-for="(variation, index) in this.selectedFunction.variations">
+  <div v-for="(variation, index) in selectedFunction.variations">
     <b-field :label="variation.name"></b-field>
     <b-slider v-model="variation.v"
               v-on:dragging="sliderDragging"
@@ -133,7 +133,7 @@ export default {
             selectedFunction: {id:-1,
                                affine: [1, 0, 0, 0, 1, 0],
                                postAffine: [1, 0, 0, 0, 1, 0],
-                               variations:[],
+                               variations: [],
                                weight: 1},
             isSwitchedCustom: "Off",
             selectedOptions: [],
@@ -148,10 +148,25 @@ export default {
             if (this.selectedVariation === undefined) return;
             console.log(this.selectedVariation);
             this.selectedFunction.variations.push(this.selectedVariation);
+
+            // this.canvasManager.canvas2d.functions;
+            // for(let f of this.canvasManager.canvas2d.functions) {
+            //     if(f.id === this.selectedFunction.id) {
+            //         f.variations.push(this.selectedVariation);
+            //         break;
+            //     }
+            // }
+            //this.canvasManager.canvas2d.uVariations.push(this.selectedVariation);
+            
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         },
         deleteVariation: function(index) {
-            this.canvasManager.canvas2d.uVariation.splice(index, 1);
+            this.canvasManager.canvas2d.uVariations.splice(index, 1);
             this.selectedFunction.variations.splice(index, 1);
+
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         },
         sliderDragging: function(){
             this.canvasManager.canvas2d.isRendering = true;
