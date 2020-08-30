@@ -9,6 +9,7 @@ import Transform from './geometry/transform.js';
 import GrandmaRecipe from './grandmaRecipe.js';
 import Circle from './circle.js';
 import Loxodromic from './loxodromic.js';
+const FLAME = require('./variationsForShader.js');
 
 const RENDER_FRAG = require('./shaders/render.frag');
 const RENDER_VERT_TMPL = require('./shaders/render.njk.vert');
@@ -307,6 +308,8 @@ export default class Canvas2D extends Canvas {
         const variations = new Array(this.uWeight.length);
         return { numFunctions: this.uWeight.length,
                  numVariations: this.functions.length,
+                 items: FLAME.VARIATIONS,
+                 variationsIndex: [0, 1, 4]
                };
     }
 }

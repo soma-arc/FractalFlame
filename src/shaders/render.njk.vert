@@ -75,6 +75,14 @@ vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
 // [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
 vec4 line = vec4(-1, 0, 0, -1);
 
+{% for n in variationsIndex %}
+{% for item in items %}
+{% if item.id == n %}
+{{ item.body }}
+  {% endif %}
+{% endfor %}
+{% endfor %}
+
 // https://ayumu-nagamatsu.com/archives/500/
 // linear
 vec2 var1(vec2 p) {
