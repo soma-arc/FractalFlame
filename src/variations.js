@@ -205,7 +205,7 @@ export function v24 (x, y, a, b, c, d) {
             Math.sin(p3 * x) - Math.cos(p4 * y)];
 }
 
-// Fane2
+// Fan2
 export function v25 (x, y, fan2x, fan2y) {
     const r = Math.sqrt(x * x + y * y);
     const theta = Math.atan(x / y);
