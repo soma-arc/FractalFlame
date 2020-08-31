@@ -83,34 +83,6 @@ vec4 line = vec4(-1, 0, 0, -1);
 {% endfor %}
 {% endfor %}
 
-// https://ayumu-nagamatsu.com/archives/500/
-// linear
-vec2 var1(vec2 p) {
-    return vec2(p.xy);
-}
- 
-// spherical
-vec2 var2(vec2 p, float r2) {
-    vec2 tmp = vec2(p.xy);
-    tmp = tmp / r2;
- 
-    return tmp;
-}
- 
-// Fisheye
-vec2 var3(vec2 p, float r2) {
-    vec2 tmp = vec2(p.xy);
-    float r = sqrt(r2);
-    tmp = tmp * (2.0 / (r + 1.0));
- 
-    return tmp;
-}
- 
-// tangent
-vec2 var4(vec2 p) {
-    vec2 tmp = vec2(sin(p.x)/cos(p.y), tan(p.y));
-    return tmp;
-}
 
 // vec2 var4(in vec2 pos) {
 //     pos = circleInvert(pos, c2);
@@ -126,13 +98,6 @@ vec2 var4(vec2 p) {
 //     return pos;
 // }
  
-// bubble
-vec2 var5(in vec2 p, in float r2) {
-    vec2 tmp = vec2(p.xy);
-    tmp = tmp * (4.0 / (r2 + 4.0));
-    return tmp;
-}
-
 // vec2 var5(in vec2 pos, float r2) {
 //     pos = pos - c2.xy;
 //     float d = dot(pos, line.zw);

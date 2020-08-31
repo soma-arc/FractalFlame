@@ -229,7 +229,7 @@ export const VARIATIONS = [
     return vec2(psi1 * p.x * cos(2 * 3.141592653589 * psi2),
                 psi1 * p.y * sin(2 * 3.141592653589 * psi2))
 }`},
-    {id:32, name "JuliaN", numParams: 4,
+    {id:32, name: "JuliaN", numParams: 4,
      body: `vec2 var32(vec2 p, float psi, float power, float dist){
     float p1 = power;
     float p2 = dist;
@@ -262,7 +262,7 @@ export const VARIATIONS = [
      return vec2(k * cos(2 * 3.141592653589 * psi5),
                  k * sin(2 * 3.141592653589 * psi5));
 }`},
-    {id:36, name:"RadialBlue" numParams: 1,
+    {id:36, name:"RadialBlur", numParams: 1,
      body: `vec2 var36(vec2 p){
     return;
 }`},
@@ -275,7 +275,7 @@ export const VARIATIONS = [
     float t2 = p2 + (2 * 3.141592653589) / p1 * (t1 + psi2 * p3);
     float psi3 = psi3;
     return vec2(psi3 * cos(t2), psi3 * sin(t2));
-}`}
+}`},
     {id:38, name:"Ngon", numParams: 6,
      body: `
 `},
@@ -302,7 +302,7 @@ export const VARIATIONS = [
      body:`vec2 var42(vec2 p){
     return vec2(sin(p.x) / cos(p.y), tan(p.y));
 }`},
-    {id:43. name:"Square", numParams: 3,
+    {id:43, name:"Square", numParams: 3,
      body: `vec2 var43(vec2 p, float psi1, float psi2){
     return vec2(psi1 - 0.5, psi2 - 0.5);
 }`},
