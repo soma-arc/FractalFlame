@@ -6,17 +6,19 @@ uniform mat4 u_mvpMatrix;
 uniform float u_Weight[1];
 uniform float u_AffineParams[6];
 uniform float u_PostAffineParams[6];
-uniform float u_VariationParams[5];
 uniform float u_FinalVariationParams[5];
 {% else %}
 uniform float u_Weight[{{ numFunctions }}];
 uniform float u_AffineParams[{{ numFunctions * 6 }}];
 uniform float u_PostAffineParams[{{ numFunctions * 6 }}];
 
-uniform float u_VariationParams[{{ numFunctions * 5 }}];
 uniform float u_FinalVariationParams[{{ numFunctions * 5 }}];
 {% endif %}
-
+{% if numVariationParams == 0 %}
+uniform float u_VariationParams[1];
+{% else %}
+uniform float u_VariationParams[{{ numVariationParams }}];
+{% endif %}
 uniform float u_FinalAffineParams[6];
 uniform float u_FinalPostAffineParams[6];
 
@@ -78,7 +80,8 @@ vec4 line = vec4(-1, 0, 0, -1);
 {% for n in variationsIndex %}
 {% for item in items %}
 {% if item.id == n %}
-{{ item.body }}
+// {{ item.name }}
+{{ item.body | safe }}
   {% endif %}
 {% endfor %}
 {% endfor %}
@@ -111,10 +114,19 @@ vec4 line = vec4(-1, 0, 0, -1);
 //     return pos;
 // }
 
-void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
-    float r2 = p.x * p.x + p.y * p.y + 0.00001;
-    p = var1(p) * v1 + var2(p, r2) * v2 + var3(p, r2) * v3 + var4(p) * v4 + var5(p, r2) * v5;
+// void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
+//     float r2 = p.x * p.x + p.y * p.y + 0.00001;
+//     p = var1(p) * v1 + var2(p, r2) * v2 + var3(p, r2) * v3 + var4(p) * v4 + var5(p, r2) * v5;
+// }
+{% for n in range(0, numFunctions) %}
+void variationF{{ n }}(inout vec2 p) {
+    vec2 tmp = vec2(0);
+    {% for variation in functions[n].variations %}
+    tmp += var{{ variation.id }}(p) * u_VariationParams[{{numVariationParamsProcess[n] + loop.index0}}];
+    {% endfor %}
+    p = tmp;
 }
+{% endfor %}
 
 void applyTransformations(inout vec2 xy, float rnd, float alpha) {
     {% if numFunctions >= 1  %}
@@ -124,10 +136,10 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_AffineParams[0], u_AffineParams[1],
                u_AffineParams[2], u_AffineParams[3],
                u_AffineParams[4], u_AffineParams[5]);
-        variation(xy,
-                  u_VariationParams[0], u_VariationParams[1],
-                  u_VariationParams[2], u_VariationParams[3],
-                  u_VariationParams[4]);
+        // variation(xy,
+        //           u_VariationParams[0], u_VariationParams[1],
+        //           u_VariationParams[2], u_VariationParams[3],
+        //           u_VariationParams[4]);
         affine(xy,
                u_PostAffineParams[0], u_PostAffineParams[1],
                u_PostAffineParams[2], u_PostAffineParams[3],
@@ -145,12 +157,12 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_AffineParams[{{ n * 6 }}], u_AffineParams[{{ n * 6 + 1 }}],
                u_AffineParams[{{ n * 6 + 2 }}], u_AffineParams[{{ n * 6 + 3 }}],
                u_AffineParams[{{ n * 6 + 4 }}], u_AffineParams[{{ n * 6 + 5 }}]);
-        variation(xy,
-                  u_VariationParams[{{ n * 5 }}],
-                  u_VariationParams[{{ n * 5 + 1 }}],
-                  u_VariationParams[{{ n * 5 + 2 }}],
-                  u_VariationParams[{{ n * 5 + 3 }}],
-                  u_VariationParams[{{ n * 5 + 4 }}]);
+        // variation(xy,
+        //           u_VariationParams[{{ n * 5 }}],
+        //           u_VariationParams[{{ n * 5 + 1 }}],
+        //           u_VariationParams[{{ n * 5 + 2 }}],
+        //           u_VariationParams[{{ n * 5 + 3 }}],
+        //           u_VariationParams[{{ n * 5 + 4 }}]);
         // post transform
         affine(xy,
                u_PostAffineParams[{{ n * 6 }}], u_PostAffineParams[{{ n * 6 + 1 }}],
@@ -168,10 +180,10 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_FinalAffineParams[0], u_FinalAffineParams[1],
                u_FinalAffineParams[2], u_FinalAffineParams[3],
                u_FinalAffineParams[4], u_FinalAffineParams[5]);
-        variation(xy,
-                  u_FinalVariationParams[0], u_FinalVariationParams[1],
-                  u_FinalVariationParams[2], u_FinalVariationParams[3],
-                  u_FinalVariationParams[4]);
+        // variation(xy,
+        //           u_FinalVariationParams[0], u_FinalVariationParams[1],
+        //           u_FinalVariationParams[2], u_FinalVariationParams[3],
+        //           u_FinalVariationParams[4]);
         affine(xy,
                u_FinalPostAffineParams[0], u_FinalPostAffineParams[1],
                u_FinalPostAffineParams[2], u_FinalPostAffineParams[3],

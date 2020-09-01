@@ -59,7 +59,7 @@ export default class Canvas2D extends Canvas {
     }
 
     compileRenderShader() {
-        console.log(RENDER_VERT_TMPL.render(this.getContext()))
+        console.log(RENDER_VERT_TMPL.render(this.getContext()));
         this.renderProgram = this.gl.createProgram();
         AttachShader(this.gl, RENDER_VERT_TMPL.render(this.getContext()),
                      this.renderProgram, this.gl.VERTEX_SHADER);
@@ -305,11 +305,31 @@ export default class Canvas2D extends Canvas {
     }
 
     getContext() {
+        let idList = [];
+        for(let f of this.functions) {
+            for(let v of f.variations) {
+                idList.push(v.id)
+            }
+        }
+        // remove duplicate
+        idList = idList.filter((item, index) => idList.indexOf(item) === index);
         const variations = new Array(this.uWeight.length);
-        return { numFunctions: this.uWeight.length,
-                 numVariations: this.functions.length,
+
+        this.numVariationParams = 0;
+        this.numVariationParamsProcess = [0]
+        for(let f of this.functions){
+            this.numVariationParamsProcess.push(f.variations.length);
+            this.numVariationParams += f.variations.length;
+        }
+        
+        
+        return { numFunctions: this.functions.length,
+                 numVariationParamsProcess: this.numVariationParamsProcess,
+                 numVariationParams: this.numVariationParams,
+                 functions: this.functions,
+                 weight: this.uWeight,
                  items: FLAME.VARIATIONS,
-                 variationsIndex: [0, 1, 4]
+                 variationsIndex: idList,
                };
     }
 }
