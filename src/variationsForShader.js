@@ -23,12 +23,12 @@ export const VARIATIONS = [
     {id:4, name: "Horseshoe", numParams: 1,
      body: `vec2 var4(vec2 p){
     float r = sqrt(dot(p, p));
-    return vec2((p.x - p.y) * (p.x + p.y) / r, (2 * p.x * p.y) / r);
+    return vec2((p.x - p.y) * (p.x + p.y) / r, (2.0 * p.x * p.y) / r);
 }`},
     {id:5, name:"Polar", numParams: 1,
      body: `vec2 var5(vec2 p){
     float r = sqrt(dot(p, p));
-    float theta = atan(p.x / p.y)
+    float theta = atan(p.x / p.y);
     return vec2(theta / 3.141592653589, r - 1.);
 }`},
     {id:6, name:"Handkerchief", numParams: 1,
@@ -134,7 +134,7 @@ export const VARIATIONS = [
 }`},
     {id: 20, name: "Cosine", numParams: 1,
      body: `vec2 var20 (vec2 p) {
-     vec2(cos(3.141592653589 * p.x) * cosh(p.y),
+     return vec2(cos(3.141592653589 * p.x) * cosh(p.y),
           -sin(3.141592653589 * p.x) * sinh(p.y));
 }`},
     {id: 21, name: "Rings", numParams: 2,
@@ -145,18 +145,18 @@ export const VARIATIONS = [
      return vec2(k * Math.cos(theta), Math.sin(theta));
 }`},
     {id: 22, name: "Fan", numParams: 3,
-     body: `vec2 var22 (vec2 p, float c, float f)
+     body: `vec2 var22 (vec2 p, float c, float f) {
      float r = sqrt(dot(p, p));
      float theta = atan(p.x / p.y);
      float t = 3.141592653589 * c * c;
      float m = mod((theta + f), t);
      if(t > t / 2.) {
-            return [r * cos(theta - t / 2.),
-                    r * sin(theta - t / 2.)];
+            return vec2(r * cos(theta - t / 2.),
+                        r * sin(theta - t / 2.));
      } else if (t <= t / 2.) {
             return vec2(r * cos(theta + t / 2.),
                         r * sin(theta + t / 2.));
-     
+     }
 }`},
     {id: 23, name: "Blob", numParams: 4,
      body: `vec2 var23 (vec2 p, float high, float low, float waves){
@@ -178,7 +178,7 @@ export const VARIATIONS = [
                 sin(p3 * x) - cos(p4 * y));
 }`},
     {id: 25, name:"Fan2", numParams: 3,
-     body: `vec2 var25 (vec2 p, float fan2x, float fan2y)
+     body: `vec2 var25 (vec2 p, float fan2x, float fan2y){
     float r = sqrt(dot(p, p));
     float theta = atan(p.x / p.y);
     float p1 = 3.141592653589 * fan2x;
@@ -296,7 +296,7 @@ export const VARIATIONS = [
      body:`vec2 var41(vec2 p, float blend, float psi){
     float s = sin(psi * 3.141592653589 * blend);
     float s2 = s * s;
-    return [s, s2 / cos(psi * 3.141592653589 * blend)];
+    return vec2(s, s2 / cos(psi * 3.141592653589 * blend));
 }`},
     {id:42, name:"Tangent", numParams: 1,
      body:`vec2 var42(vec2 p){
