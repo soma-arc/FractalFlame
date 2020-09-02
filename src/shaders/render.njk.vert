@@ -6,20 +6,24 @@ uniform mat4 u_mvpMatrix;
 uniform float u_Weight[1];
 uniform float u_AffineParams[6];
 uniform float u_PostAffineParams[6];
-uniform float u_FinalVariationParams[5];
 {% else %}
 uniform float u_Weight[{{ numFunctions }}];
 uniform float u_AffineParams[{{ numFunctions * 6 }}];
 uniform float u_PostAffineParams[{{ numFunctions * 6 }}];
 
-uniform float u_FinalVariationParams[{{ numFunctions * 5 }}];
 {% endif %}
 {% if numVariationParams == 0 %}
 uniform float u_VariationParams[1];
 {% else %}
 uniform float u_VariationParams[{{ numVariationParams }}];
 {% endif %}
+
 uniform float u_FinalAffineParams[6];
+{% if numFinalVariationParams == 0 %}
+uniform float u_FinalVariationParams[1];
+{% else %}
+uniform float u_FinalVariationParams[{{ numFinalVariationParams }}];
+{% endif %}
 uniform float u_FinalPostAffineParams[6];
 
 uniform bool u_yFlipped;
@@ -128,6 +132,14 @@ void variationF{{ n }}(inout vec2 p) {
 }
 {% endfor %}
 
+void finalVariation(inout vec2 p) {
+    vec2 tmp = vec2(0);
+    {% for variation in finalVariations %}
+    tmp += var{{ variation.id }}(p) * u_FinalVariationParams[{{ loop.index0}}];
+    {% endfor %}
+    p = tmp;
+}
+
 void applyTransformations(inout vec2 xy, float rnd, float alpha) {
     {% if numFunctions >= 1  %}
     float totalWeight = u_Weight[0];
@@ -170,10 +182,7 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_FinalAffineParams[0], u_FinalAffineParams[1],
                u_FinalAffineParams[2], u_FinalAffineParams[3],
                u_FinalAffineParams[4], u_FinalAffineParams[5]);
-        // variation(xy,
-        //           u_FinalVariationParams[0], u_FinalVariationParams[1],
-        //           u_FinalVariationParams[2], u_FinalVariationParams[3],
-        //           u_FinalVariationParams[4]);
+        finalVariation(xy);
         affine(xy,
                u_FinalPostAffineParams[0], u_FinalPostAffineParams[1],
                u_FinalPostAffineParams[2], u_FinalPostAffineParams[3],

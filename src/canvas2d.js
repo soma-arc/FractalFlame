@@ -42,9 +42,11 @@ export default class Canvas2D extends Canvas {
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
+        this.finalVariationList = [];
 
         this.yFlipped = false;
         this.useFinal = "Off";
+
     }
 
     init(){
@@ -204,9 +206,16 @@ export default class Canvas2D extends Canvas {
                 uVariations.push(v.v);
             }
         }
-        console.log(uVariations);
+
         gl.uniform1fv(this.uniLocations[i++], uVariations);
-        gl.uniform1fv(this.uniLocations[i++], this.uFinalVariation);
+
+        const uFinalVariations = []
+        for(const v of this.finalVariationList){
+            uFinalVariations.push(v.v);
+        }
+        console.log(this.finalVariationList);
+        console.log(uFinalVariations);
+        gl.uniform1fv(this.uniLocations[i++], uFinalVariations);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
     }
 
@@ -315,6 +324,10 @@ export default class Canvas2D extends Canvas {
                 idList.push(v.id)
             }
         }
+        for(let v of this.finalVariationList) {
+            idList.push(v.id)
+        }
+        
         // remove duplicate
         idList = idList.filter((item, index) => idList.indexOf(item) === index);
         const variations = new Array(this.uWeight.length);
@@ -326,10 +339,11 @@ export default class Canvas2D extends Canvas {
             this.numVariationParams += f.variations.length;
         }
         
-        
         return { numFunctions: this.functions.length,
                  numVariationParamsProcess: this.numVariationParamsProcess,
                  numVariationParams: this.numVariationParams,
+                 numFinalVariationParams: this.finalVariationList.length,
+                 finalVariations: this.finalVariationList,
                  functions: this.functions,
                  weight: this.uWeight,
                  items: FLAME.VARIATIONS,

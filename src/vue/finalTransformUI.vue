@@ -54,9 +54,11 @@
         </b-select>
       </b-field>
       <b-button @click="addVariation">Add</b-button>
-      <div v-for="(finalVariation, index) in finalVariationList">
+      <div v-for="(finalVariation, index) in canvasManager.canvas2d.finalVariationList">
         <b-field :label="finalVariation.name"></b-field>
-        <b-slider v-model="finalVariationList[index].v"
+        <b-slider v-model="finalVariation.v"
+                  v-on:dragging="sliderDragging"
+                  v-on:dragend="sliderDragEnd"
                   :min="-10" :max="10" :step="0.01"></b-slider>
         <b-button @click="deleteVariation(index)">Delete</b-button>
       </div>
@@ -114,10 +116,16 @@ export default {
     methods: {
         addVariation: function() {
             if (this.selectedVariation === undefined) return;
-            this.finalVariationList.push(this.selectedVariation);
+            this.canvasManager.canvas2d.finalVariationList.push({ ...this.selectedVariation});
+
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         },
         deleteVariation: function(index) {
-            this.finalVariationList.splice(index, 1);
+            this.canvasManager.canvas2d.finalVariationList.splice(index, 1);
+
+            this.canvasManager.canvas2d.compileRenderShader();
+            this.canvasManager.canvas2d.render();
         },
         sliderDragging: function(){
             this.canvasManager.canvas2d.isRendering = true;

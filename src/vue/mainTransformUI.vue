@@ -173,7 +173,6 @@ export default {
         },
         sliderDragEnd: function() {
             this.canvasManager.canvas2d.isRendering = false;
-            console.log(this.canvasManager.canvas2d.functions);
         },
         addFunction: function() {
             const f = {id: this.id,
