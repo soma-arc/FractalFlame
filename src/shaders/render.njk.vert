@@ -136,16 +136,12 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_AffineParams[0], u_AffineParams[1],
                u_AffineParams[2], u_AffineParams[3],
                u_AffineParams[4], u_AffineParams[5]);
-        // variation(xy,
-        //           u_VariationParams[0], u_VariationParams[1],
-        //           u_VariationParams[2], u_VariationParams[3],
-        //           u_VariationParams[4]);
+        variationF0(xy);
         affine(xy,
                u_PostAffineParams[0], u_PostAffineParams[1],
                u_PostAffineParams[2], u_PostAffineParams[3],
                u_PostAffineParams[4], u_PostAffineParams[5]);
-        // post transform
-        // affine(xy);
+
         vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
     }
     {% endif %}
@@ -157,18 +153,12 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_AffineParams[{{ n * 6 }}], u_AffineParams[{{ n * 6 + 1 }}],
                u_AffineParams[{{ n * 6 + 2 }}], u_AffineParams[{{ n * 6 + 3 }}],
                u_AffineParams[{{ n * 6 + 4 }}], u_AffineParams[{{ n * 6 + 5 }}]);
-        // variation(xy,
-        //           u_VariationParams[{{ n * 5 }}],
-        //           u_VariationParams[{{ n * 5 + 1 }}],
-        //           u_VariationParams[{{ n * 5 + 2 }}],
-        //           u_VariationParams[{{ n * 5 + 3 }}],
-        //           u_VariationParams[{{ n * 5 + 4 }}]);
+        variationF{{ n }}(xy);
         // post transform
         affine(xy,
                u_PostAffineParams[{{ n * 6 }}], u_PostAffineParams[{{ n * 6 + 1 }}],
                u_PostAffineParams[{{ n * 6 + 2 }}], u_PostAffineParams[{{ n * 6 + 3 }}],
                u_PostAffineParams[{{ n * 6 + 4 }}], u_PostAffineParams[{{ n * 6 + 5 }}]);
-        // affine(xy);
         vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
     }
     {% endfor %}
