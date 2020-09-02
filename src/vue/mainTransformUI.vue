@@ -147,8 +147,8 @@ export default {
         addVariation: function(index) {
             if (this.selectedVariation === undefined) return;
             console.log(this.selectedVariation);
-            this.selectedFunction.variations.push(this.selectedVariation);
-
+            //this.selectedFunction.variations.push(this.selectedVariation);
+            this.selectedFunction.variations.push({ ...this.selectedVariation });
             // this.canvasManager.canvas2d.functions;
             // for(let f of this.canvasManager.canvas2d.functions) {
             //     if(f.id === this.selectedFunction.id) {

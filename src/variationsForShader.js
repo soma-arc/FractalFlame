@@ -76,10 +76,10 @@ export const VARIATIONS = [
      body: `vec2 var12 (vec2 p){
      float r = sqrt(dot(p, p));
      float theta = atan(p.x / p.y);
-     const p0 = sin(theta + r);
-     const p1 = cos(theta - r);
-     const p03 = p0 * p0 * p0;
-     const p13 = p1 * p1 * p1;
+     float p0 = sin(theta + r);
+     float p1 = cos(theta - r);
+     float p03 = p0 * p0 * p0;
+     float p13 = p1 * p1 * p1;
      return vec2(r * (p03 + p13), r * (p03 - p13))
 }`},
     {id:13, name:"Julia", numParams: 2,
@@ -183,7 +183,7 @@ export const VARIATIONS = [
     float theta = atan(p.x / p.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
-    const t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
+    float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
     if (t > p1 / 2.) {
         return vec2(r * sin(theta - p1 / 2.),
                     r * cos(theta - p1 / 2.));

@@ -198,10 +198,14 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine);
 
-        // for(const f of this.functions) {
-        //     f.variations
-        // }
-        gl.uniform1fv(this.uniLocations[i++], this.uVariations);
+        const uVariations = [];
+        for(const f of this.functions) {
+            for(const v of f.variations){
+                uVariations.push(v.v);
+            }
+        }
+        console.log(uVariations);
+        gl.uniform1fv(this.uniLocations[i++], uVariations);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalVariation);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
     }
