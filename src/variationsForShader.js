@@ -35,7 +35,7 @@ export const VARIATIONS = [
      body: `vec2 var6(vec2 p) {
     float r = sqrt(dot(p, p));
     float theta = atan(p.x / p.y);
-    return vec2(r * sin(theta + r), r * cos(theta - r))
+    return vec2(r * sin(theta + r), r * cos(theta - r));
 }`},
     {id:7, name:"Heart", numParams: 1,
      body: `vec2 var7(vec2 p) {
@@ -80,7 +80,7 @@ export const VARIATIONS = [
      float p1 = cos(theta - r);
      float p03 = p0 * p0 * p0;
      float p13 = p1 * p1 * p1;
-     return vec2(r * (p03 + p13), r * (p03 - p13))
+     return vec2(r * (p03 + p13), r * (p03 - p13));
 }`},
     {id:13, name:"Julia", numParams: 2,
      body: `vec2 var13 (vec2 p, float rnd){
@@ -227,7 +227,7 @@ export const VARIATIONS = [
     {id: 31, name: "Noise",  numParams: 3,
      body: `vec2 var31(vec2 p, float psi1, float psi2) {
     return vec2(psi1 * p.x * cos(2 * 3.141592653589 * psi2),
-                psi1 * p.y * sin(2 * 3.141592653589 * psi2))
+                psi1 * p.y * sin(2 * 3.141592653589 * psi2));
 }`},
     {id:32, name: "JuliaN", numParams: 4,
      body: `vec2 var32(vec2 p, float psi, float power, float dist){
