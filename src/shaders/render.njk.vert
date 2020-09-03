@@ -74,13 +74,6 @@ vec2 complexDiv(vec2 a, vec2 b) {
                 (a.y * b.x - a.x * b.y) / denom);
 }
 
-vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
-vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
-vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
-               2.0934421415458306 * 2.0934421415458306);
-// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
-vec4 line = vec4(-1, 0, 0, -1);
-
 {% for n in variationsIndex %}
 {% for item in items %}
 {% if item.id == n %}

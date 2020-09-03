@@ -12,6 +12,7 @@ import Loxodromic from './loxodromic.js';
 const FLAME = require('./variationsForShader.js');
 
 const RENDER_FRAG = require('./shaders/render.frag');
+const RENDER_VERT = require('./shaders/render.vert');
 const RENDER_VERT_TMPL = require('./shaders/render.njk.vert');
 
 export default class Canvas2D extends Canvas {
@@ -46,7 +47,6 @@ export default class Canvas2D extends Canvas {
 
         this.yFlipped = false;
         this.useFinal = "Off";
-
     }
 
     init(){
@@ -72,6 +72,18 @@ export default class Canvas2D extends Canvas {
                                                          'vPosition');
         this.gl.enableVertexAttribArray(this.vPositionAttrib);
         this.getUniformLocations();
+        // circle
+        this.circleProgram = this.gl.createProgram();
+        AttachShader(this.gl, RENDER_VERT,
+                     this.circleProgram, this.gl.VERTEX_SHADER);
+        AttachShader(this.gl, RENDER_FRAG,
+                     this.circleProgram, this.gl.FRAGMENT_SHADER);
+        LinkProgram(this.gl, this.circleProgram);
+        this.vCirclePositionAttrib = this.gl.getAttribLocation(this.circleProgram,
+                                                         'vPosition');
+        this.gl.enableVertexAttribArray(this.vCirclePositionAttrib);
+
+        this.circleUniform = this.gl.getUniformLocation(this.circleProgram, 'u_mvpMatrix');
     }
 
     /**
@@ -149,7 +161,7 @@ export default class Canvas2D extends Canvas {
     
     preparePoints() {
         this.points = [];
-
+        this.circlePoints = [];
         for (let i = 0; i < 1000000; i++) {
         //for (let i = 0; i < 1000; i++) {
             const x = (Math.random() - 0.5) * 2;
@@ -157,9 +169,34 @@ export default class Canvas2D extends Canvas {
             let pos = new Vec2(x, y);
             this.points.push(pos.x, 0, pos.y);
         }
+
+        for (let i = 0; i < 1000; i++) {
+            const x = 0.5 * Math.cos(i) + -1.2;
+            const y = 0.5 * Math.sin(i);
+
+            this.circlePoints.push(x, 0, y);
+        }
+        for (let i = 0; i < 1000; i++) {
+            const x = 1. * Math.cos(i) + -1.5;
+            const y = 1. * Math.sin(i);
+            this.circlePoints.push(x, 0, y);
+        }
+        for (let i = 0; i < 1000; i++) {
+            const x = 2.0934421415458306 * Math.cos(i) -0.1;
+            const y = 2.0934421415458306 * Math.sin(i) +1.85;
+            this.circlePoints.push(x, 0, y);
+        }
+        for (let i = -500; i < 500; i++) {
+            let dir = new Vec2(-1, 0);
+            dir = dir.scale(i);
+            this.circlePoints.push(i * 0.01, 0, 0);
+        }
         
         this.pointsVbo = CreateStaticVbo(this.gl, this.points);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
+
+        this.circlePointsVbo = CreateStaticVbo(this.gl, this.circlePoints);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.circlePointsVbo);
     }
 
     getUniformLocations() {
@@ -179,7 +216,7 @@ export default class Canvas2D extends Canvas {
     }
 
     setUniformValues() {
-        console.log(this.functions);
+        //console.log(this.functions);
         const gl = this.gl;
         let i = 0;
         gl.uniformMatrix4fv(this.uniLocations[i++],
@@ -213,8 +250,8 @@ export default class Canvas2D extends Canvas {
         for(const v of this.finalVariationList){
             uFinalVariations.push(v.v);
         }
-        console.log(this.finalVariationList);
-        console.log(uFinalVariations);
+        //console.log(this.finalVariationList);
+        //console.log(uFinalVariations);
         gl.uniform1fv(this.uniLocations[i++], uFinalVariations);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
     }
@@ -229,7 +266,7 @@ export default class Canvas2D extends Canvas {
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+        gl.useProgram(this.renderProgram)
         gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointsVbo);
         const attStride = 3;
         gl.vertexAttribPointer(this.vPositionAttrib, attStride, this.gl.FLOAT, false, 0, 0);
@@ -247,9 +284,16 @@ export default class Canvas2D extends Canvas {
 
         this.mvpM = projectM.mult(viewM);
         this.setUniformValues();
-        
 
         gl.drawArrays(gl.POINTS, 0, this.points.length/3);
+        gl.flush();
+
+        gl.useProgram(this.circleProgram);
+        gl.bindBuffer(this.gl.ARRAY_BUFFER, this.circlePointsVbo);
+        gl.vertexAttribPointer(this.vCirclePositionAttrib, attStride, this.gl.FLOAT, false, 0, 0);
+        gl.uniformMatrix4fv(this.circleUniform,
+                            false, this.mvpM.m.elem);
+        gl.drawArrays(gl.POINTS, 0, this.circlePoints.length/3);
         gl.flush();
     }
 
@@ -292,13 +336,17 @@ export default class Canvas2D extends Canvas {
     }
 
     clear() {
+        this.selectedFunction.variations = [];
+        this.functions = [];
+        this.finalVariationList = []
         this.uWeight = [];
         this.uAffine = [1, 0, 0, 0, 1, 0];
-        this.uVariations = [-1]
+        this.uVariations = []
         this.uPostAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
+        this.compileRenderShader();
         this.render();
     }
 

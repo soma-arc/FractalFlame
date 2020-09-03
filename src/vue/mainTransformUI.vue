@@ -136,7 +136,6 @@ export default {
                                variations: [],
                                weight: 1},
             isSwitchedCustom: "Off",
-            selectedOptions: [],
             functions: [],
             id: 0,
             numDeleted: 0,
@@ -146,18 +145,7 @@ export default {
     methods: {
         addVariation: function(index) {
             if (this.selectedVariation === undefined) return;
-            console.log(this.selectedVariation);
-            //this.selectedFunction.variations.push(this.selectedVariation);
             this.selectedFunction.variations.push({ ...this.selectedVariation });
-            // this.canvasManager.canvas2d.functions;
-            // for(let f of this.canvasManager.canvas2d.functions) {
-            //     if(f.id === this.selectedFunction.id) {
-            //         f.variations.push(this.selectedVariation);
-            //         break;
-            //     }
-            // }
-            //this.canvasManager.canvas2d.uVariations.push(this.selectedVariation);
-            
             this.canvasManager.canvas2d.compileRenderShader();
             this.canvasManager.canvas2d.render();
         },

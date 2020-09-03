@@ -338,7 +338,52 @@ export const VARIATIONS = [
     float n = (p.x * p.x - p.y * p.y);
     float k = sqrt(1 / (n * n));
     return vec2(k * x, k * y);
-}`}]
+}`},
+    {id:49, name:"Loxodromic", numParams: 1,
+     body: `
+vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
+vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
+vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
+               2.0934421415458306 * 2.0934421415458306);
+// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
+vec4 line = vec4(-1, 0, 0, -1);
+     vec2 var49(vec2 pos) {
+     pos = circleInvert(pos, c2);
+     pos = circleInvert(pos, c1);
+
+     pos = circleInvert(pos, c3);
+    
+     pos = pos - c2.xy;
+     float d = dot(pos, line.zw);
+     pos = pos - line.xy * (2.0 * d);
+     pos = pos + c2.xy;
+     return pos;
+}
+
+`},
+    {id:50, name:"Loxodromic2", numParams: 1,
+     body: `
+vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
+vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
+vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
+               2.0934421415458306 * 2.0934421415458306);
+// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
+vec4 line = vec4(-1, 0, 0, -1);
+
+vec2 var50(in vec2 pos) {
+    pos = pos - c2.xy;
+    float d = dot(pos, line.zw);
+    pos = pos - line.xy * (2.0 * d);
+    pos = pos + c2.xy;
+
+    pos = circleInvert(pos, c3);
+    
+    pos = circleInvert(pos, c1);
+    pos = circleInvert(pos, c2);
+    return pos;
+}
+
+`}];
 
 //Λ is a random variable that is either -1 or 1. Ψ is a random variable
 //uniformally distributed on the interval [0, 1]. The ’trunc’ function returns the

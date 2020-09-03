@@ -77,6 +77,8 @@ export default {
                          {id: 46, name:'Secant', v:0},
                          {id: 47, name:'Twintrian', v:0},
                          {id: 48, name:'Cross', v:0},
+                         {id: 49, name:'Loxodromic', v:0},
+                         {id: 50, name:'Loxodromic2', v:0},
                         ]
         }
     },
