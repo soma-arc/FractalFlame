@@ -33,6 +33,10 @@ in vec3 vPosition;
 //in vec4 color;
 out vec4 vColor;
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 vec2 rand2n(const vec2 co, const float sampleIndex) {
     vec2 seed = co * (sampleIndex + 1.0);
     seed+=vec2(-1,1);
@@ -56,24 +60,6 @@ void affine(inout vec2 p, float a, float b, float c, float d, float e, float f) 
     p.y = d*x + e*y + f;
 }
 
-vec2 complexProd(vec2 a, vec2 b) {
-    return vec2(a.x * b.x - a.y * b.y,
-                a.x * b.y + a.y * b.x);
-
-}
-
-const float INFINITY = 999999.;
-vec2 complexDiv(vec2 a, vec2 b) {
-    float denom = b.x * b.x + b.y * b.y;
-	if(denom == 0.){
-	    return vec2(INFINITY);
-	}else if(denom == INFINITY){
-	    return vec2(0, 0);
-	}
-	return vec2((a.x * b.x + a.y * b.y) / denom,
-                (a.y * b.x - a.x * b.y) / denom);
-}
-
 {% for n in variationsIndex %}
 {% for item in items %}
 {% if item.id == n %}
@@ -83,38 +69,6 @@ vec2 complexDiv(vec2 a, vec2 b) {
 {% endfor %}
 {% endfor %}
 
-
-// vec2 var4(in vec2 pos) {
-//     pos = circleInvert(pos, c2);
-//     pos = circleInvert(pos, c1);
-
-//     pos = circleInvert(pos, c3);
-    
-//     pos = pos - c2.xy;
-//     float d = dot(pos, line.zw);
-//     pos = pos - line.xy * (2.0 * d);
-//     pos = pos + c2.xy;    
-
-//     return pos;
-// }
- 
-// vec2 var5(in vec2 pos, float r2) {
-//     pos = pos - c2.xy;
-//     float d = dot(pos, line.zw);
-//     pos = pos - line.xy * (2.0 * d);
-//     pos = pos + c2.xy;
-
-//     pos = circleInvert(pos, c3);
-    
-//     pos = circleInvert(pos, c1);
-//     pos = circleInvert(pos, c2);
-//     return pos;
-// }
-
-// void variation(inout vec2 p, in float v1, in float v2, in float v3, in float v4, in float v5) {
-//     float r2 = p.x * p.x + p.y * p.y + 0.00001;
-//     p = var1(p) * v1 + var2(p, r2) * v2 + var3(p, r2) * v3 + var4(p) * v4 + var5(p, r2) * v5;
-// }
 {% for n in range(0, numFunctions) %}
 void variationF{{ n }}(inout vec2 p) {
     vec2 tmp = vec2(0);
@@ -188,9 +142,7 @@ void main() {
   float y = vPosition.z;
 
   vec2 xy = vec2(x, y);
-//  vColor = vec4(1, 0, 0, 1);
-//  gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
-//  return;
+
   float alpha = 0.1;
 
   for (int i = 0; i < 30; i++) {
@@ -199,12 +151,11 @@ void main() {
       vColor = vec4(n.x, n2.x, n2.y, alpha);
       applyTransformations(xy, n.y, alpha);
   }
-  // vColor = vec4(u_Mobius[0].x, u_Mobius[0].y, 0, alpha);
-  //vColor = vec4(u_Weight[0], u_Weight[1], 0, alpha);
+
   if(u_yFlipped) {
       xy.y *= -1.;
   }
-  //vColor = clamp(vColor, 0.0, 1.0);
+
   gl_Position = u_mvpMatrix * vec4(vec3(xy.x, 0, xy.y), 1.0);
   gl_PointSize = 1.;
 }

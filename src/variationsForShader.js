@@ -83,13 +83,14 @@ export const VARIATIONS = [
      return vec2(r * (p03 + p13), r * (p03 - p13));
 }`},
     {id:13, name:"Julia", numParams: 2,
-     body: `vec2 var13 (vec2 p, float rnd){
+     body: `vec2 var13 (vec2 p){
      float r = sqrt(dot(p, p));
      float theta = atan(p.x / p.y);
      float sqrtR = sqrt(r);
+     float rnd = rand(p);
      float omega = rnd < 0.5 ? 0.0 : 3.141592653589;
-     return vec2(sqrtR * cos(theta / 2 + omega),
-                 sqrtR * sin(theta / 2 + omega));
+     return vec2(sqrtR * cos(theta / 2. + omega),
+                 sqrtR * sin(theta / 2. + omega));
 }`},
     {id:14, name:"Bent", numParams: 1,
      body: `vec2 var14 (vec2 p){
@@ -225,9 +226,12 @@ export const VARIATIONS = [
     return vec2(k * p.x, k * p.y * cos(p1));
 }`},
     {id: 31, name: "Noise",  numParams: 3,
-     body: `vec2 var31(vec2 p, float psi1, float psi2) {
-    return vec2(psi1 * p.x * cos(2 * 3.141592653589 * psi2),
-                psi1 * p.y * sin(2 * 3.141592653589 * psi2));
+     body: `vec2 var31(vec2 p) {
+    vec2 rnd2 = rand2n(p, rand(p));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    return vec2(psi1 * p.x * cos(2. * 3.141592653589 * psi2),
+                psi1 * p.y * sin(2. * 3.141592653589 * psi2));
 }`},
     {id:32, name: "JuliaN", numParams: 4,
      body: `vec2 var32(vec2 p, float psi, float power, float dist){
@@ -251,16 +255,25 @@ export const VARIATIONS = [
     return vec2(k * cos(t), k * sin(t));
 }`},
     {id:34, name:"Blur", numParams: 3,
-     body: `vec2 var34(vec2 p, float psi1, float psi2) {
-    return vec2(psi1 * cos(2 * 3.141592653589 * psi2),
-                psi1 * sin(2 * 3.141592653589 * psi2));
+     body: `vec2 var34(vec2 p) {
+    vec2 rnd2 = rand2n(p, rand(p));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    return vec2(psi1 * cos(2. * 3.141592653589 * psi2),
+                psi1 * sin(2. * 3.141592653589 * psi2));
 }`},
     {id:35, name:"Gaussian", numParams: 3,
-     body: `vec2 var35(vec2 p, float psi1, float psi2, 
-                       float psi3, float psi4, float psi5){
+     body: `vec2 var35(vec2 p){
+     vec2 rnd1 = rand2n(p, rand(p));
+     float psi1 = rnd1.x;
+     float psi2 = rnd1.y;
+     vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(p));
+     float psi3 = rnd2.x;
+     float psi4 = rnd2.y;
+     float psi5 = rand(p);
      float k = psi1 + psi2 + psi3 + psi4 - 2.;
-     return vec2(k * cos(2 * 3.141592653589 * psi5),
-                 k * sin(2 * 3.141592653589 * psi5));
+     return vec2(k * cos(2. * 3.141592653589 * psi5),
+                 k * sin(2. * 3.141592653589 * psi5));
 }`},
     {id:36, name:"RadialBlur", numParams: 1,
      body: `vec2 var36(vec2 p){
@@ -303,8 +316,9 @@ export const VARIATIONS = [
     return vec2(sin(p.x) / cos(p.y), tan(p.y));
 }`},
     {id:43, name:"Square", numParams: 3,
-     body: `vec2 var43(vec2 p, float psi1, float psi2){
-    return vec2(psi1 - 0.5, psi2 - 0.5);
+     body: `vec2 var43(vec2 p){
+     vec2 rnd1 = rand2n(p, rand(p));
+     return vec2(rnd1.x - 0.5, rnd1.y - 0.5);
 }`},
     {id:44, name:"Rays", numParams: 3,
      body: `vec2 var44(vec2 p, float blend, float psi){
