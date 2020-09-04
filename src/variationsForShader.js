@@ -367,9 +367,11 @@ vec4 line = vec4(-1, 0, 0, -1);
 
      pos = circleInvert(pos, c3);
     
+// The line is pass through the center of c2,
+// thus subtract c2.xy, and the line path through the origin.
      pos = pos - c2.xy;
      float d = dot(pos, line.zw);
-     pos = pos - line.xy * (2.0 * d);
+     pos = pos - line.zw * (2.0 * d);
      pos = pos + c2.xy;
      return pos;
 }
@@ -387,7 +389,7 @@ vec4 line = vec4(-1, 0, 0, -1);
 vec2 var50(in vec2 pos) {
     pos = pos - c2.xy;
     float d = dot(pos, line.zw);
-    pos = pos - line.xy * (2.0 * d);
+    pos = pos - line.zw * (2.0 * d);
     pos = pos + c2.xy;
 
     pos = circleInvert(pos, c3);
