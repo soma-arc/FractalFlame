@@ -399,7 +399,98 @@ vec2 var50(in vec2 pos) {
     return pos;
 }
 
+`},
+    {id:51, name:"LoxoScale", numParams: 1,
+     body: `
+vec2 var51(in vec2 pos) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
+    tmp = complexProd(tmp, lambda);
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}
+`},
+{id:52, name:"LoxoScale2", numParams: 1,
+     body: `
+vec2 var52(in vec2 pos) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
+    tmp = complexProd(tmp, lambda);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}
+`},
+    {id:53, name:"LoxoSwirlA", numParams: 1,
+     body: `
+vec2 var53(in vec2 pos) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float r2 = dot(tmp, tmp);
+    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
+               tmp.x * cos(r2) + tmp.y * sin(r2));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}
+`},
+{id:54, name:"LoxoSwirlB", numParams: 1,
+     body: `
+vec2 var54(in vec2 pos) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float r2 = dot(tmp, tmp);
+    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
+               tmp.x * cos(r2) + tmp.y * sin(r2));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}
+`},
+    {id:55, name:"LoxoTangentA", numParams: 1,
+     body: `
+vec2 var55(in vec2 pos) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}
+`},
+{id:56, name:"LoxoTangentB", numParams: 1,
+     body: `
+vec2 var56(in vec2 pos) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}
 `}];
+
 
 //Λ is a random variable that is either -1 or 1. Ψ is a random variable
 //uniformally distributed on the interval [0, 1]. The ’trunc’ function returns the

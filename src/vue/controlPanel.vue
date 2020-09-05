@@ -79,6 +79,12 @@ export default {
                          {id: 48, name:'Cross', v:0},
                          {id: 49, name:'Loxodromic', v:0},
                          {id: 50, name:'Loxodromic2', v:0},
+                         {id: 51, name:'LoxoScale', v:0},
+                         {id: 52, name:'LoxoScale2', v:0},
+                         {id: 53, name:'LoxoSwirlA', v:0},
+                         {id: 54, name:'LoxoSwirlB', v:0},
+                         {id: 55, name:'LoxoTangentA', v:0},
+                         {id: 56, name:'LoxoTangentB', v:0},
                         ]
         }
     },

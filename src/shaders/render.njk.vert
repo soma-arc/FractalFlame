@@ -60,6 +60,24 @@ void affine(inout vec2 p, float a, float b, float c, float d, float e, float f) 
     p.y = d*x + e*y + f;
 }
 
+vec2 complexProd(vec2 a, vec2 b) {
+    return vec2(a.x * b.x - a.y * b.y,
+                a.x * b.y + a.y * b.x);
+
+}
+
+const float INFINITY = 999999.;
+vec2 complexDiv(vec2 a, vec2 b) {
+    float denom = b.x * b.x + b.y * b.y;
+	if(denom == 0.){
+	    return vec2(INFINITY);
+	}else if(denom == INFINITY){
+	    return vec2(0, 0);
+	}
+	return vec2((a.x * b.x + a.y * b.y) / denom,
+                (a.y * b.x - a.x * b.y) / denom);
+}
+
 {% for n in variationsIndex %}
 {% for item in items %}
 {% if item.id == n %}

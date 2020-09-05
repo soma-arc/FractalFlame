@@ -47,6 +47,12 @@ export default class Canvas2D extends Canvas {
 
         this.yFlipped = false;
         this.useFinal = "Off";
+
+        this.selectedFunction = {id:-1,
+                                 affine: [1, 0, 0, 0, 1, 0],
+                                 postAffine: [1, 0, 0, 0, 1, 0],
+                                 variations: [],
+                                 weight: 1};
     }
 
     init(){
@@ -95,8 +101,8 @@ export default class Canvas2D extends Canvas {
      */
     calcCanvasCoord(mx, my) {
         const rect = this.canvas.getBoundingClientRect();
-        return new Vec2((mx - rect.left - this.canvas.width/2) / this.scale,
-                        (my - rect.top - this.canvas.height/2) / this.scale);
+        return new Vec2(2. * (mx - rect.left - this.canvas.width/2) / this.scale,
+                        2. * (my - rect.top - this.canvas.height/2) / this.scale);
     }
 
     calcOriginalCoord() {
@@ -110,6 +116,7 @@ export default class Canvas2D extends Canvas {
         this.canvas.focus();
         this.mouseState.isPressing = true;
         const mouse = this.calcCanvasCoord(event.clientX, event.clientY);
+        console.log(`${mouse.x}, ${mouse.y}`);
         this.mouseState.button = event.button;
         this.mouseState.prevPosition = mouse;
         this.mouseState.prevTranslate = this.translate;
@@ -288,13 +295,13 @@ export default class Canvas2D extends Canvas {
         gl.drawArrays(gl.POINTS, 0, this.points.length/3);
         gl.flush();
 
-        gl.useProgram(this.circleProgram);
-        gl.bindBuffer(this.gl.ARRAY_BUFFER, this.circlePointsVbo);
-        gl.vertexAttribPointer(this.vCirclePositionAttrib, attStride, this.gl.FLOAT, false, 0, 0);
-        gl.uniformMatrix4fv(this.circleUniform,
-                            false, this.mvpM.m.elem);
-        gl.drawArrays(gl.POINTS, 0, this.circlePoints.length/3);
-        gl.flush();
+        // gl.useProgram(this.circleProgram);
+        // gl.bindBuffer(this.gl.ARRAY_BUFFER, this.circlePointsVbo);
+        // gl.vertexAttribPointer(this.vCirclePositionAttrib, attStride, this.gl.FLOAT, false, 0, 0);
+        // gl.uniformMatrix4fv(this.circleUniform,
+        //                     false, this.mvpM.m.elem);
+        // gl.drawArrays(gl.POINTS, 0, this.circlePoints.length/3);
+        // gl.flush();
     }
 
     saveFlame(width, height) {
@@ -336,7 +343,7 @@ export default class Canvas2D extends Canvas {
     }
 
     clear() {
-        this.selectedFunction.variations = [];
+        //this.selectedFunction.variations = [];
         this.functions = [];
         this.finalVariationList = []
         this.uWeight = [];
