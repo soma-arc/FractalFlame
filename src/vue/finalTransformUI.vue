@@ -60,6 +60,13 @@
                   v-on:dragging="sliderDragging"
                   v-on:dragend="sliderDragEnd"
                   :min="-10" :max="10" :step="0.01"></b-slider>
+        <div v-for="param in finalVariation.params">
+          <b-field :label="param.name"></b-field>
+          <b-slider v-model="param.v"
+                    v-on:dragging="sliderDragging"
+                    v-on:dragend="sliderDragEnd"
+                    :min="-10" :max="10" :step="0.01"></b-slider>
+        </div>
         <b-button @click="deleteVariation(index)">Delete</b-button>
       </div>
       <b-field label="Post transform">

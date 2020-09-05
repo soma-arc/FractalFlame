@@ -82,6 +82,13 @@
               v-on:dragging="sliderDragging"
               v-on:dragend="sliderDragEnd"
               :min="-10" :max="10" :step="0.01"></b-slider>
+    <div v-for="param in variation.params">
+      <b-field :label="param.name"></b-field>
+      <b-slider v-model="param.v"
+                v-on:dragging="sliderDragging"
+                v-on:dragend="sliderDragEnd"
+                :min="-10" :max="10" :step="0.01"></b-slider>
+    </div>
     <b-button @click="deleteVariation(index)">Delete</b-button>
   </div>
   <b-field label="Post transform"></b-field>
@@ -146,6 +153,11 @@ export default {
         addVariation: function(index) {
             if (this.selectedVariation === undefined) return;
             this.selectedFunction.variations.push({ ...this.selectedVariation });
+            for(const v of this.selectedFunction.variations) {
+                for(let i = 0; i < v.params.length; i++){
+                    v.params[i] = { ...v.params[i] };
+                }
+            }
             this.canvasManager.canvas2d.compileRenderShader();
             this.canvasManager.canvas2d.render();
         },

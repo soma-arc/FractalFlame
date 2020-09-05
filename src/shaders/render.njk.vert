@@ -91,7 +91,13 @@ vec2 complexDiv(vec2 a, vec2 b) {
 void variationF{{ n }}(inout vec2 p) {
     vec2 tmp = vec2(0);
     {% for variation in functions[n].variations %}
-    tmp += var{{ variation.id }}(p, u_VariationParams[{{numVariationParamsProcess[n] + loop.index0}}]) * u_VariationParams[{{numVariationParamsProcess[n] + loop.index0}}];
+    {% set outer_loop = loop %}
+    const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
+    tmp += var{{ variation.id }}(p, u_VariationParams[{{numVariationParamsProcess[outer_loop.index0] + loop.index0 }}]
+    {% for param in variation.params %}
+        , u_VariationParams[1 + {{ numVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }}]
+    {% endfor %}
+    ) * u_VariationParams[{{numVariationParamsProcess[outer_loop.index0] + loop.index0}}];
     {% endfor %}
     p = tmp;
 }

@@ -248,9 +248,13 @@ export default class Canvas2D extends Canvas {
         for(const f of this.functions) {
             for(const v of f.variations){
                 uVariations.push(v.v);
+                for(const p of v.params) {
+                    uVariations.push(p.v);
+                }
             }
         }
-
+        console.log('uVariations');
+        console.log(uVariations);
         gl.uniform1fv(this.uniLocations[i++], uVariations);
 
         const uFinalVariations = []
@@ -388,12 +392,20 @@ export default class Canvas2D extends Canvas {
         const variations = new Array(this.uWeight.length);
 
         this.numVariationParams = 0;
-        this.numVariationParamsProcess = [0]
+        this.numVariationParamsProcess = [0];
+        let prev = this.numVariationParamsProcess[0];
         for(let f of this.functions){
-            this.numVariationParamsProcess.push(f.variations.length);
+            let num = 1;
             this.numVariationParams += f.variations.length;
+            for(let v of f.variations) {
+                this.numVariationParams += v.params.length;
+                num += v.params.length;
+                this.numVariationParamsProcess.push(v.params.length);
+                prev = this.numVariationParamsProcess[
+                    this.numVariationParamsProcess.length - 1];
+            }
         }
-        
+        console.log(this.numVariationParamsProcess);
         return { numFunctions: this.functions.length,
                  numVariationParamsProcess: this.numVariationParamsProcess,
                  numVariationParams: this.numVariationParams,
