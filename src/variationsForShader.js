@@ -279,24 +279,41 @@ export const VARIATIONS = [
      return vec2(k * cos(2. * 3.141592653589 * psi5),
                  k * sin(2. * 3.141592653589 * psi5));
 }`},
-    {id:36, name:"RadialBlur", numParams: 0,
-     body: `vec2 var36(vec2 p, float v){
-    return;
+    {id:36, name:"RadialBlur", numParams: 1,
+     body: `vec2 var36(vec2 p, float v, float angle){
+     float p1 = angle * (3.141592653589 * 0.5);
+     vec2 rnd1 = rand2n(p, rand(p));
+     float psi1 = rnd1.x;
+     float psi2 = rnd1.y;
+     vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(p));
+     float psi3 = rnd2.x;
+     float psi4 = rnd2.y;
+     float t1 = psi1 + psi2 + psi3 + psi4 - 2.;
+     float phi = atan(p.y / p.x);
+     float t2 = phi + t1 * sin(p1);
+     float t3 = t1 * cos(p1) - 1.0;
+     float r = sqrt(dot(p, p));
+     return vec2((r * cos(t2) + t3 * p.x)/v,
+                 (r * sin(t2) + t3 * p.y)/v);
 }`},
-    {id:37, name:"Pie", numParams: 7,
-     body: `vec2 var37(vec2 p, float v, float slices, float rotation, float thickness, float psi1, flat psi2, float psi3){
-    float p1 = slices;
-    float p2 = rotation;
-    float p3 = thickness;
-    float t1 = trunc(psi1 * p1 + 0.5);
-    float t2 = p2 + (2 * 3.141592653589) / p1 * (t1 + psi2 * p3);
-    float psi3 = psi3;
-    return vec2(psi3 * cos(t2), psi3 * sin(t2));
+    {id:37, name:"Pie", numParams: 3,
+     body: `vec2 var37(vec2 p, float v, float slices, float rotation, float thickness){
+     vec2 rnd1 = rand2n(p, rand(p));
+     float psi1 = rnd1.x;
+     float psi2 = rnd1.y;
+     float psi3 = rand(p + vec2(psi2, psi1));
+     float p1 = slices;
+     float p2 = rotation;
+     float p3 = thickness;
+     float t1 = trunc(psi1 * p1 + 0.5);
+     float t2 = p2 + (2 * 3.141592653589) / p1 * (t1 + psi2 * p3);
+     float psi3 = psi3;
+     return vec2(psi3 * cos(t2), psi3 * sin(t2));
 }`},
     {id:38, name:"Ngon", numParams: 6,
      body: `
 `},
-    {id:39, name:"Curl", numParams: 3,
+    {id:39, name:"Curl", numParams: 2,
      body: `vec2 var39(vec2 p, float v, float c1, float c2) {
     float p1 = c1;
     float p2 = c2;
@@ -309,30 +326,30 @@ export const VARIATIONS = [
     {id:40, name:"Rectangles", numParams: 4,
      body:`
 `},
-    {id:41, name:"Arch", numParams: 3,
+    {id:41, name:"Arch", numParams: 0,
      body:`vec2 var41(vec2 p, float v){
     float psi = rand(p);
     float s = sin(psi * 3.141592653589 * v);
     float s2 = s * s;
     return vec2(s, s2 / cos(psi * 3.141592653589 * v));
 }`},
-    {id:42, name:"Tangent", numParams: 1,
+    {id:42, name:"Tangent", numParams: 0,
      body:`vec2 var42(vec2 p, float v){
     return vec2(sin(p.x) / cos(p.y), tan(p.y));
 }`},
-    {id:43, name:"Square", numParams: 3,
+    {id:43, name:"Square", numParams: 0,
      body: `vec2 var43(vec2 p, float v){
      vec2 rnd1 = rand2n(p, rand(p));
      return vec2(rnd1.x - 0.5, rnd1.y - 0.5);
 }`},
-    {id:44, name:"Rays", numParams: 3,
+    {id:44, name:"Rays", numParams: 0,
      body: `vec2 var44(vec2 p, float v){
     float r2 = dot(p, p);
     float psi = rand(p);
     float k = (v * tan(psi * 3.141592653589 * v)) / r2;
     return vec2(k * cos(p.x), k * sin(p.y));
 }`},
-    {id:45, name:"Blade", numParams: 3,
+    {id:45, name:"Blade", numParams: 0,
      body:`vec2 var45(vec2 p, float v){
     float psi = rand(p);
     float r = sqrt(dot(p, p));
@@ -340,12 +357,12 @@ export const VARIATIONS = [
     float s = sin(psi * r * v);
     return vec2(p.x * (c + s), p.x * (c - s));
 }`},
-    {id:46, name:"Secant", numParams: 2,
+    {id:46, name:"Secant", numParams: 0,
      body:`vec2 var46(vec2 p, float v){
     float r = sqrt(dot(p, p));
     return vec2(p.x, 1.0 / (v * cos(v * r)));
 }`},
-    {id:47, name:"Twintrian", numParams: 2,
+    {id:47, name:"Twintrian", numParams: 0,
      body: `vec2 var47(vec2 p, float v){
     float psi = rand(p);
     float r = sqrt(dot(p, p));
@@ -355,13 +372,13 @@ export const VARIATIONS = [
     return vec2(p.x * t,
                 p.x * (t - 3.141592653589 * sin(psi * r * v)));
 }`},
-    {id:48, name:"Cross", numParams: 2,
+    {id:48, name:"Cross", numParams: 0,
      body: `vec2 var48(vec2 p, float v){
     float n = (p.x * p.x - p.y * p.y);
     float k = sqrt(1.0 / (n * n));
     return vec2(k * p.x, k * p.y);
 }`},
-    {id:49, name:"Loxodromic", numParams: 1,
+    {id:49, name:"Loxodromic", numParams: 0,
      body: `
 vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
 vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
@@ -385,7 +402,7 @@ vec2 var49(vec2 pos, float v) {
 }
 
 `},
-    {id:50, name:"Loxodromic2", numParams: 1,
+    {id:50, name:"Loxodromic2", numParams: 0,
      body: `
 vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
 vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
@@ -408,7 +425,7 @@ vec2 var50(in vec2 pos, float v) {
 }
 
 `},
-    {id:51, name:"LoxoScale", numParams: 1,
+    {id:51, name:"LoxoScale", numParams: 0,
      body: `
 vec2 var51(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
@@ -423,7 +440,7 @@ vec2 var51(in vec2 pos, float v) {
     return complexDiv(num2, denom2);
 }
 `},
-{id:52, name:"LoxoScale2", numParams: 1,
+{id:52, name:"LoxoScale2", numParams: 0,
      body: `
 vec2 var52(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);
@@ -438,7 +455,7 @@ vec2 var52(in vec2 pos, float v) {
     return complexDiv(num, denom);
 }
 `},
-    {id:53, name:"LoxoSwirlA", numParams: 1,
+    {id:53, name:"LoxoSwirlA", numParams: 0,
      body: `
 vec2 var53(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
@@ -454,7 +471,7 @@ vec2 var53(in vec2 pos, float v) {
     return complexDiv(num2, denom2);
 }
 `},
-{id:54, name:"LoxoSwirlB", numParams: 1,
+{id:54, name:"LoxoSwirlB", numParams: 0,
      body: `
 vec2 var54(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);
@@ -470,7 +487,7 @@ vec2 var54(in vec2 pos, float v) {
     return complexDiv(num, denom);
 }
 `},
-    {id:55, name:"LoxoTangentA", numParams: 1,
+    {id:55, name:"LoxoTangentA", numParams: 0,
      body: `
 vec2 var55(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
@@ -484,7 +501,7 @@ vec2 var55(in vec2 pos, float v) {
     return complexDiv(num2, denom2);
 }
 `},
-{id:56, name:"LoxoTangentB", numParams: 1,
+{id:56, name:"LoxoTangentB", numParams: 0,
      body: `
 vec2 var56(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);

@@ -49,29 +49,68 @@ export default {
                                   {name:"e", v:0},
                                   {name:"f", v:0}]},
                          {id: 16, name:'Fisheye', v:0, params:[]},
-                         {id: 17, name:'Popcorn', v:0, params:[]},
+                         {id: 17, name:'Popcorn', v:0, params:[
+                             {name:"c", v:0},
+                             {name:"f", v:0}]},
                          {id: 18, name:'Exponential', v:0, params:[]},
                          {id: 19, name:'Power', v:0, params:[]},
                          {id: 20, name:'Cosine', v:0, params:[]},
-                         {id: 21, name:'Rings', v:0, params:[]},
-                         {id: 22, name:'Fan', v:0, params:[]},
-                         {id: 23, name:'Blob', v:0, params:[]},
-                         {id: 24, name:'PDJ', v:0, params:[]},
-                         {id: 25, name:'Fane2', v:0, params:[]},
-                         {id: 26, name:'Rings2', v:0, params:[]},
+                         {id: 21, name:'Rings', v:0, params:[
+                             {name:"c", v:0}
+                         ]},
+                         {id: 22, name:'Fan', v:0, params:[
+                             {name:"c", v:0},
+                             {name:"f", v:0}
+                         ]},
+                         {id: 23, name:'Blob', v:0, params:[
+                             {name:"high", v:0},
+                             {name:"low", v:0},
+                             {name:"waves", v:0}
+                         ]},
+                         {id: 24, name:'PDJ', v:0, params:[
+                             {name:"a", v:0},
+                             {name:"b", v:0},
+                             {name:"c", v:0},
+                             {name:"d", v:0},
+                         ]},
+                         {id: 25, name:'Fan2', v:0, params:[
+                             {name:"fan2x", v:0},
+                             {name:"fan2y", v:0},
+                         ]},
+                         {id: 26, name:'Rings2', v:0, params:[
+                             {name:"vVal", v:0}
+                         ]},
                          {id: 27, name:'Eyefish', v:0, params:[]},
                          {id: 28, name:'Bubble', v:0, params:[]},
                          {id: 29, name:'Cylinder', v:0, params:[]},
-                         {id: 30, name:'Perspective', v:0, params:[]},
+                         {id: 30, name:'Perspective', v:0, params:[
+                             {name:"angle", v:0},
+                             {name:"dist", v:0}
+                         ]},
                          {id: 31, name:'Noise', v:0, params:[]},
-                         {id: 32, name:'JuliaN', v:0, params:[]},
-                         {id: 33, name:'JuliaScope', v:0, params:[]},
+                         {id: 32, name:'JuliaN', v:0, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0}
+                         ]},
+                         {id: 33, name:'JuliaScope', v:0, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0}
+                         ]},
                          {id: 34, name:'Blur', v:0, params:[]},
                          {id: 35, name:'Gaussian', v:0, params:[]},
-                         //{id: 36, name:'RadialBlur', v:0, params:[]},
-                         {id: 37, name:'Pie', v:0, params:[]},
+                         {id: 36, name:'RadialBlur', v:0, params:[
+                             {name:"angle", v0}
+                         ]},
+                         {id: 37, name:'Pie', v:0, params:[
+                             {name:"slices", v:0},
+                             {name:"rotation", v:0},
+                             {name:"thickness", v:0}
+                         ]},
                          //{id: 38, name:'Ngon', v:0, params:[]},
-                         {id: 39, name:'Curl', v:0, params:[]},
+                         {id: 39, name:'Curl', v:0, params:[
+                             {name:"c1", v:0},
+                             {name:"c2", v:0}
+                         ]},
                          //{id: 40, name:'Rectangles', v:0, params:[]},
                          {id: 41, name:'Arch', v:0, params:[]},
                          {id: 42, name:'Tangent', v:0, params:[]},
