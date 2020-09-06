@@ -90,14 +90,16 @@ vec2 complexDiv(vec2 a, vec2 b) {
 {% for n in range(0, numFunctions) %}
 void variationF{{ n }}(inout vec2 p) {
     vec2 tmp = vec2(0);
+    int process = 0;
     {% for variation in functions[n].variations %}
     {% set outer_loop = loop %}
+    process += {{ numVariationParamsProcess[outer_loop.index0] }};
     const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
-    tmp += var{{ variation.id }}(p, u_VariationParams[{{numVariationParamsProcess[outer_loop.index0] + loop.index0 }}]
+    tmp += var{{ variation.id }}(p, u_VariationParams[process + {{ loop.index0 }}]
     {% for param in variation.params %}
         , u_VariationParams[1 + {{ numVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }}]
     {% endfor %}
-    ) * u_VariationParams[{{numVariationParamsProcess[outer_loop.index0] + loop.index0}}];
+    ) * u_VariationParams[process + {{loop.index0}}];
     {% endfor %}
     p = tmp;
 }
@@ -105,8 +107,16 @@ void variationF{{ n }}(inout vec2 p) {
 
 void finalVariation(inout vec2 p) {
     vec2 tmp = vec2(0);
+    int process = 0;
     {% for variation in finalVariations %}
-    tmp += var{{ variation.id }}(p, u_FinalVariationParams[{{ loop.index0}}]) * u_FinalVariationParams[{{ loop.index0}}];
+    {% set outer_loop = loop %}
+    process += {{numFinalVariationParamsProcess[outer_loop.index0]}};
+    const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
+    tmp += var{{ variation.id }}(p, u_FinalVariationParams[process + {{ loop.index0 }}]
+    {% for param in variation.params %}
+        , u_FinalVariationParams[1 + {{ numFinalVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }}]
+    {% endfor %}
+    ) * u_FinalVariationParams[process + {{loop.index0}}];
     {% endfor %}
     p = tmp;
 }

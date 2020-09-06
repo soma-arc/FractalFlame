@@ -124,6 +124,11 @@ export default {
         addVariation: function() {
             if (this.selectedVariation === undefined) return;
             this.canvasManager.canvas2d.finalVariationList.push({ ...this.selectedVariation});
+            for(const v of this.canvasManager.canvas2d.finalVariationList) {
+                for(let i = 0; i < v.params.length; i++){
+                    v.params[i] = { ...v.params[i] };
+                }
+            }
 
             this.canvasManager.canvas2d.compileRenderShader();
             this.canvasManager.canvas2d.render();

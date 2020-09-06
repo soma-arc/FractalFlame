@@ -253,13 +253,14 @@ export default class Canvas2D extends Canvas {
                 }
             }
         }
-        console.log('uVariations');
-        console.log(uVariations);
         gl.uniform1fv(this.uniLocations[i++], uVariations);
 
         const uFinalVariations = []
         for(const v of this.finalVariationList){
             uFinalVariations.push(v.v);
+            for(const param of v.params) {
+                uFinalVariations.push(param.v);
+            }
         }
         //console.log(this.finalVariationList);
         //console.log(uFinalVariations);
@@ -393,24 +394,28 @@ export default class Canvas2D extends Canvas {
 
         this.numVariationParams = 0;
         this.numVariationParamsProcess = [0];
-        let prev = this.numVariationParamsProcess[0];
         for(let f of this.functions){
-            let num = 1;
             this.numVariationParams += f.variations.length;
             for(let v of f.variations) {
                 this.numVariationParams += v.params.length;
-                num += v.params.length;
                 this.numVariationParamsProcess.push(v.params.length);
-                prev = this.numVariationParamsProcess[
-                    this.numVariationParamsProcess.length - 1];
             }
         }
-        console.log(this.numVariationParamsProcess);
+
+        this.numFinalVariationParamsProcess = [0];
+        let numFinalVariations = 0;
+        for(let v of this.finalVariationList) {
+            this.numFinalVariationParamsProcess.push(v.params.length);
+            numFinalVariations += 1 + v.params.length;
+        }
+        console.log(this.finalVariationList);
+        console.log(this.numFinalVariationParamsProcess);
         return { numFunctions: this.functions.length,
                  numVariationParamsProcess: this.numVariationParamsProcess,
                  numVariationParams: this.numVariationParams,
-                 numFinalVariationParams: this.finalVariationList.length,
+                 numFinalVariationParams: numFinalVariations,
                  finalVariations: this.finalVariationList,
+                 numFinalVariationParamsProcess: this.numFinalVariationParamsProcess,
                  functions: this.functions,
                  weight: this.uWeight,
                  items: FLAME.VARIATIONS,
