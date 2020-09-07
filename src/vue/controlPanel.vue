@@ -99,7 +99,7 @@ export default {
                          {id: 34, name:'Blur', v:0, params:[]},
                          {id: 35, name:'Gaussian', v:0, params:[]},
                          {id: 36, name:'RadialBlur', v:0, params:[
-                             {name:"angle", v0}
+                             {name:"angle", v:0}
                          ]},
                          {id: 37, name:'Pie', v:0, params:[
                              {name:"slices", v:0},

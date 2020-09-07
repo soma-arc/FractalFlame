@@ -311,21 +311,35 @@ export const VARIATIONS = [
      return vec2(psi3 * cos(t2), psi3 * sin(t2));
 }`},
     {id:38, name:"Ngon", numParams: 6,
-     body: `
-`},
+     body: `vec2 var38(vec2 p, float v,float power sides, float corners, float circle) {
+     float phi = atan(y/x);
+     float p1 = power;
+     float p2 = 2. * 3.141592653589;
+     float p3 = corners;
+     float p4 = circle;
+     float t3 = phi - p2 * floor(phi/p2);
+     float t4 = t3 > p2/2.0 ? t3 : t3-p2;
+     float r = sqrt(dot(p, p));
+     float k = (p3 * (1.0/cos(t4) - 1.0) + p4) / pow(r, p1);
+     return k * p;
+}`},
     {id:39, name:"Curl", numParams: 2,
      body: `vec2 var39(vec2 p, float v, float c1, float c2) {
     float p1 = c1;
     float p2 = c2;
     float t1 = 1 + p1 * p.x + p2 * (p.x * p.x - p.y * p.y);
     float t2 = p1 * p.y + 2 * p2 * p.x * p.y;
-    float k = 1 / (t1 * t1 + t2 * t2);
+    float k = 1. / (t1 * t1 + t2 * t2);
     return vec2(k * (p.x * t1 + p.y * t2),
                 k * (p.y * t1 - p.x * t2));
 }`},
-    {id:40, name:"Rectangles", numParams: 4,
-     body:`
-`},
+    {id:40, name:"Rectangles", numParams: 2,
+     body:`vec2 var40(vec2 p, float v, float rectX, float rectY) {
+     float p1 = rectX;
+     float p2 = rectY;
+     return vec2((2. * floor(p.x / p1) + 1.0) * p1 - p.x,
+                 (2. * floor(p.y / p2) + 1.0) * p2 - p.y;
+}`},
     {id:41, name:"Arch", numParams: 0,
      body:`vec2 var41(vec2 p, float v){
     float psi = rand(p);
@@ -432,7 +446,7 @@ vec2 var51(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
+    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;// 1に近いほど渦をまく
     tmp = complexProd(tmp, lambda);
 
     vec2 num2 = tmp + vec2(1, 0);

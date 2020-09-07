@@ -98,7 +98,7 @@ void variationF{{ n }}(inout vec2 p) {
     {% for param in variation.params %}
         , u_VariationParams[1 + {{ numVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }}]
     {% endfor %}
-    ) * u_VariationParams[process + {{loop.index0}}];
+    ) * u_VariationParams[process ];
     process += {{ variation.params | length }} + 1;
     {% endfor %}
 
