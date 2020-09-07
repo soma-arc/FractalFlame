@@ -171,13 +171,13 @@ export const VARIATIONS = [
     return vec2(k * cos(theta), k * sin(theta));
 }`},
     {id: 24, name: "PDJ", numParams: 4,
-     body: `vec2 var24 (vec2 p, float v, float a, float, b, float c, float d){
+     body: `vec2 var24 (vec2 p, float v, float a, float b, float c, float d){
     float p1 = a;
     float p2 = b;
     float p3 = c;
     float p4 = d;
-    return vec2(sin(p1 * y) - cos(p2 * x),
-                sin(p3 * x) - cos(p4 * y));
+    return vec2(sin(p1 * p.y) - cos(p2 * p.x),
+                sin(p3 * p.x) - cos(p4 * p.y));
 }`},
     {id: 25, name:"Fan2", numParams: 2,
      body: `vec2 var25 (vec2 p, float v, float fan2x, float fan2y){
