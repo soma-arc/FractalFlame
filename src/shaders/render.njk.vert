@@ -93,7 +93,7 @@ void variationF{{ n }}(inout vec2 p) {
     int process = 0;
     {% for variation in functions[n].variations %}
     {% set outer_loop = loop %}
-    process += {{ numVariationParamsProcess[outer_loop.index0] }};
+    process += {{ n }};
     const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
     tmp += var{{ variation.id }}(p, u_VariationParams[process + {{ loop.index0 }}]
     {% for param in variation.params %}
