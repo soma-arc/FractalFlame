@@ -129,14 +129,14 @@ export default {
                          {id:46, name:"Secant", numParams: 0, params:[]},
                          {id:47, name:"Twintrian", numParams: 0, params:[]},
                          {id:48, name:"Cross", numParams: 0, params:[]},
-                         {id:49, name:"Loxodromic", numParams: 0, params:[]},
-                         {id:50, name:"Loxodromic2", numParams: 0, params:[]},
-                         {id:51, name:"LoxoScale", numParams: 0, params:[]},
-                         {id:52, name:"LoxoScale2", numParams: 0, params:[]},
-                         {id:53, name:"LoxoSwirlA", numParams: 0, params:[]},
-                         {id:54, name:"LoxoSwirlB", numParams: 0, params:[]},
-                         {id:55, name:"LoxoTangentA", numParams: 0, params:[]},
-                         {id:56, name:"LoxoTangentB", numParams: 0, params:[]}
+                         {id:49, name:"LoxoScaleA", numParams: 0, params:[]},
+                         {id:50, name:"LoxoScaleB", numParams: 0, params:[]},
+                         {id:51, name:"LoxoSwirlA", numParams: 0, params:[]},
+                         {id:52, name:"LoxoSwirlB", numParams: 0, params:[]},
+                         {id:53, name:"LoxoTangentA", numParams: 0, params:[]},
+                         {id:54, name:"LoxoTangentB", numParams: 0, params:[]},
+                         {id:55, name:"LoxoCrossA", numParams: 0, params:[]},
+                         {id:56, name:"LoxoCrossB", numParams: 0, params:[]}
                         ]}
     },
     methods: {

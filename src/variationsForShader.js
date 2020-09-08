@@ -393,137 +393,121 @@ export const VARIATIONS = [
     float k = sqrt(1.0 / (n * n));
     return vec2(k * p.x, k * p.y);
 }`},
-    {id:49, name:"Loxodromic", numParams: 0,
+{id:49, name:"LoxoScaleA", numParams: 0,
      body: `
-vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
-vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
-vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
-               2.0934421415458306 * 2.0934421415458306);
-// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
-vec4 line = vec4(-1, 0, 0, -1);
-vec2 var49(vec2 pos, float v) {
-     pos = circleInvert(pos, c2);
-     pos = circleInvert(pos, c1);
+vec2 var49(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
 
-     pos = circleInvert(pos, c3);
-    
-// The line is pass through the center of c2,
-// thus subtract c2.xy, and the line path through the origin.
-     pos = pos - c2.xy;
-     float d = dot(pos, line.zw);
-     pos = pos - line.zw * (2.0 * d);
-     pos = pos + c2.xy;
-     return pos;
-}
+    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
+    tmp = complexProd(tmp, lambda);
 
-`},
-    {id:50, name:"Loxodromic2", numParams: 0,
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:50, name:"LoxoScaleB", numParams: 0,
      body: `
-vec4 c1 = vec4(-1.2, 0, 0.5, 0.5 * 0.5);
-vec4 c2 = vec4(-1.5, 0, 1, 1 * 1);
-vec4 c3 = vec4(-0.1, 1.85, 2.0934421415458306,
-               2.0934421415458306 * 2.0934421415458306);
-// [loxoDir.x, loxoDir.y, loxoNormal.x loxoNormal.y]
-vec4 line = vec4(-1, 0, 0, -1);
-
 vec2 var50(in vec2 pos, float v) {
-    pos = pos - c2.xy;
-    float d = dot(pos, line.zw);
-    pos = pos - line.zw * (2.0 * d);
-    pos = pos + c2.xy;
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
 
-    pos = circleInvert(pos, c3);
-    
-    pos = circleInvert(pos, c1);
-    pos = circleInvert(pos, c2);
-    return pos;
+    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
+    tmp = complexProd(tmp, lambda);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
 }
-
 `},
-    {id:51, name:"LoxoScale", numParams: 0,
+    {id:51, name:"LoxoSwirlA", numParams: 0,
      body: `
 vec2 var51(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
-    tmp = complexProd(tmp, lambda);
+    float r2 = dot(tmp, tmp);
+    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
+               tmp.x * cos(r2) + tmp.y * sin(r2));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
     return complexDiv(num2, denom2);
 }
 `},
-{id:52, name:"LoxoScale2", numParams: 0,
+{id:52, name:"LoxoSwirlB", numParams: 0,
      body: `
 vec2 var52(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    vec2 lambda = vec2(sqrt(3.) * 0.5, 0.5) * 0.8;
-    tmp = complexProd(tmp, lambda);
+    float r2 = dot(tmp, tmp);
+    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
+               tmp.x * cos(r2) + tmp.y * sin(r2));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
     return complexDiv(num, denom);
 }
 `},
-    {id:53, name:"LoxoSwirlA", numParams: 0,
+    {id:53, name:"LoxoTangentA", numParams: 0,
      body: `
 vec2 var53(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r2 = dot(tmp, tmp);
-    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
-               tmp.x * cos(r2) + tmp.y * sin(r2));
+    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
     return complexDiv(num2, denom2);
 }
 `},
-{id:54, name:"LoxoSwirlB", numParams: 0,
+{id:54, name:"LoxoTangentB", numParams: 0,
      body: `
 vec2 var54(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r2 = dot(tmp, tmp);
-    tmp = vec2(tmp.x * sin(r2) - tmp.y * cos(r2),
-               tmp.x * cos(r2) + tmp.y * sin(r2));
+    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
     return complexDiv(num, denom);
 }
 `},
-    {id:55, name:"LoxoTangentA", numParams: 0,
+    {id:55, name:"LoxoCrossA", numParams: 0,
      body: `
 vec2 var55(in vec2 pos, float v) {
     vec2 num = pos - vec2(1, 0);
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
+    float n = (pos.x * pos.x - pos.y * pos.y);
+    float k = sqrt(1.0 / (n * n));
+    tmp =  vec2(k * pos.x, k * pos.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
     return complexDiv(num2, denom2);
 }
 `},
-{id:56, name:"LoxoTangentB", numParams: 0,
+{id:56, name:"LoxoCrossB", numParams: 0,
      body: `
 vec2 var56(in vec2 pos, float v) {
     vec2 num2 = pos + vec2(1, 0);
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp = vec2(sin(tmp.x) / cos(tmp.y), tan(tmp.y));
+    float n = (pos.x * pos.x - pos.y * pos.y);
+    float k = sqrt(1.0 / (n * n));
+    tmp =  vec2(k * pos.x, k * pos.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
