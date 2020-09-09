@@ -307,8 +307,7 @@ export const VARIATIONS = [
      float p2 = rotation;
      float p3 = thickness;
      float t1 = trunc(psi1 * p1 + 0.5);
-     float t2 = p2 + (2 * 3.141592653589) / p1 * (t1 + psi2 * p3);
-     float psi3 = psi3;
+     float t2 = p2 + (2. * 3.141592653589) / p1 * (t1 + psi2 * p3);
      return vec2(psi3 * cos(t2), psi3 * sin(t2));
 }`},
     {id:38, name:"Ngon", numParams: 4,

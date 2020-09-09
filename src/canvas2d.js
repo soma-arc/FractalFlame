@@ -216,10 +216,15 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_useFinal'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalPostAffineParams'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_VariationParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalVariationParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
-
+        for(let n = 0; n < this.functions.length; n++) {
+            for(let i = 0; i < this.functions[n].variations.length ; i++ ) {
+                this.uniLocations.push(gl.getUniformLocation(this.renderProgram,
+                                                             `u_F${ n }Params${i}`));
+                console.log(`u_F${ n }Params${i}`);
+            }
+        }
     }
 
     setUniformValues() {
@@ -244,17 +249,6 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine);
 
-        const uVariations = [];
-        for(const f of this.functions) {
-            for(const v of f.variations){
-                uVariations.push(v.v);
-                for(const p of v.params) {
-                    uVariations.push(p.v);
-                }
-            }
-        }
-        gl.uniform1fv(this.uniLocations[i++], uVariations);
-
         const uFinalVariations = []
         for(const v of this.finalVariationList){
             uFinalVariations.push(v.v);
@@ -262,13 +256,26 @@ export default class Canvas2D extends Canvas {
                 uFinalVariations.push(param.v);
             }
         }
-        //console.log(this.finalVariationList);
-        //console.log(uFinalVariations);
+
         gl.uniform1fv(this.uniLocations[i++], uFinalVariations);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
+
+        let params = [];
+        for(let n = 0; n < this.functions.length; n++) {
+            if (this.functions[n].variations.length < 1) continue;
+            for(const variation of this.functions[n].variations) {
+                params.push(variation.v);
+                for(const param of variation.params) {
+                    params.push(param.v);
+                }
+                gl.uniform1fv(this.uniLocations[i++], params);
+                params = [];
+            }
+            params = [];
+        }
     }
 
-    render() {
+    render() {        
         const width = this.canvas.width;
         const height = this.canvas.height;
         const gl = this.gl;
@@ -392,10 +399,13 @@ export default class Canvas2D extends Canvas {
         idList = idList.filter((item, index) => idList.indexOf(item) === index);
         const variations = new Array(this.uWeight.length);
 
+        this.numVariationLength = [];
         this.numVariationParams = 0;
         this.numVariationParamsProcess = [0];
+        this.numParams = [];
         for(let f of this.functions){
             this.numVariationParams += f.variations.length;
+            this.numVariationLength.push(f.variations.length);
             for(let v of f.variations) {
                 this.numVariationParams += v.params.length;
                 this.numVariationParamsProcess.push(v.params.length);
@@ -408,8 +418,7 @@ export default class Canvas2D extends Canvas {
             this.numFinalVariationParamsProcess.push(v.params.length);
             numFinalVariations += 1 + v.params.length;
         }
-        console.log(this.finalVariationList);
-        console.log(this.numFinalVariationParamsProcess);
+
         return { numFunctions: this.functions.length,
                  numVariationParamsProcess: this.numVariationParamsProcess,
                  numVariationParams: this.numVariationParams,
@@ -420,6 +429,8 @@ export default class Canvas2D extends Canvas {
                  weight: this.uWeight,
                  items: FLAME.VARIATIONS,
                  variationsIndex: idList,
+                 numVariationLength: this.numVariationLength,
+                 numParams: this.numParams
                };
     }
 }

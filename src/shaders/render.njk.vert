@@ -10,13 +10,13 @@ uniform float u_PostAffineParams[6];
 uniform float u_Weight[{{ numFunctions }}];
 uniform float u_AffineParams[{{ numFunctions * 6 }}];
 uniform float u_PostAffineParams[{{ numFunctions * 6 }}];
+{% endif %}
 
-{% endif %}
-{% if numVariationParams == 0 %}
-uniform float u_VariationParams[1];
-{% else %}
-uniform float u_VariationParams[{{ numVariationParams }}];
-{% endif %}
+{% for n in range(0, numFunctions) %}
+{% for variation in functions[n].variations %}
+uniform float u_F{{ n }}Params{{ loop.index0 }}[{{1 + variation.params | length}}];
+{% endfor %}
+{% endfor %}
 
 uniform float u_FinalAffineParams[6];
 {% if numFinalVariationParams == 0 %}
@@ -30,7 +30,6 @@ uniform bool u_yFlipped;
 uniform bool u_useFinal;
 
 in vec3 vPosition;
-//in vec4 color;
 out vec4 vColor;
 
 float rand(vec2 co){
@@ -87,25 +86,20 @@ vec2 complexDiv(vec2 a, vec2 b) {
 {% endfor %}
 {% endfor %}
 
-int process = 0;
 {% for n in range(0, numFunctions) %}
 void variationF{{ n }}(inout vec2 p) {
     vec2 tmp = vec2(0);
-    process += {{ n }};
     {% for variation in functions[n].variations %}
     {% set outer_loop = loop %}
-    const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
-    tmp += var{{ variation.id }}(p, u_VariationParams[process + {{ loop.index0 }}]
+    tmp += var{{ variation.id }}(p, u_F{{ n }}Params{{outer_loop.index0}}[0]
     {% for param in variation.params %}
-        , u_VariationParams[1 + {{ numVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }} + process]
+        , u_F{{ n }}Params{{outer_loop.index0}}[{{loop.index}}]
     {% endfor %}
-    ) * u_VariationParams[process + {{loop.index0}}];
-    process += {{ variation.params | length }};
+    ) * u_F{{ n }}Params{{outer_loop.index0}}[0];
+
     {% endfor %}
+    
     p = tmp;
-    {% if numFunctions - 1 == n %}
-    process = 0;
-    {% endif %}
 }
 {% endfor %}
 
