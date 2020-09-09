@@ -214,10 +214,14 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_AffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_PostAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_useFinal'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalPostAffineParams'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalVariationParams'));
-        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
+        for(let n = 0; n < this.finalVariationList.length; n++) {
+            this.uniLocations.push(gl.getUniformLocation(this.renderProgram,
+                                                         `u_FinalVariationParams${n}`));   
+        }
+
         for(let n = 0; n < this.functions.length; n++) {
             for(let i = 0; i < this.functions[n].variations.length ; i++ ) {
                 this.uniLocations.push(gl.getUniformLocation(this.renderProgram,
@@ -246,19 +250,19 @@ export default class Canvas2D extends Canvas {
         }
         gl.uniform1fv(this.uniLocations[i++], postAffines);
         gl.uniform1i(this.uniLocations[i++], this.useFinal === "On");
+        gl.uniform1i(this.uniLocations[i++], this.yFlipped);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine);
 
-        const uFinalVariations = []
+        let uFinalVariations = []
         for(const v of this.finalVariationList){
             uFinalVariations.push(v.v);
             for(const param of v.params) {
                 uFinalVariations.push(param.v);
             }
+            gl.uniform1fv(this.uniLocations[i++], uFinalVariations);
+            uFinalVariations = [];
         }
-
-        gl.uniform1fv(this.uniLocations[i++], uFinalVariations);
-        gl.uniform1i(this.uniLocations[i++], this.yFlipped);
 
         let params = [];
         for(let n = 0; n < this.functions.length; n++) {

@@ -19,11 +19,9 @@ uniform float u_F{{ n }}Params{{ loop.index0 }}[{{1 + variation.params | length}
 {% endfor %}
 
 uniform float u_FinalAffineParams[6];
-{% if numFinalVariationParams == 0 %}
-uniform float u_FinalVariationParams[1];
-{% else %}
-uniform float u_FinalVariationParams[{{ numFinalVariationParams }}];
-{% endif %}
+{% for variation in finalVariations %}
+uniform float u_FinalVariationParams{{ loop.index0 }}[{{ 1 + variation.params | length }}];
+{% endfor %}
 uniform float u_FinalPostAffineParams[6];
 
 uniform bool u_yFlipped;
@@ -105,16 +103,13 @@ void variationF{{ n }}(inout vec2 p) {
 
 void finalVariation(inout vec2 p) {
     vec2 tmp = vec2(0);
-    int processFinal = 0;
     {% for variation in finalVariations %}
     {% set outer_loop = loop %}
-    processFinal += {{numFinalVariationParamsProcess[outer_loop.index0]}};
-    const int p{{ n }}{{ variation.id }}{{ loop.index0 }} = {{ loop.index0 }};
-    tmp += var{{ variation.id }}(p, u_FinalVariationParams[processFinal + {{ loop.index0 }}]
+    tmp += var{{ variation.id }}(p, u_FinalVariationParams{{outer_loop.index0}}[0]
     {% for param in variation.params %}
-        , u_FinalVariationParams[1 + {{ numFinalVariationParamsProcess[outer_loop.index0]}} + p{{ n }}{{ variation.id }}{{ outer_loop.index0 }} + {{ loop.index0 }}]
+        , u_FinalVariationParams{{outer_loop.index0}}[{{loop.index}}]
     {% endfor %}
-    ) * u_FinalVariationParams[processFinal + {{loop.index0}}];
+    ) * u_FinalVariationParams{{outer_loop.index0}}[0];
     {% endfor %}
     p = tmp;
 }
