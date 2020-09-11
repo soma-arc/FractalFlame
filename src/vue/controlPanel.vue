@@ -165,6 +165,170 @@ export default {
                          {id:82, name:"LoxoJuliaB", numParams: 0, params:[]},
                          {id:83, name:"LoxoBentA", numParams: 0, params:[]},
                          {id:84, name:"LoxoBentB", numParams: 0, params:[]},
+                         {id:85, name:"LoxoWavesA", numParams: 4,
+                          params:[{name:"b", v:0},
+                                  {name:"c", v:0},
+                                  {name:"e", v:0},
+                                  {name:"f", v:0}]},
+                         {id:86, name:"LoxoWavesB", numParams: 4,
+                         params:[{name:"b", v:0},
+                                 {name:"c", v:0},
+                                 {name:"e", v:0},
+                                 {name:"f", v:0}]},
+                         {id:87, name:"LoxoFisheyeA", numParams: 0, params:[]},
+                         {id:88, name:"LoxoFisheyeB", numParams: 0, params:[]},
+                         {id:89, name:"LoxoPopcornA", numParams: 0, params:[]},
+                         {id:90, name:"LoxoPopcornB", numParams: 0, params:[]},
+                         {id:91, name:"LoxoExponentialA", numParams: 0, params:[]},
+                         {id:92, name:"LoxoExponentialB", numParams: 0, params:[]},
+                         {id:93, name:"LoxoPowerA", numParams: 0, params:[]},
+                         {id:94, name:"LoxoPowerB", numParams: 0, params:[]},
+                         {id:95, name:"LoxoCosineA", numParams: 0, params:[]},
+                         {id:96, name:"LoxoCosineB", numParams: 0, params:[]},
+                         {id:97, name:"LoxoRingsA", numParams: 1, params:[
+                             {name:"c", v:0}
+                         ]},
+                         {id:98, name:"LoxoRingsB", numParams: 1, params:[
+                             {name:"c", v:0}
+                         ]},
+                         {id:99, name:"LoxoFanA", numParams: 2, params:[
+                             {name:"c", v: 0},
+                             {name:"f", v: 0}
+                         ]},
+                         {id:100, name:"LoxoFanB", numParams: 2, params:[
+                             {name:"c", v: 0},
+                             {name:"f", v: 0}
+                         ]},
+                         {id:101, name:"LoxoBlobA", numParams: 3, params:[
+                             {name:"high", v: 0},
+                             {name:"low", v:0},
+                             {name:"waves", v:0}
+                         ]},
+                         {id:102, name:"LoxoBlobB", numParams: 3, params:[
+                             {name:"high", v: 0},
+                             {name:"low", v:0},
+                             {name:"waves", v:0}
+                         ]},
+                         {id:103, name:"LoxoPDJA", numParams: 4, params:[
+                             {name:"a", v:0},
+                             {name:"b", v:0},
+                             {name:"c", v:0},
+                             {name:"d", v:0}
+                         ]},
+                         {id:104, name:"LoxoPDJB", numParams: 4, params:[
+                             {name:"a", v:0},
+                             {name:"b", v:0},
+                             {name:"c", v:0},
+                             {name:"d", v:0}
+                         ]},
+                         {id:105, name:"LoxoFan2A", numParams: 2, params:[
+                             {name:"fan2x", v:0},
+                             {name:"fan2y", v:0}
+                         ]},
+                         {id:106, name:"LoxoFan2B", numParams: 2, params:[
+                             {name:"fan2x", v:0},
+                             {name:"fan2y", v:0}
+                         ]},
+                         {id:107, name:"LoxoRings2A", numParams: 1, params:[
+                             {name:"vVal", v:0}
+                         ]},
+                         {id:108, name:"LoxoRings2B", numParams: 1, params:[
+                             {name:"vVal", v:0}
+                         ]},
+                         {id:109, name:"LoxoEyefishA", numParams: 0, params:[]},
+                         {id:110, name:"LoxoEyefishB", numParams: 0, params:[]},
+                         {id:111, name:"LoxoBubbleA", numParams: 0, params:[]},
+                         {id:112, name:"LoxoBubbleB", numParams: 0, params:[]},
+                         {id:113, name:"LoxoCylinderA", numParams: 0, params:[]},
+                         {id:114, name:"LoxoCylinderB", numParams: 0, params:[]},
+                         {id:115, name:"LoxoPerspectiveA", numParams: 2, params:[
+                             {name:"angle", v:0},
+                             {name:"dist", v:0},
+                         ]},
+                         {id:116, name:"LoxoPerspectiveB", numParams: 2, params:[
+                             {name:"angle", v:0},
+                             {name:"dist", v:0},
+                         ]},
+                         {id:117, name:"LoxoNoiseA", numParams: 0, params:[]},
+                         {id:118, name:"LoxoNoiseB", numParams: 0, params:[]},
+                         {id:119, name:"LoxoJuliaNA", numParams: 2, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0}
+                         ]},
+                         {id:120, name:"LoxoJuliaNB", numParams: 2, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0}
+                         ]},
+                         {id:121, name:"LoxoJuliaScopeA", numParams: 2, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0}
+                         ]},
+                         {id:122, name:"LoxoJuliaScopeB", numParams: 2, params:[
+                             {name:"power", v:0},
+                             {name:"dist", v:0},
+                         ]},
+                         {id:123, name:"LoxoBlurA", numParams: 0, params:[]},
+                         {id:124, name:"LoxoBlurB", numParams: 0, params:[]},
+                         {id:125, name:"LoxoGaussianA", numParams: 0, params:[]},
+                         {id:126, name:"LoxoGaussianB", numParams: 0, params:[]},
+                         {id:127, name:"LoxoRadialBlurA", numParams: 1, params:[
+                             {name:"angle", v:0}
+                         ]},
+                         {id:128, name:"LoxoRadialBlurB", numParams: 1, params:[
+                             {name:"angle", v:0}
+                         ]},
+                         {id:129, name:"LoxoPieA", numParams: 3, params:[
+                             {name:"slices", v:0}
+                             {name:"rotation", v:0}
+                             {name:"thickness", v:0}
+                         ]},
+                         {id:130, name:"LoxoPieB", numParams: 3, params:[
+                             {name:"slices", v:0}
+                             {name:"rotation", v:0}
+                             {name:"thickness", v:0}
+                         ]},
+                         {id:131, name:"LoxoNgonA", numParams: 4, params:[
+                             {name:"power", v:0}
+                             {name:"sides", v:0}
+                             {name:"corners", v:0}
+                             {name:"circle", v:0}
+                         ]},
+                         {id:132, name:"LoxoNgonB", numParams: 4, params:[
+                             {name:"power", v:0}
+                             {name:"sides", v:0}
+                             {name:"corners", v:0}
+                             {name:"circle", v:0}
+                         ]},
+                         {id:133, name:"LoxoCurlA", numParams: 2, params:[
+                             {name:"c1", v:0}
+                             {name:"c2", v:0}
+                         ]},
+                         {id:134, name:"LoxoCurlB", numParams: 2, params:[
+                             {name:"c1", v:0}
+                             {name:"c2", v:0}
+                         ]},
+                         {id:135, name:"LoxoRectanglesA", numParams: 2, params:[
+                             {name:"rectX", v:0}
+                             {name:"rectY", v:0}
+                         ]},
+                         {id:136, name:"LoxoRectanglesB", numParams: 2, params:[
+                             {name:"rectX", v:0}
+                             {name:"rectY", v:0}
+                         ]},
+                         {id:137, name:"LoxoArchA", numParams: 0, params:[]},
+                         {id:138, name:"LoxoArchB", numParams: 0, params:[]},
+                         {id:139, name:"LoxoSquareA", numParams: 0, params:[]},
+                         {id:140, name:"LoxoSquareB", numParams: 0, params:[]},
+                         {id:141, name:"LoxoRaysA", numParams: 0, params:[]},
+                         {id:142, name:"LoxoRaysB", numParams: 0, params:[]},
+                         {id:143, name:"LoxoBladeA", numParams: 0, params:[]},
+                         {id:144, name:"LoxoBladeB", numParams: 0, params:[]},
+                         {id:145, name:"LoxoSecantA", numParams: 0, params:[]},
+                         {id:146, name:"LoxoSecantB", numParams: 0, params:[]},
+                         {id:147, name:"LoxoTwintrianA", numParams: 0, params:[]},
+                         {id:148, name:"LoxoTwintrianB", numParams: 0, params:[]},
+                         {id:149, name:"LoxoCrossA", numParams: 0, params:[]},
+                         {id:150, name:"LoxoCrossB", numParams: 0, params:[]},
                         ]}
     },
     methods: {

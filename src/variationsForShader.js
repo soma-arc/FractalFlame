@@ -311,7 +311,7 @@ export const VARIATIONS = [
      return vec2(psi3 * cos(t2), psi3 * sin(t2));
 }`},
     {id:38, name:"Ngon", numParams: 4,
-     body: `vec2 var38(vec2 p, float v,float power, float sides, float corners, float circle) {
+     body: `vec2 var38(vec2 p, float v, float power, float sides, float corners, float circle) {
      float phi = atan(y/x);
      float p1 = power;
      float p2 = 2. * 3.141592653589;
@@ -489,9 +489,9 @@ vec2 var55(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float n = (pos.x * pos.x - pos.y * pos.y);
+    float n = (tmp.x * tmp.x - tmp.y * tmp.y);
     float k = sqrt(1.0 / (n * n));
-    tmp =  vec2(k * pos.x, k * pos.y);
+    tmp = vec2(k * tmp.x, k * tmp.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -505,9 +505,9 @@ vec2 var56(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float n = (pos.x * pos.x - pos.y * pos.y);
+    float n = (tmp.x * tmp.x - tmp.y * tmp.y);
     float k = sqrt(1.0 / (n * n));
-    tmp =  vec2(k * pos.x, k * pos.y);
+    tmp =  vec2(k * tmp.x, k * tmp.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -521,7 +521,7 @@ vec2 var57(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp =  vec2(pos.x, pos.y);
+    tmp =  vec2(tmp.x, tmp.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -535,7 +535,7 @@ vec2 var58(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp =  vec2(pos.x, pos.y);
+    tmp =  vec2(tmp.x, tmp.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -549,7 +549,7 @@ vec2 var59(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp = vec2(sin(pos.x), sin(pos.y));
+    tmp = vec2(sin(tmp.x), sin(tmp.y));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -563,7 +563,7 @@ vec2 var60(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp = vec2(sin(pos.x), sin(pos.y));
+    tmp = vec2(sin(tmp.x), sin(tmp.y));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -577,9 +577,9 @@ vec2 var61(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float r2 = r * r;
-    tmp = vec2(pos.x/r2, pos.y/r2);
+    tmp = vec2(tmp.x/r2, tmp.y/r2);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -593,9 +593,9 @@ vec2 var62(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float r2 = r * r;
-    tmp = vec2(pos.x/r2, pos.y/r2);
+    tmp = vec2(tmp.x/r2, tmp.y/r2);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -609,8 +609,8 @@ vec2 var63(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    tmp = vec2((pos.x - pos.y) * (pos.x + pos.y) / r, (2.0 * pos.x * pos.y) / r);
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2((tmp.x - tmp.y) * (tmp.x + tmp.y) / r, (2.0 * tmp.x * tmp.y) / r);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -624,8 +624,8 @@ vec2 var64(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    tmp = vec2((pos.x - pos.y) * (pos.x + pos.y) / r, (2.0 * pos.x * pos.y) / r);
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2((tmp.x - tmp.y) * (tmp.x + tmp.y) / r, (2.0 * tmp.x * tmp.y) / r);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -639,8 +639,8 @@ vec2 var65(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp = vec2(theta / 3.141592653589, r - 1.);
 
     vec2 num2 = tmp + vec2(1, 0);
@@ -655,8 +655,8 @@ vec2 var66(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp = vec2(theta / 3.141592653589, r - 1.);
 
     vec2 num = tmp - vec2(1, 0);
@@ -671,8 +671,8 @@ vec2 var67(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp = vec2(r * sin(theta + r), r * cos(theta - r));
 
     vec2 num2 = tmp + vec2(1, 0);
@@ -687,8 +687,8 @@ vec2 var68(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp = vec2(r * sin(theta + r), r * cos(theta - r));
 
     vec2 num = tmp - vec2(1, 0);
@@ -703,8 +703,8 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp = vec2(r * sin(theta * r), - r * cos(theta * r));
 
     vec2 num2 = tmp + vec2(1, 0);
@@ -719,8 +719,8 @@ vec2 var70(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     tmp =  vec2(r * sin(theta * r), - r * cos(theta * r));
 
     vec2 num = tmp - vec2(1, 0);
@@ -735,8 +735,8 @@ vec2 var71(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float k = theta / 3.141592653589;
     tmp = vec2(k * sin(3.141592653589 * r),
                 k * cos(3.141592653589 * r));
@@ -753,8 +753,8 @@ vec2 var71(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float k = theta / 3.141592653589;
     tmp =  vec2(k * sin(3.141592653589 * r),
                 k * cos(3.141592653589 * r));
@@ -771,8 +771,8 @@ vec2 var73(in vec2 pos, float v) {
      vec2 denom = pos + vec2(1, 0);
      vec2 tmp = complexDiv(num, denom);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      float invR = 1.0 / r;
      tmp =  vec2(invR * (cos(theta) + sin(r)),
                  invR * (sin(theta) - cos(r)));
@@ -789,8 +789,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      float invR = 1.0 / r;
      tmp = vec2(invR * (cos(theta) + sin(r)),
                 invR * (sin(theta) - cos(r)));
@@ -806,8 +806,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      tmp = vec2(sin(theta)/r, r * cos(theta));
 
     vec2 num2 = tmp + vec2(1, 0);
@@ -821,8 +821,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      tmp = vec2(sin(theta)/r, r * cos(theta));
 
     vec2 num = tmp - vec2(1, 0);
@@ -836,8 +836,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      tmp = vec2(sin(theta) * cos(r),
                 cos(theta) * sin(r));
 
@@ -852,8 +852,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      tmp = vec2(sin(theta) * cos(r),
                 cos(theta) * sin(r));
 
@@ -868,8 +868,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      float p0 = sin(theta + r);
      float p1 = cos(theta - r);
      float p03 = p0 * p0 * p0;
@@ -887,8 +887,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-     float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+     float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      float p0 = sin(theta + r);
      float p1 = cos(theta - r);
      float p03 = p0 * p0 * p0;
@@ -906,10 +906,10 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float sqrtR = sqrt(r);
-    float rnd = rand(pos);
+    float rnd = rand(tmp);
     float omega = rnd < 0.5 ? 0.0 : 3.141592653589;
     tmp =  vec2(sqrtR * cos(theta / 2. + omega),
                 sqrtR * sin(theta / 2. + omega));
@@ -925,10 +925,10 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float sqrtR = sqrt(r);
-    float rnd = rand(pos);
+    float rnd = rand(tmp);
     float omega = rnd < 0.5 ? 0.0 : 3.141592653589;
     tmp = vec2(sqrtR * cos(theta / 2. + omega),
                sqrtR * sin(theta / 2. + omega));
@@ -944,14 +944,14 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    if(pos.x >= 0. && pos.y >= 0.) {
-        tmp = pos;
-    } else if (pos.x < 0. && pos.y >= 0.) {
-        tmp = vec2(2. * pos.x, pos.y);
-    } else if (pos.x >= 0. && pos.y < 0.) {
-        tmp = vec2(pos.x, pos.y / 2.);
-    } else if (pos.x < 0. && pos.y < 0.) {
-        tmp = vec2(2. * pos.x, pos.y / 2.);
+    if(tmp.x >= 0. && tmp.y >= 0.) {
+        tmp = tmp;
+    } else if (tmp.x < 0. && tmp.y >= 0.) {
+        tmp = vec2(2. * tmp.x, tmp.y);
+    } else if (tmp.x >= 0. && tmp.y < 0.) {
+        tmp = vec2(tmp.x, tmp.y / 2.);
+    } else if (tmp.x < 0. && tmp.y < 0.) {
+        tmp = vec2(2. * tmp.x, tmp.y / 2.);
     }
 
     vec2 num2 = tmp + vec2(1, 0);
@@ -965,14 +965,14 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    if(pos.x >= 0. && pos.y >= 0.) {
-        tmp = pos;
-    } else if (pos.x < 0. && pos.y >= 0.) {
-        tmp = vec2(2. * pos.x, pos.y);
-    } else if (pos.x >= 0. && pos.y < 0.) {
-        tmp = vec2(pos.x, pos.y / 2.);
-    } else if (pos.x < 0. && pos.y < 0.) {
-        tmp = vec2(2. * pos.x, pos.y / 2.);
+    if(tmp.x >= 0. && tmp.y >= 0.) {
+        tmp = tmp;
+    } else if (tmp.x < 0. && tmp.y >= 0.) {
+        tmp = vec2(2. * tmp.x, tmp.y);
+    } else if (tmp.x >= 0. && tmp.y < 0.) {
+        tmp = vec2(tmp.x, tmp.y / 2.);
+    } else if (tmp.x < 0. && tmp.y < 0.) {
+        tmp = vec2(2. * tmp.x, tmp.y / 2.);
     }
 
     vec2 num = tmp - vec2(1, 0);
@@ -986,8 +986,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp = vec2(pos.x + b * sin(pos.y / (c * c)),
-               pos.y + e * sin(pos.x / (f * f)));
+    tmp = vec2(tmp.x + b * sin(tmp.y / (c * c)),
+               tmp.y + e * sin(tmp.x / (f * f)));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1000,8 +1000,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp = vec2(pos.x + b * sin(pos.y / (c * c)),
-               pos.y + e * sin(pos.x / (f * f)));
+    tmp = vec2(tmp.x + b * sin(tmp.y / (c * c)),
+               tmp.y + e * sin(tmp.x / (f * f)));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1014,9 +1014,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 2. / (r + 1.);
-    pos = vec2(k * pos.y, k * pos.x);
+    tmp = vec2(k * tmp.y, k * tmp.x);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1029,9 +1029,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 2. / (r + 1.);
-    pos = vec2(k * pos.y, k * pos.x);
+    tmp = vec2(k * tmp.y, k * tmp.x);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1044,8 +1044,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp = vec2(pos.x + c * sin(tan(3. * pos.y)),
-               pos.y + f * sin(tan(3. * pos.x)));
+    tmp = vec2(tmp.x + c * sin(tan(3. * tmp.y)),
+               tmp.y + f * sin(tan(3. * tmp.x)));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1058,8 +1058,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp = vec2(pos.x + c * sin(tan(3. * pos.y)),
-               pos.y + f * sin(tan(3. * pos.x)));
+    tmp = vec2(tmp.x + c * sin(tan(3. * tmp.y)),
+               tmp.y + f * sin(tan(3. * tmp.x)));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1072,9 +1072,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float k = exp(pos.x - 1.);
-    tmp = vec2(k * cos(3.141592653589 * pos.y),
-               k * sin(3.141592653589 * pos.y));
+    float k = exp(tmp.x - 1.);
+    tmp = vec2(k * cos(3.141592653589 * tmp.y),
+               k * sin(3.141592653589 * tmp.y));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1087,9 +1087,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float k = exp(pos.x - 1.);
-    tmp = vec2(k * cos(3.141592653589 * pos.y),
-               k * sin(3.141592653589 * pos.y));
+    float k = exp(tmp.x - 1.);
+    tmp = vec2(k * cos(3.141592653589 * tmp.y),
+               k * sin(3.141592653589 * tmp.y));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1102,8 +1102,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float k = pow(r, sin(theta));
     tmp = vec2(k * cos(theta), k * sin(theta));
 
@@ -1118,8 +1118,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float k = pow(r, sin(theta));
     tmp = vec2(k * cos(theta), k * sin(theta));    
 
@@ -1134,8 +1134,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    tmp = vec2(cos(3.141592653589 * pos.x) * cosh(pos.y),
-               -sin(3.141592653589 * pos.x) * sinh(pos.y));
+    tmp = vec2(cos(3.141592653589 * tmp.x) * cosh(tmp.y),
+               -sin(3.141592653589 * tmp.x) * sinh(tmp.y));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1148,8 +1148,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    tmp = vec2(cos(3.141592653589 * pos.x) * cosh(pos.y),
-               -sin(3.141592653589 * pos.x) * sinh(pos.y));
+    tmp = vec2(cos(3.141592653589 * tmp.x) * cosh(tmp.y),
+               -sin(3.141592653589 * tmp.x) * sinh(tmp.y));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1162,8 +1162,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float theta = atan(pos.x, pos.y);
-    float r = sqrt(dot(pos, pos));
+    float theta = atan(tmp.x, tmp.y);
+    float r = sqrt(dot(tmp, tmp));
     float c2 = c * c;
     float k = mod((r + c2), (2. * c2)) - c2 + r * (1. - c2);
     tmp = vec2(k * cos(theta), sin(theta));
@@ -1179,8 +1179,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float theta = atan(pos.x, pos.y);
-    float r = sqrt(dot(pos, pos));
+    float theta = atan(tmp.x, tmp.y);
+    float r = sqrt(dot(tmp, tmp));
     float c2 = c * c;
     float k = mod((r + c2), (2. * c2)) - c2 + r * (1. - c2);
     tmp = vec2(k * cos(theta), sin(theta));
@@ -1196,8 +1196,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-     float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+     float theta = atan(tmp.x / tmp.y);
      float t = 3.141592653589 * c * c;
      float m = mod((theta + f), t);
      if(t > t / 2.) {
@@ -1219,8 +1219,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float t = 3.141592653589 * c * c;
     float m = mod((theta + f), t);
     if(t > t / 2.) {
@@ -1242,8 +1242,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p1 = high;
     float p2 = low;
     float p3 = waves;
@@ -1261,8 +1261,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p1 = high;
     float p2 = low;
     float p3 = waves;
@@ -1284,8 +1284,8 @@ vec2 var73(in vec2 pos, float v) {
     float p2 = b;
     float p3 = c;
     float p4 = d;
-    return vec2(sin(p1 * pos.y) - cos(p2 * pos.x),
-                sin(p3 * pos.x) - cos(p4 * pos.y));
+    tmp = vec2(sin(p1 * tmp.y) - cos(p2 * tmp.x),
+               sin(p3 * tmp.x) - cos(p4 * tmp.y));
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1302,8 +1302,8 @@ vec2 var73(in vec2 pos, float v) {
     float p2 = b;
     float p3 = c;
     float p4 = d;
-    return vec2(sin(p1 * pos.y) - cos(p2 * pos.x),
-                sin(p3 * pos.x) - cos(p4 * pos.y));
+    tmp = vec2(sin(p1 * tmp.y) - cos(p2 * tmp.x),
+                sin(p3 * tmp.x) - cos(p4 * tmp.y));
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1316,8 +1316,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
     float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
@@ -1340,8 +1340,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
     float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
@@ -1364,8 +1364,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p = vVal * vVal;
     float t = r - 2 * p * trunc((r + p) / (2 * p)) + r * (1 - p);
     tmp = vec2(t * sin(theta),
@@ -1382,8 +1382,8 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
-    float theta = atan(pos.x / pos.y);
+    float r = sqrt(dot(tmp, tmp));
+    float theta = atan(tmp.x / tmp.y);
     float p = vVal * vVal;
     float t = r - 2 * p * trunc((r + p) / (2 * p)) + r * (1 - p);
     tmp = vec2(t * sin(theta),
@@ -1400,9 +1400,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 2.0 / (r + 1.0);
-    tmp = vec2(k * pos.x, k * pos.y);
+    tmp = vec2(k * tmp.x, k * tmp.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1415,9 +1415,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 2.0 / (r + 1.0);
-    tmp = vec2(k * pos.x, k * pos.y);
+    tmp = vec2(k * tmp.x, k * tmp.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
@@ -1430,9 +1430,9 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 4.0 / (r * r + 4.0);
-    tmp = vec2(k * pos.x, k * pos.y);
+    tmp = vec2(k * tmp.x, k * tmp.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1445,9 +1445,697 @@ vec2 var73(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float r = sqrt(dot(pos, pos));
+    float r = sqrt(dot(tmp, tmp));
     float k = 4.0 / (r * r + 4.0);
-    tmp = vec2(k * pos.x, k * pos.y);
+    tmp = vec2(k * tmp.x, k * tmp.y);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:113, name:"LoxoCylinderA", numParams: 0,
+     body: `
+    vec2 var113(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    tmp = vec2(sin(tmp.x), tmp.y);
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:114, name:"LoxoCylinderB", numParams: 0,
+     body: `
+    vec2 var114(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    tmp = vec2(sin(tmp.x), tmp.y);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:115, name:"LoxoPerspectiveA", numParams: 2,
+     body: `
+    vec2 var115(in vec2 pos, float v, float angle, float dist) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float p1 = angle;
+    float p2 = dist;
+    float k = p2 / (p2 - tmp.y * sin(p1));
+    tmp = vec2(k * tmp.x, k * tmp.y * cos(p1));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:116, name:"LoxoPerspectiveB", numParams: 2,
+     body: `
+    vec2 var116(in vec2 pos, float v, float angle, float dist) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float p1 = angle;
+    float p2 = dist;
+    float k = p2 / (p2 - tmp.y * sin(p1));
+    tmp = vec2(k * tmp.x, k * tmp.y * cos(p1));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:117, name:"LoxoNoiseA", numParams: 0,
+     body: `
+    vec2 var117(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    tmp = vec2(psi1 * tmp.x * cos(2. * 3.141592653589 * psi2),
+                psi1 * tmp.y * sin(2. * 3.141592653589 * psi2));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:118, name:"LoxoNoiseB", numParams: 0,
+     body: `
+    vec2 var118(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    tmp = vec2(psi1 * tmp.x * cos(2. * 3.141592653589 * psi2),
+                psi1 * tmp.y * sin(2. * 3.141592653589 * psi2));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:119, name:"LoxoJuliaNA", numParams: 2,
+     body: `
+    vec2 var119(in vec2 pos, float v, float power, float dist) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float psi = rand(tmp);
+    float p1 = power;
+    float p2 = dist;
+    float p3 = trunc(abs(p1) * psi);
+    float phi = atan(tmp.y / tmp.x);
+    float t = (phi + 2 * 3.141592653589 * p3) / p1;
+    float k = pow(r, p2 / p1);
+    tmp = vec2(k * cos(t), k * sin(t));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:120, name:"LoxoJuliaNB", numParams: 2,
+     body: `
+    vec2 var120(in vec2 pos, float v, float power, float dist) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float psi = rand(tmp);
+    float p1 = power;
+    float p2 = dist;
+    float p3 = trunc(abs(p1) * psi);
+    float phi = atan(tmp.y / tmp.x);
+    float t = (phi + 2 * 3.141592653589 * p3) / p1;
+    float k = pow(r, p2 / p1);
+    tmp = vec2(k * cos(t), k * sin(t));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:121, name:"LoxoJuliaScopeA", numParams: 2,
+     body: `
+    vec2 var121(in vec2 pos, float v, float power, float dist) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi = rnd2.x;
+    float psi2 = rnd2.y;
+    float p1 = power;
+    float p2 = dist;
+    float p3 = trunc(abs(p1) * psi);
+    float phi = atan(tmp.y / tmp.x);
+    float delta = (psi2 - 0.5) * 2.0;
+    float t = (delta * phi + 2 * 3.141592653589 * p3) / p1;
+    float k = pow(r, p2 / p1);
+    tmp = vec2(k * cos(t), k * sin(t));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:122, name:"LoxoJuliaScopeB", numParams: 2,
+     body: `
+    vec2 var122(in vec2 pos, float v, float power, float dist) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi = rnd2.x;
+    float psi2 = rnd2.y;
+    float p1 = power;
+    float p2 = dist;
+    float p3 = trunc(abs(p1) * psi);
+    float phi = atan(tmp.y / tmp.x);
+    float delta = (psi2 - 0.5) * 2.0;
+    float t = (delta * phi + 2 * 3.141592653589 * p3) / p1;
+    float k = pow(r, p2 / p1);
+    tmp = vec2(k * cos(t), k * sin(t));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:123, name:"LoxoBlurA", numParams: 0,
+     body: `
+    vec2 var123(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    tmp = vec2(psi1 * cos(2. * 3.141592653589 * psi2),
+               psi1 * sin(2. * 3.141592653589 * psi2));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:124, name:"LoxoBlurB", numParams: 0,
+     body: `
+    vec2 var124(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd2 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd2.x;
+    float psi2 = rnd2.y;
+    tmp = vec2(psi1 * cos(2. * 3.141592653589 * psi2),
+               psi1 * sin(2. * 3.141592653589 * psi2));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:125, name:"LoxoGaussianA", numParams: 0,
+     body: `
+    vec2 var125(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    float psi3 = rnd2.x;
+    float psi4 = rnd2.y;
+    float psi5 = rand(tmp);
+    float k = psi1 + psi2 + psi3 + psi4 - 2.;
+    tmp = vec2(k * cos(2. * 3.141592653589 * psi5),
+               k * sin(2. * 3.141592653589 * psi5));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:126, name:"LoxoGaussianB", numParams: 0,
+     body: `
+    vec2 var126(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    float psi3 = rnd2.x;
+    float psi4 = rnd2.y;
+    float psi5 = rand(tmp);
+    float k = psi1 + psi2 + psi3 + psi4 - 2.;
+    tmp = vec2(k * cos(2. * 3.141592653589 * psi5),
+               k * sin(2. * 3.141592653589 * psi5));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:127, name:"LoxoRadialBlurA", numParams: 1,
+     body: `
+    vec2 var127(in vec2 pos, float v, float angle) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float p1 = angle * (3.141592653589 * 0.5);
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    float psi3 = rnd2.x;
+    float psi4 = rnd2.y;
+    float t1 = psi1 + psi2 + psi3 + psi4 - 2.;
+    float phi = atan(tmp.y / tmp.x);
+    float t2 = phi + t1 * sin(p1);
+    float t3 = t1 * cos(p1) - 1.0;
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2((r * cos(t2) + t3 * tmp.x)/v,
+               (r * sin(t2) + t3 * tmp.y)/v);
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:128, name:"LoxoRadialBlurB", numParams: 1,
+     body: `
+    vec2 var128(in vec2 pos, float v, float angle) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float p1 = angle * (3.141592653589 * 0.5);
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    float psi3 = rnd2.x;
+    float psi4 = rnd2.y;
+    float t1 = psi1 + psi2 + psi3 + psi4 - 2.;
+    float phi = atan(tmp.y / tmp.x);
+    float t2 = phi + t1 * sin(p1);
+    float t3 = t1 * cos(p1) - 1.0;
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2((r * cos(t2) + t3 * tmp.x)/v,
+               (r * sin(t2) + t3 * tmp.y)/v);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:129, name:"LoxoPieA", numParams: 3,
+     body: `
+    vec2 var129(in vec2 pos, float v, float slices, float rotation, float thickness) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    float psi3 = rand(tmp + vec2(psi2, psi1));
+    float p1 = slices;
+    float p2 = rotation;
+    float p3 = thickness;
+    float t1 = trunc(psi1 * p1 + 0.5);
+    float t2 = p2 + (2. * 3.141592653589) / p1 * (t1 + psi2 * p3);
+    tmp = vec2(psi3 * cos(t2), psi3 * sin(t2));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:130, name:"LoxoPieB", numParams: 3,
+     body: `
+    vec2 var130(in vec2 pos, float v, float slices, float rotation, float thickness) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    float psi1 = rnd1.x;
+    float psi2 = rnd1.y;
+    float psi3 = rand(tmp + vec2(psi2, psi1));
+    float p1 = slices;
+    float p2 = rotation;
+    float p3 = thickness;
+    float t1 = trunc(psi1 * p1 + 0.5);
+    float t2 = p2 + (2. * 3.141592653589) / p1 * (t1 + psi2 * p3);
+    tmp = vec2(psi3 * cos(t2), psi3 * sin(t2));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:131, name:"LoxoNgonA", numParams: 4,
+     body: `
+    vec2 var131(in vec2 pos, float v, float power, float sides, float corners, float circle) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float phi = atan(y/x);
+    float p1 = power;
+    float p2 = 2. * 3.141592653589;
+    float p3 = corners;
+    float p4 = circle;
+    float t3 = phi - p2 * floor(phi/p2);
+    float t4 = t3 > p2/2.0 ? t3 : t3-p2;
+    float r = sqrt(dot(tmp, tmp));
+    float k = (p3 * (1.0/cos(t4) - 1.0) + p4) / pow(r, p1);
+    tmp = k * tmp;
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:132, name:"LoxoNgonB", numParams: 4,
+     body: `
+    vec2 var132(in vec2 pos, float v, float power, float sides, float corners, float circle) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float phi = atan(y/x);
+    float p1 = power;
+    float p2 = 2. * 3.141592653589;
+    float p3 = corners;
+    float p4 = circle;
+    float t3 = phi - p2 * floor(phi/p2);
+    float t4 = t3 > p2/2.0 ? t3 : t3-p2;
+    float r = sqrt(dot(tmp, tmp));
+    float k = (p3 * (1.0/cos(t4) - 1.0) + p4) / pow(r, p1);
+    tmp = k * tmp;
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:133, name:"LoxoCurlA", numParams: 2,
+     body: `
+    vec2 var133(in vec2 pos, float v, float c1, float c2) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float p1 = c1;
+    float p2 = c2;
+    float t1 = 1.0 + p1 * tmp.x + p2 * (tmp.x * tmp.x - tmp.y * tmp.y);
+    float t2 = p1 * tmp.y + 2.0 * p2 * tmp.x * tmp.y;
+    float k = 1.0 / (t1 * t1 + t2 * t2);
+    tmp = vec2(k * (tmp.x * t1 + tmp.y * t2),
+               k * (tmp.y * t1 - tmp.x * t2));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:134, name:"LoxoCurlB", numParams: 2,
+     body: `
+    vec2 var134(in vec2 pos, float v, float c1, float c2) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float p1 = c1;
+    float p2 = c2;
+    float t1 = 1.0 + p1 * tmp.x + p2 * (tmp.x * tmp.x - tmp.y * tmp.y);
+    float t2 = p1 * tmp.y + 2.0 * p2 * tmp.x * tmp.y;
+    float k = 1.0 / (t1 * t1 + t2 * t2);
+    tmp = vec2(k * (tmp.x * t1 + tmp.y * t2),
+               k * (tmp.y * t1 - tmp.x * t2));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:135, name:"LoxoRectanglesA", numParams: 2,
+     body: `
+    vec2 var135(in vec2 pos, float v, float rectX, float rectY) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float p1 = rectX;
+    float p2 = rectY;
+    tmp = vec2((2. * floor(tmp.x / p1) + 1.0) * p1 - tmp.x,
+               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y;
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:136, name:"LoxoRectanglesB", numParams: 2,
+     body: `
+    vec2 var136(in vec2 pos, float v, float rectX, float rectY) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float p1 = rectX;
+    float p2 = rectY;
+    tmp = vec2((2. * floor(tmp.x / p1) + 1.0) * p1 - tmp.x,
+               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y;
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:137, name:"LoxoArchA", numParams: 0,
+     body: `
+    vec2 var137(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float psi = rand(tmp);
+    float s = sin(psi * 3.141592653589 * v);
+    float s2 = s * s;
+    tmp = vec2(s, s2 / cos(psi * 3.141592653589 * v));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:138, name:"LoxoArchB", numParams: 0,
+     body: `
+    vec2 var138(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float psi = rand(tmp);
+    float s = sin(psi * 3.141592653589 * v);
+    float s2 = s * s;
+    tmp = vec2(s, s2 / cos(psi * 3.141592653589 * v));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:139, name:"LoxoSquareA", numParams: 0,
+     body: `
+    vec2 var139(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    tmp = vec2(rnd1.x - 0.5, rnd1.y - 0.5);
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:140, name:"LoxoSquareB", numParams: 0,
+     body: `
+    vec2 var140(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    vec2 rnd1 = rand2n(tmp, rand(tmp));
+    tmp = vec2(rnd1.x - 0.5, rnd1.y - 0.5);
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:141, name:"LoxoRaysA", numParams: 0,
+     body: `
+    vec2 var141(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float r2 = dot(tmp, tmp);
+    float psi = rand(tmp);
+    float k = (v * tan(psi * 3.141592653589 * v)) / r2;
+    tmp = vec2(k * cos(tmp.x), k * sin(tmp.y));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:142, name:"LoxoRaysB", numParams: 0,
+     body: `
+    vec2 var142(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float r2 = dot(tmp, tmp);
+    float psi = rand(tmp);
+    float k = (v * tan(psi * 3.141592653589 * v)) / r2;
+    tmp = vec2(k * cos(tmp.x), k * sin(tmp.y));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:143, name:"LoxoBladeA", numParams: 0,
+     body: `
+    vec2 var143(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float psi = rand(tmp);
+    float r = sqrt(dot(tmp, tmp));
+    float c = cos(psi * r * v);
+    float s = sin(psi * r * v);
+    tmp = vec2(tmp.x * (c + s), tmp.x * (c - s));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:144, name:"LoxoBladeB", numParams: 0,
+     body: `
+    vec2 var144(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float psi = rand(tmp);
+    float r = sqrt(dot(tmp, tmp));
+    float c = cos(psi * r * v);
+    float s = sin(psi * r * v);
+    tmp = vec2(tmp.x * (c + s), tmp.x * (c - s));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:145, name:"LoxoSecantA", numParams: 0,
+     body: `
+    vec2 var145(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2(tmp.x, 1.0 / (v * cos(v * r)));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:146, name:"LoxoSecantB", numParams: 0,
+     body: `
+    vec2 var146(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float r = sqrt(dot(tmp, tmp));
+    tmp = vec2(tmp.x, 1.0 / (v * cos(v * r)));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:147, name:"LoxoTwintrianA", numParams: 0,
+     body: `
+    vec2 var147(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float psi = rand(tmp);
+    float r = sqrt(dot(tmp, tmp));
+    float sin2 = sin(psi * r * v) *
+                 sin(psi * r * v);
+    float t = log(sin2) / log(10.0)  + cos(psi * r * v);
+    tmp = vec2(tmp.x * t,
+                tmp.x * (t - 3.141592653589 * sin(psi * r * v)));
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:148, name:"LoxoTwintrianB", numParams: 0,
+     body: `
+    vec2 var148(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float psi = rand(tmp);
+    float r = sqrt(dot(tmp, tmp));
+    float sin2 = sin(psi * r * v) *
+                 sin(psi * r * v);
+    float t = log(sin2) / log(10.0)  + cos(psi * r * v);
+    tmp = vec2(tmp.x * t,
+               tmp.x * (t - 3.141592653589 * sin(psi * r * v)));
+
+    vec2 num = tmp - vec2(1, 0);
+    vec2 denom = tmp + vec2(1, 0);
+    return complexDiv(num, denom);
+}`},
+{id:149, name:"LoxoCrossA", numParams: 0,
+     body: `
+    vec2 var149(in vec2 pos, float v) {
+    vec2 num = pos - vec2(1, 0);
+    vec2 denom = pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num, denom);
+
+    float n = (tmp.x * tmp.x - tmp.y * tmp.y);
+    float k = sqrt(1.0 / (n * n));
+    tmp = vec2(k * tmp.x, k * tmp.y);
+
+    vec2 num2 = tmp + vec2(1, 0);
+    vec2 denom2 = -tmp + vec2(1, 0);
+    return complexDiv(num2, denom2);
+}`},
+{id:150, name:"LoxoCrossB", numParams: 0,
+     body: `
+    vec2 var150(in vec2 pos, float v) {
+    vec2 num2 = pos + vec2(1, 0);
+    vec2 denom2 = -pos + vec2(1, 0);
+    vec2 tmp = complexDiv(num2, denom2);
+
+    float n = (tmp.x * tmp.x - tmp.y * tmp.y);
+    float k = sqrt(1.0 / (n * n));
+    tmp = vec2(k * tmp.x, k * tmp.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
