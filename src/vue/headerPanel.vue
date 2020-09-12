@@ -1,7 +1,7 @@
 <template>
 <header>
   <ul class="headerLeft">
-    <li class="headerContent"><span>IFS</span></li>
+    <li class="headerContent"><span>Fractal Flame</span></li>
   </ul>
   <ul class="headerRight">
     <li class="buttonLi">
