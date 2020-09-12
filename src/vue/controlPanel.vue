@@ -19,7 +19,7 @@
 
 <script>
 import FinalTransform from './finalTransformUI.vue';
-import MainTransform from './mainTransformUI.vue'
+import MainTransform from './mainTransformUI.vue';
 export default {
     components: {
         MainTransform,
@@ -271,44 +271,44 @@ export default {
                              {name:"angle", v:0}
                          ]},
                          {id:124, name:"LoxoRadialBlurB", numParams: 1, params:[
-                             {name:"angle", v:0}
+                             {name:"angle", v:0},
                          ]},
                          {id:125, name:"LoxoPieA", numParams: 3, params:[
-                             {name:"slices", v:0}
-                             {name:"rotation", v:0}
+                             {name:"slices", v:0},
+                             {name:"rotation", v:0},
                              {name:"thickness", v:0}
                          ]},
                          {id:126, name:"LoxoPieB", numParams: 3, params:[
-                             {name:"slices", v:0}
-                             {name:"rotation", v:0}
+                             {name:"slices", v:0},
+                             {name:"rotation", v:0},
                              {name:"thickness", v:0}
                          ]},
                          {id:127, name:"LoxoNgonA", numParams: 4, params:[
-                             {name:"power", v:0}
-                             {name:"sides", v:0}
-                             {name:"corners", v:0}
+                             {name:"power", v:0},
+                             {name:"sides", v:0},
+                             {name:"corners", v:0},
                              {name:"circle", v:0}
                          ]},
                          {id:128, name:"LoxoNgonB", numParams: 4, params:[
-                             {name:"power", v:0}
-                             {name:"sides", v:0}
-                             {name:"corners", v:0}
+                             {name:"power", v:0},
+                             {name:"sides", v:0},
+                             {name:"corners", v:0},
                              {name:"circle", v:0}
                          ]},
                          {id:129, name:"LoxoCurlA", numParams: 2, params:[
-                             {name:"c1", v:0}
+                             {name:"c1", v:0},
                              {name:"c2", v:0}
                          ]},
                          {id:130, name:"LoxoCurlB", numParams: 2, params:[
-                             {name:"c1", v:0}
+                             {name:"c1", v:0},
                              {name:"c2", v:0}
                          ]},
                          {id:131, name:"LoxoRectanglesA", numParams: 2, params:[
-                             {name:"rectX", v:0}
+                             {name:"rectX", v:0},
                              {name:"rectY", v:0}
                          ]},
                          {id:132, name:"LoxoRectanglesB", numParams: 2, params:[
-                             {name:"rectX", v:0}
+                             {name:"rectX", v:0},
                              {name:"rectY", v:0}
                          ]},
                          {id:133, name:"LoxoArchA", numParams: 0, params:[]},
