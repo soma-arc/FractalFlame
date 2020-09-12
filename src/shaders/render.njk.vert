@@ -111,7 +111,10 @@ void finalVariation(inout vec2 p) {
     {% endfor %}
     ) * u_FinalVariationParams{{outer_loop.index0}}[0];
     {% endfor %}
+
+    {% if finalVariation | length > 0 %}
     p = tmp;
+    {% endif %}
 }
 
 void applyTransformations(inout vec2 xy, float rnd, float alpha) {

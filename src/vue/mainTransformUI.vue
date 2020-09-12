@@ -141,9 +141,8 @@ export default {
                                affine: [1, 0, 0, 0, 1, 0],
                                postAffine: [1, 0, 0, 0, 1, 0],
                                variations: [],
-                               weight: 1},
+                               },
             isSwitchedCustom: "Off",
-            functions: [],
             id: 0,
             numDeleted: 0,
             selectedVariation: undefined,
@@ -180,7 +179,6 @@ export default {
                        affine: [1, 0, 0, 0, 1, 0],
                        postAffine: [1, 0, 0, 0, 1, 0],
                        variations: [],
-                       weight: [],
                       };
             this.canvasManager.canvas2d.functions.push(f);
             this.canvasManager.canvas2d.uWeight.push(1);     

@@ -48,7 +48,7 @@ export default class Canvas2D extends Canvas {
                                  affine: [1, 0, 0, 0, 1, 0],
                                  postAffine: [1, 0, 0, 0, 1, 0],
                                  variations: [],
-                                 weight: 1};
+                                };
     }
 
     init(){
@@ -324,8 +324,26 @@ export default class Canvas2D extends Canvas {
         this.render();
     }
 
+    loadJSON(json) {
+        this.uWeight = json["weight"];
+        this.functions = json["functions"];
+        this.useFinal = json["useFinal"];
+        this.uFinalAffine = json["finalAffine"];
+        this.finalVariationList = json["finalVariations"];
+        this.uFinalPostAffine = json["finalPostAffine"];
+        this.compileRenderShader();
+        this.render();
+    }
+    
     exportParameters() {
-        return {};
+        return {
+            weight: this.uWeight,
+            functions: this.functions,
+            useFinal: this.useFinal,
+            finalAffine: this.uFinalAffine,
+            finalVariations: this.finalVariationList,
+            finalPostAffine: this.uFinalPostAffine
+        };
     }
 
     saveParametersAsJson() {
@@ -338,11 +356,11 @@ export default class Canvas2D extends Canvas {
         a.click();
     }
 
-
     clear() {
         for(let n = 0; n < this.functions.length; n++) {
+            this.functions[n].affine = [1, 0, 0, 0, 1, 0];
             this.functions[n].variations = [];
-            this.functions[n].postAffine = [1, 0, 0, 0, 1, 0]
+            this.functions[n].postAffine = [1, 0, 0, 0, 1, 0];
         }
         this.functions = [];
         this.finalVariationList = []
