@@ -34,14 +34,10 @@ export default class Canvas2D extends Canvas {
         };
 
         this.uWeight = [];
-        this.uAffine = [1, 0, 0, 0, 1, 0,
-                       ];
+
         this.functions = [];
-        this.uVariations = [];
-        this.uPostAffine = [1, 0, 0, 0, 1, 0,
-                           ]
+
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
-        this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
         this.finalVariationList = [];
 
@@ -329,13 +325,7 @@ export default class Canvas2D extends Canvas {
     }
 
     exportParameters() {
-        return {"weight": this.uWeight,
-                "affine": this.uAffine,
-                "variation": this.uVariations,
-                "postAffine": this.uPostAffine,
-                "finalAffine": this.uFinalAffine,
-                "finalVariation": this.uFinalVariation,
-                "finalPostAffine": this.uFinalPostAffine};
+        return {};
     }
 
     saveParametersAsJson() {
@@ -348,26 +338,16 @@ export default class Canvas2D extends Canvas {
         a.click();
     }
 
-    loadJSON(obj) {
-        this.uWeight = obj['weight'];
-        this.uAffine = obj['affine'];
-        this.uVariations = obj['variation'];
-        this.uPostAffine = obj['postAffine'];
-        this.uFinalAffine = obj['finalAffine'];
-        this.uFinalVariation = obj['finalVariation'];
-        this.uFinalPostAffine = obj['finalPostAffine'];
-    }
 
     clear() {
-        //this.selectedFunction.variations = [];
+        for(let n = 0; n < this.functions.length; n++) {
+            this.functions[n].variations = [];
+            this.functions[n].postAffine = [1, 0, 0, 0, 1, 0]
+        }
         this.functions = [];
         this.finalVariationList = []
         this.uWeight = [];
-        this.uAffine = [1, 0, 0, 0, 1, 0];
-        this.uVariations = []
-        this.uPostAffine = [1, 0, 0, 0, 1, 0];
         this.uFinalAffine = [1, 0, 0, 0, 1, 0];
-        this.uFinalVariation = [1, 0, 0, 0, 0];
         this.uFinalPostAffine = [1, 0, 0, 0, 1, 0];
         this.compileRenderShader();
         this.render();
