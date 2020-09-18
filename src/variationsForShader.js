@@ -1260,7 +1260,7 @@ vec2 var69(in vec2 pos, float v) {
     float theta = atan(tmp.x / tmp.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
-    float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
+    float t = theta + p2 - p1 * trunc((2. * theta * p2) / p1);
     if (t > p1 / 2.) {
         tmp = vec2(r * sin(theta - p1 / 2.),
                    r * cos(theta - p1 / 2.));
@@ -1284,7 +1284,7 @@ vec2 var69(in vec2 pos, float v) {
     float theta = atan(tmp.x / tmp.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
-    float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
+    float t = theta + p2 - p1 * trunc((2. * theta * p2) / p1);
     if (t > p1 / 2.) {
         tmp = vec2(r * sin(theta - p1 / 2.),
                    r * cos(theta - p1 / 2.));
@@ -1307,7 +1307,7 @@ vec2 var69(in vec2 pos, float v) {
     float r = sqrt(dot(tmp, tmp));
     float theta = atan(tmp.x / tmp.y);
     float p = vVal * vVal;
-    float t = r - 2 * p * trunc((r + p) / (2 * p)) + r * (1 - p);
+    float t = r - 2. * p * trunc((r + p) / (2. * p)) + r * (1. - p);
     tmp = vec2(t * sin(theta),
                 t * cos(theta));
 
@@ -1325,7 +1325,7 @@ vec2 var69(in vec2 pos, float v) {
     float r = sqrt(dot(tmp, tmp));
     float theta = atan(tmp.x / tmp.y);
     float p = vVal * vVal;
-    float t = r - 2 * p * trunc((r + p) / (2 * p)) + r * (1 - p);
+    float t = r - 2. * p * trunc((r + p) / (2. * p)) + r * (1. - p);
     tmp = vec2(t * sin(theta),
                t * cos(theta));
 
@@ -1752,7 +1752,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
-    float phi = atan(y/x);
+    float phi = atan(tmp.y/tmp.x);
     float p1 = power;
     float p2 = 2. * 3.141592653589;
     float p3 = corners;
@@ -1774,7 +1774,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
-    float phi = atan(y/x);
+    float phi = atan(tmp.y/tmp.x);
     float p1 = power;
     float p2 = 2. * 3.141592653589;
     float p3 = corners;
