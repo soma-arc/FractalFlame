@@ -42,6 +42,13 @@ vec2 rand2n(const vec2 co, const float sampleIndex) {
                 fract(cos(dot(seed.xy ,vec2(4.898,7.23))) * 23421.631));
 }
 
+vec3 hsv2rgb(float h, float s, float v){
+    vec3 c = vec3(h, s, v);
+    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
 // circle [x, y, radius, radius * radius]
 vec2 circleInvert(const vec2 pos, const vec4 circle){
     vec2 p = pos - circle.xy;
@@ -131,7 +138,7 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_PostAffineParams[2], u_PostAffineParams[3],
                u_PostAffineParams[4], u_PostAffineParams[5]);
 
-        vColor = vec4(((vec3(1, 0, 0) + vColor.xyz)/2.), alpha);
+        vColor = vec4(((hsv2rgb(1., 1., 1.) + vColor.xyz)/2.), alpha);
     }
     {% endif %}
     {% if numFunctions >= 2 %}
@@ -148,7 +155,7 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_PostAffineParams[{{ n * 6 }}], u_PostAffineParams[{{ n * 6 + 1 }}],
                u_PostAffineParams[{{ n * 6 + 2 }}], u_PostAffineParams[{{ n * 6 + 3 }}],
                u_PostAffineParams[{{ n * 6 + 4 }}], u_PostAffineParams[{{ n * 6 + 5 }}]);
-        vColor = vec4(((vec3(1, 1, 0) + vColor.xyz)/2.), alpha);
+        vColor = vec4(((hsv2rgb({{ n * 0.1}}, 1., 1.) + vColor.xyz)/2.), alpha);
     }
     {% endfor %}
     {% endif %}
@@ -164,6 +171,7 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_FinalPostAffineParams[0], u_FinalPostAffineParams[1],
                u_FinalPostAffineParams[2], u_FinalPostAffineParams[3],
                u_FinalPostAffineParams[4], u_FinalPostAffineParams[5]);
+        vColor = vec4(((vec3(0, 1, 1) + vColor.xyz)/2.), alpha);
     }
 }
 
