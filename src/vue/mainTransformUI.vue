@@ -161,7 +161,6 @@ export default {
             this.canvasManager.canvas2d.render();
         },
         deleteVariation: function(index) {
-            this.canvasManager.canvas2d.uVariations.splice(index, 1);
             this.selectedFunction.variations.splice(index, 1);
 
             this.canvasManager.canvas2d.compileRenderShader();
