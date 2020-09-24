@@ -338,7 +338,7 @@ export const VARIATIONS = [
      float p1 = rectX;
      float p2 = rectY;
      return vec2((2. * floor(p.x / p1) + 1.0) * p1 - p.x,
-                 (2. * floor(p.y / p2) + 1.0) * p2 - p.y;
+                 (2. * floor(p.y / p2) + 1.0) * p2 - p.y);
 }`},
     {id:41, name:"Arch", numParams: 0,
      body:`vec2 var41(vec2 p, float v){
