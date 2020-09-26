@@ -9,7 +9,15 @@
       <final-transform :canvasManager="canvasManager"
                        :variations="variations"/>
     </b-tab-item>
-    <b-tab-item label="Render">
+    <b-tab-item label="Others">
+      <b-dropdown :triggers="['hover']" aria-role="list">
+            <button class="button is-info" slot="trigger">
+                <span>Presets</span>
+                <b-icon icon="menu-down"></b-icon>
+            </button>
+
+            <b-dropdown-item @click="load(0)" aria-role="listitem">Example 1</b-dropdown-item>
+        </b-dropdown>
     </b-tab-item>
   </b-tabs>  
 </b-tab-item>
@@ -20,6 +28,11 @@
 <script>
 import FinalTransform from './finalTransformUI.vue';
 import MainTransform from './mainTransformUI.vue';
+const PRESETS_CONTEXT = require.context('../presets', true, /.json$/);
+const PRESETS = [];
+for (const k of PRESETS_CONTEXT.keys()) {
+    PRESETS.push(PRESETS_CONTEXT(k));
+}
 export default {
     components: {
         MainTransform,
@@ -338,6 +351,10 @@ export default {
         },
         sliderDragEnd: function() {
             this.canvasManager.canvas2d.isRendering = false;
+        },
+        load: function(index) {
+            this.canvasManager.canvas2d.clear();
+            this.canvasManager.canvas2d.loadJSON(PRESETS[index]);
         }
   }
 }
