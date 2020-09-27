@@ -185,7 +185,7 @@ export const VARIATIONS = [
     float theta = atan(p.x / p.y);
     float p1 = 3.141592653589 * fan2x;
     float p2 = fan2y;
-    float t = theta + p2 - p1 * trunc((2 * theta * p2) / p1);
+    float t = theta + p2 - p1 * trunc((2. * theta * p2) / p1);
     if (t > p1 / 2.) {
         return vec2(r * sin(theta - p1 / 2.),
                     r * cos(theta - p1 / 2.));
@@ -193,13 +193,13 @@ export const VARIATIONS = [
         return vec2(r * sin(theta + p1 / 2.),
                     r * cos(theta + p1 / 2.));
     }
-`},
+}`},
     {id:26, name:"Rings2", numParams: 1,
      body: `vec2 var26 (vec2 pos, float v, float vVal){
     float r = sqrt(dot(pos, pos));
     float theta = atan(pos.x / pos.y);
     float p = vVal * vVal;
-    float t = r - 2 * p * trunc((r + p) / (2 * p)) + r * (1 - p);
+    float t = r - 2. * p * trunc((r + p) / (2. * p)) + r * (1. - p);
     return vec2(t * sin(theta),
                 t * cos(theta));
 }`},
@@ -237,17 +237,19 @@ export const VARIATIONS = [
     {id:32, name: "JuliaN", numParams: 2,
      body: `vec2 var32(vec2 p, float v, float power, float dist){
     float psi = rand(p);
+    float r = sqrt(dot(p, p));
     float p1 = power;
     float p2 = dist;
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(p.y / p.x);
-    float t = (phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     return vec2(k * cos(t), k * sin(t));
 }`},
     {id:33, name:"JuliaScope", numParams: 2,
      body: `vec2 var33 (vec2 p, float v, float power, float dist){
     vec2 rnd2 = rand2n(p, rand(p));
+    float r = sqrt(dot(p, p));
     float psi = rnd2.x;
     float psi2 = rnd2.y;
     float p1 = power;
@@ -255,7 +257,7 @@ export const VARIATIONS = [
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(p.y / p.x);
     float delta = (psi2 - 0.5) * 2.0;
-    float t = (delta * phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (delta * phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     return vec2(k * cos(t), k * sin(t));
 }`},
@@ -312,7 +314,7 @@ export const VARIATIONS = [
 }`},
     {id:38, name:"Ngon", numParams: 4,
      body: `vec2 var38(vec2 p, float v, float power, float sides, float corners, float circle) {
-     float phi = atan(y/x);
+     float phi = atan(p.y/p.x);
      float p1 = power;
      float p2 = 2. * 3.141592653589;
      float p3 = corners;
@@ -1492,12 +1494,13 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
+    float r = sqrt(dot(tmp, tmp));
     float psi = rand(tmp);
     float p1 = power;
     float p2 = dist;
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(tmp.y / tmp.x);
-    float t = (phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     tmp = vec2(k * cos(t), k * sin(t));
 
@@ -1512,12 +1515,13 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
+    float r = sqrt(dot(tmp, tmp));
     float psi = rand(tmp);
     float p1 = power;
     float p2 = dist;
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(tmp.y / tmp.x);
-    float t = (phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     tmp = vec2(k * cos(t), k * sin(t));
 
@@ -1532,6 +1536,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom = pos + vec2(1, 0);
     vec2 tmp = complexDiv(num, denom);
 
+    float r = sqrt(dot(tmp, tmp));
     vec2 rnd2 = rand2n(tmp, rand(tmp));
     float psi = rnd2.x;
     float psi2 = rnd2.y;
@@ -1540,7 +1545,7 @@ vec2 var69(in vec2 pos, float v) {
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(tmp.y / tmp.x);
     float delta = (psi2 - 0.5) * 2.0;
-    float t = (delta * phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (delta * phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     tmp = vec2(k * cos(t), k * sin(t));
 
@@ -1555,6 +1560,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 denom2 = -pos + vec2(1, 0);
     vec2 tmp = complexDiv(num2, denom2);
 
+    float r = sqrt(dot(tmp, tmp));
     vec2 rnd2 = rand2n(tmp, rand(tmp));
     float psi = rnd2.x;
     float psi2 = rnd2.y;
@@ -1563,7 +1569,7 @@ vec2 var69(in vec2 pos, float v) {
     float p3 = trunc(abs(p1) * psi);
     float phi = atan(tmp.y / tmp.x);
     float delta = (psi2 - 0.5) * 2.0;
-    float t = (delta * phi + 2 * 3.141592653589 * p3) / p1;
+    float t = (delta * phi + 2. * 3.141592653589 * p3) / p1;
     float k = pow(r, p2 / p1);
     tmp = vec2(k * cos(t), k * sin(t));
 
@@ -1615,7 +1621,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 rnd1 = rand2n(tmp, rand(tmp));
     float psi1 = rnd1.x;
     float psi2 = rnd1.y;
-    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    vec2 rnd2 = rand2n(pos + vec2(psi2, psi1), rand(tmp));
     float psi3 = rnd2.x;
     float psi4 = rnd2.y;
     float psi5 = rand(tmp);
@@ -1637,7 +1643,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 rnd1 = rand2n(tmp, rand(tmp));
     float psi1 = rnd1.x;
     float psi2 = rnd1.y;
-    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    vec2 rnd2 = rand2n(pos + vec2(psi2, psi1), rand(tmp));
     float psi3 = rnd2.x;
     float psi4 = rnd2.y;
     float psi5 = rand(tmp);
@@ -1660,7 +1666,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 rnd1 = rand2n(tmp, rand(tmp));
     float psi1 = rnd1.x;
     float psi2 = rnd1.y;
-    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    vec2 rnd2 = rand2n(pos + vec2(psi2, psi1), rand(tmp));
     float psi3 = rnd2.x;
     float psi4 = rnd2.y;
     float t1 = psi1 + psi2 + psi3 + psi4 - 2.;
@@ -1686,7 +1692,7 @@ vec2 var69(in vec2 pos, float v) {
     vec2 rnd1 = rand2n(tmp, rand(tmp));
     float psi1 = rnd1.x;
     float psi2 = rnd1.y;
-    vec2 rnd2 = rand2n(p + vec2(psi2, psi1), rand(tmp));
+    vec2 rnd2 = rand2n(pos + vec2(psi2, psi1), rand(tmp));
     float psi3 = rnd2.x;
     float psi4 = rnd2.y;
     float t1 = psi1 + psi2 + psi3 + psi4 - 2.;
@@ -1837,7 +1843,7 @@ vec2 var69(in vec2 pos, float v) {
     float p1 = rectX;
     float p2 = rectY;
     tmp = vec2((2. * floor(tmp.x / p1) + 1.0) * p1 - tmp.x,
-               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y;
+               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y);
 
     vec2 num2 = tmp + vec2(1, 0);
     vec2 denom2 = -tmp + vec2(1, 0);
@@ -1853,7 +1859,7 @@ vec2 var69(in vec2 pos, float v) {
     float p1 = rectX;
     float p2 = rectY;
     tmp = vec2((2. * floor(tmp.x / p1) + 1.0) * p1 - tmp.x,
-               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y;
+               (2. * floor(tmp.y / p2) + 1.0) * p2 - tmp.y);
 
     vec2 num = tmp - vec2(1, 0);
     vec2 denom = tmp + vec2(1, 0);
