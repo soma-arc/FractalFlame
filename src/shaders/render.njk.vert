@@ -124,7 +124,8 @@ void finalVariation(inout vec2 p) {
     {% endif %}
 }
 
-void applyTransformations(inout vec2 xy, float rnd, float alpha) {
+int applyTransformations(inout vec2 xy, float rnd, float alpha) {
+    int selectedFunctionIndex = -1;
     {% if numFunctions >= 1  %}
     float totalWeight = u_Weight[0];
     if(rnd < totalWeight) {
@@ -138,7 +139,8 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_PostAffineParams[2], u_PostAffineParams[3],
                u_PostAffineParams[4], u_PostAffineParams[5]);
 
-        vColor = vec4(((hsv2rgb(1., 1., 1.) + vColor.xyz)/2.), alpha);
+        //vColor = vec4(((hsv2rgb(0., 1., 1.) + vColor.xyz)/2.), alpha);
+        selectedFunctionIndex = 0;
     }
     {% endif %}
     {% if numFunctions >= 2 %}
@@ -155,7 +157,8 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_PostAffineParams[{{ n * 6 }}], u_PostAffineParams[{{ n * 6 + 1 }}],
                u_PostAffineParams[{{ n * 6 + 2 }}], u_PostAffineParams[{{ n * 6 + 3 }}],
                u_PostAffineParams[{{ n * 6 + 4 }}], u_PostAffineParams[{{ n * 6 + 5 }}]);
-        vColor = vec4(((hsv2rgb({{ n * 0.1}}, 1., 1.) + vColor.xyz)/2.), alpha);
+        //vColor = vec4(((hsv2rgb({{ n * 0.1 }}, 1., 1.) + vColor.xyz)/2.), alpha);
+        selectedFunctionIndex = {{ n }};
     }
     {% endfor %}
     {% endif %}
@@ -171,8 +174,9 @@ void applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_FinalPostAffineParams[0], u_FinalPostAffineParams[1],
                u_FinalPostAffineParams[2], u_FinalPostAffineParams[3],
                u_FinalPostAffineParams[4], u_FinalPostAffineParams[5]);
-        vColor = vec4(((vec3(0, 1, 1) + vColor.xyz)/2.), alpha);
+        vColor = vec4(((vec3(1, 1, 1) + vColor.xyz)/2.), alpha);
     }
+    return selectedFunctionIndex;
 }
 
 void main() {
@@ -183,11 +187,16 @@ void main() {
 
   float alpha = 0.1;
 
-  for (int i = 0; i < 30; i++) {
+  bool firstTwo = true;
+  for (int i = 0; i < 21; i++) {
       vec2 n = rand2n(vPosition.xz, float(i));
       vec2 n2 = rand2n(vPosition.yz, float(i)*2.);
-      vColor = vec4(n.x, n2.x, n2.y, alpha);
-      applyTransformations(xy, n.y, alpha);
+      //vColor = vec4(n.x, n2.x, n2.y, alpha);
+      int index = applyTransformations(xy, n.y, alpha);
+      if(index == 2 && firstTwo) {
+          vColor = vec4(hsv2rgb( float(i) * 0.05, 1., 1.), alpha);
+          firstTwo = false;
+      }
   }
 
   if(u_yFlipped) {
