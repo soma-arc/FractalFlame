@@ -10,6 +10,26 @@
                        :variations="variations"/>
     </b-tab-item>
     <b-tab-item label="Others">
+      <div class="block">
+            <b-radio v-model="canvasManager.canvas2d.coloringMode"
+                     name="name"
+                     @input="changed"
+                     native-value=0>
+                Functions
+            </b-radio>
+            <b-radio v-model="canvasManager.canvas2d.coloringMode"
+                     name="name"
+                     @input="changed"
+                     native-value=1>
+                First 0
+            </b-radio>
+            <b-radio v-model="canvasManager.canvas2d.coloringMode"
+                     name="name"
+                     @input="changed"
+                     native-value=2>
+              Last 2
+            </b-radio>
+        </div>
       <b-dropdown :triggers="['hover']" aria-role="list">
             <button class="button is-info" slot="trigger">
                 <span>Presets</span>
@@ -359,7 +379,7 @@ export default {
         load: function(index) {
             this.canvasManager.canvas2d.clear();
             this.canvasManager.canvas2d.loadJSON(PRESETS[index]);
-        }
+        },
   }
 }
 </script>
