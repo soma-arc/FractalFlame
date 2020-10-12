@@ -45,6 +45,8 @@ export default class Canvas2D extends Canvas {
         this.useFinal = "Off";
 
         this.coloringMode = 0;
+        this.hueStart = 0;
+        this.hueStep = 0.1;
         
         this.selectedFunction = {id:-1,
                                  affine: [1, 0, 0, 0, 1, 0],
@@ -213,6 +215,8 @@ export default class Canvas2D extends Canvas {
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_PostAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_useFinal'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_coloringMode'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_hueStart'));
+        this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_hueStep'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_yFlipped'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalAffineParams'));
         this.uniLocations.push(gl.getUniformLocation(this.renderProgram, 'u_FinalPostAffineParams'));
@@ -250,6 +254,8 @@ export default class Canvas2D extends Canvas {
         gl.uniform1fv(this.uniLocations[i++], postAffines);
         gl.uniform1i(this.uniLocations[i++], this.useFinal === "On");
         gl.uniform1i(this.uniLocations[i++], this.coloringMode);
+        gl.uniform1f(this.uniLocations[i++], this.hueStart);
+        gl.uniform1f(this.uniLocations[i++], this.hueStep);
         gl.uniform1i(this.uniLocations[i++], this.yFlipped);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalAffine);
         gl.uniform1fv(this.uniLocations[i++], this.uFinalPostAffine);

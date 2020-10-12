@@ -27,6 +27,8 @@ uniform float u_FinalPostAffineParams[6];
 uniform bool u_yFlipped;
 uniform bool u_useFinal;
 uniform int u_coloringMode;
+uniform float u_hueStart;
+uniform float u_hueStep;
 
 in vec3 vPosition;
 out vec4 vColor;
@@ -161,7 +163,7 @@ int applyTransformations(inout vec2 xy, float rnd, float alpha) {
                u_PostAffineParams[{{ n * 6 + 2 }}], u_PostAffineParams[{{ n * 6 + 3 }}],
                u_PostAffineParams[{{ n * 6 + 4 }}], u_PostAffineParams[{{ n * 6 + 5 }}]);
         if(u_coloringMode == 0)
-            vColor = vec4(hsv2rgb({{ n * 0.15 }}, 1., 1.), alpha);
+            vColor = vec4(hsv2rgb(u_hueStart + float({{ n }}) * u_hueStep, 1., 1.), alpha);
         PreviousSelectedFunctionIndex = SelectedFunctionIndex;
         SelectedFunctionIndex = {{ n }};
     }
@@ -192,24 +194,24 @@ void main() {
 
   float alpha = 0.1;
 
-  bool firstTwo = true;
+  bool firstZero = true;
   for (int i = 0; i < 21; i++) {
       vec2 n = rand2n(vPosition.xz, float(i));
       vec2 n2 = rand2n(vPosition.yz, float(i)*2.);
       //vColor = vec4(n.x, n2.x, n2.y, alpha);
-      int index = applyTransformations(xy, n.y, alpha);
+      int index = applyTransformations(xy, n.x, alpha);
       if(u_coloringMode == 1){
-          if(index == 0 && firstTwo) {
-               vColor = vec4(hsv2rgb( float(i) * 0.05, 1., 1.), alpha);
-               firstTwo = false;
+          if(index == 0 && firstZero) {
+               vColor = vec4(hsv2rgb(u_hueStart + float(i) * u_hueStep, 1., 1.), alpha);
+               firstZero = false;
            }
       }
   }
   if(u_coloringMode == 2){
       if(PreviousSelectedFunctionIndex % 2 == 0) {
-          vColor = vec4(hsv2rgb( float(SelectedFunctionIndex) * 0.05, 1., 1.), alpha);
+          vColor = vec4(hsv2rgb(u_hueStart + float(SelectedFunctionIndex) * u_hueStep, 1., 1.), alpha);
       } else {
-          vColor = vec4(hsv2rgb( 0.5 + float(SelectedFunctionIndex) * 0.05, 1., 1.), alpha);
+          vColor = vec4(hsv2rgb(u_hueStart + 0.5 + float(SelectedFunctionIndex) * u_hueStep, 1., 1.), alpha);
       }
   }
 
