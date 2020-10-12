@@ -379,7 +379,7 @@ export default {
             this.canvasManager.canvas2d.isRendering = false;
         },
         load: function(index) {
-            this.canvasManager.canvas2d.clear();
+            //this.canvasManager.canvas2d.clear();
             this.canvasManager.canvas2d.loadJSON(PRESETS[index]);
         },
   }
