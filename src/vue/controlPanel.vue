@@ -36,7 +36,9 @@
                 <b-icon icon="menu-down"></b-icon>
             </button>
 
-            <b-dropdown-item @click="load(0)" aria-role="listitem">Example 1</b-dropdown-item>
+            <b-dropdown-item @click="load(2)" aria-role="listitem">Example 1</b-dropdown-item>
+            <b-dropdown-item @click="load(0)" aria-role="listitem">Ayumu Nagamatsu</b-dropdown-item>
+            <b-dropdown-item @click="load(1)" aria-role="listitem">Joel Castellanos</b-dropdown-item>
         </b-dropdown>
     </b-tab-item>
   </b-tabs>  

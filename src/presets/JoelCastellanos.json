@@ -1,0 +1,165 @@
+{
+    "weight": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.52
+    ],
+    "functions": [
+        {
+            "id": 0,
+            "name": "F0",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "variations": [
+                {
+                    "id": 0,
+                    "name": "Linear",
+                    "v": 0,
+                    "params": []
+                },
+                {
+                    "id": 1,
+                    "name": "Sinusoidal",
+                    "v": 2.75,
+                    "params": []
+                },
+                {
+                    "id": 2,
+                    "name": "Spherical",
+                    "v": 0.55,
+                    "params": []
+                },
+                {
+                    "id": 16,
+                    "name": "Fisheye",
+                    "v": 0.37,
+                    "params": []
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "F1",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "variations": [
+                {
+                    "id": 0,
+                    "name": "Linear",
+                    "v": 0,
+                    "params": []
+                },
+                {
+                    "id": 1,
+                    "name": "Sinusoidal",
+                    "v": 0.09,
+                    "params": []
+                },
+                {
+                    "id": 2,
+                    "name": "Spherical",
+                    "v": -0.09,
+                    "params": []
+                },
+                {
+                    "id": 16,
+                    "name": "Fisheye",
+                    "v": 0.73,
+                    "params": []
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "F2",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "variations": [
+                {
+                    "id": 0,
+                    "name": "Linear",
+                    "v": 2.3,
+                    "params": []
+                },
+                {
+                    "id": 1,
+                    "name": "Sinusoidal",
+                    "v": 0,
+                    "params": []
+                },
+                {
+                    "id": 2,
+                    "name": "Spherical",
+                    "v": 0.83,
+                    "params": []
+                },
+                {
+                    "id": 16,
+                    "name": "Fisheye",
+                    "v": 0.46,
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "useFinal": "Off",
+    "finalAffine": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+    ],
+    "finalVariations": [],
+    "finalPostAffine": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+    ]
+}
