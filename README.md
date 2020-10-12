@@ -3,6 +3,7 @@
 
 This is a fractal flame renderer. We use vertex shader to render the fractals fast.
 The implementation is based on Ayumu Nagamatsu's implementation and Joel Castellanos's.
+We use a vertex shader to render the fractal in real-time. So, we use an algorithm slightly different from the original ones.
 
 ## Reference
 - Scott Draves and Erik Reckase, The Fractal Flame Algorithm.
