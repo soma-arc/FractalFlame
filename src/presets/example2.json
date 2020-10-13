@@ -1,0 +1,131 @@
+{
+    "weight": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.65
+    ],
+    "functions": [
+        {
+            "id": 0,
+            "name": "F0",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0.09,
+                0,
+                0,
+                1,
+                -0.18
+            ],
+            "variations": [
+                {
+                    "id": 1,
+                    "name": "Sinusoidal",
+                    "v": 2.75,
+                    "params": []
+                },
+                {
+                    "id": 2,
+                    "name": "Spherical",
+                    "v": 1.01,
+                    "params": []
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "F1",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "variations": [
+                {
+                    "id": 1,
+                    "name": "Sinusoidal",
+                    "v": 1.83,
+                    "params": []
+                },
+                {
+                    "id": 11,
+                    "name": "Diamond",
+                    "v": 2.11,
+                    "params": []
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "F2",
+            "affine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "postAffine": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "variations": [
+                {
+                    "id": 42,
+                    "name": "Tangent",
+                    "numParams": 0,
+                    "params": [],
+                    "v": 3.76
+                }
+            ]
+        }
+    ],
+    "useFinal": "On",
+    "finalAffine": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+    ],
+    "finalVariations": [
+        {
+            "id": 11,
+            "name": "Diamond",
+            "v": 4.31,
+            "params": []
+        }
+    ],
+    "finalPostAffine": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+    ]
+}
