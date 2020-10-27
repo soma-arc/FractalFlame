@@ -3,8 +3,7 @@
     <div id="left">
       <a id="ghLink" href="https://github.com/soma-arc/FractalFlame"
          target="_blank">
-        GitHub
-          <!--<img src="../img/GitHub-Mark-32px.png" class="imgLink"/>-->
+        <img src="../img/GitHub-Mark-32px.png" class="imgLink"/>
       </a>
     </div>
     <div>
